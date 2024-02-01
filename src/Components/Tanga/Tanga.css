@@ -1,0 +1,64 @@
+.Tanga {
+    text-align: center;
+  }
+  /*
+  .Tanga-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .Tanga-logo {
+      animation: StockApp-logo-spin infinite 20s linear;
+    }
+  }
+  */
+  
+  .Tanga-header {
+    background-color: #282c34;
+    
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: rgb(255, 255, 255);
+  }
+  .Tanga-body {
+    /*background-color: #ffffff;*/
+    background-color: #282c34; 
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: rgb(255, 255, 255);
+  }
+  
+   .table {
+    color:#bc2626 
+  } 
+  .tablecont {
+    background-color: #ffffff; 
+    color:#050505;
+  }
+  .tabs{
+    background-color:rgb(255, 255, 255);
+    color:#010101;
+    /* font-size: 10 */
+  }
+  /*
+  .Tanga-link {
+    color: #61dafb;
+  }
+  
+  @keyframes StockApp-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }*/
