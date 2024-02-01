@@ -31,6 +31,10 @@ function App() {
   return (
     <ThinBackend requireLogin>
       <ChakraProvider>
+        <div className='container'>
+          <UserStatus />
+        </div>
+        
       {/* <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> */}
       {/* <Box className="App" width={"100%"}>
         {display.b}
