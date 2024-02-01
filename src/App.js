@@ -7,7 +7,7 @@ import Music from './Components/Music/Music';
 
 import { Box, ChakraBaseProvider, ChakraProvider } from '@chakra-ui/react';
 import { ensureIsUser, initThinBackend, logout } from 'thin-backend';
-import { ThinBackend } from 'thin-backend-react';
+import { ThinBackend, useCurrentUser } from 'thin-backend-react';
 
 initThinBackend({
   // This url is different for each backend, this one points to 'mogaslobpmrp'
