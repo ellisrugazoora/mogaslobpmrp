@@ -30,7 +30,7 @@ function App() {
   var display = {a: <StockApp />, b: <Tanga />, c: <Music />}
   return (
     <ThinBackend requireLogin>
-      <ChakraProvider>
+      {/* <ChakraProvider> */}
         <div className='container'>
           <UserStatus />
         </div>
@@ -39,7 +39,7 @@ function App() {
       {/* <Box className="App" width={"100%"}>
         {display.b}
       </Box> */}
-      </ChakraProvider>
+      {/* </ChakraProvider> */}
     </ThinBackend>
   );
 }
