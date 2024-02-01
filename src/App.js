@@ -13,7 +13,7 @@ initThinBackend({
   // This url is different for each backend, this one points to 'mogaslobpmrp'
   host: 'https://mogaslobpmrp.thinbackend.app'
 });
-
+//added logout
 function UserStatus() {
   // Use the `useCurrentUser()` react hook to access the current logged in user
   // Returns `null` while the user is being fetched
