@@ -11,7 +11,8 @@ import { ThinBackend, useCurrentUser } from 'thin-backend-react';
 
 initThinBackend({
   // This url is different for each backend, this one points to 'mogaslobpmrp'
-  host: 'https://mogaslobpmrp.thinbackend.app'
+  //host: 'https://mogaslobpmrp.thinbackend.app'
+  host: 'https://lobpbackend.thinbackend.app'
 });
 //added logout
 function UserStatus() {
