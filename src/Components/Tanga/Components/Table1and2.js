@@ -1,9 +1,10 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Center } from "@chakra-ui/react";
 import TaBle from "./TaBle";
 import { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
+import TableAG from "./TableAG";
 
 var columns = ["Consignment", "Date1", "Date2", "Date3"]
 
@@ -40,16 +41,44 @@ function Table1and2(props){
     function handlerefresh(){
         SetRawData(localStorage.getItem(props.title + "_inv_table"))
     }
+    function handlePrintData(){
+        let dataobject = JSON.parse(rawdata);
+        let dataarray = Object.entries(dataobject);
+        console.log(dataarray)
+        let testobject = {};
+        let testarray = [];
+        let testcolumnarray = [];
+        dataarray.forEach((value, index) => {
+            testobject[value[0]] = value[1];
+            testarray[index] = value[1];
+        })
+        let cols = Object.entries(testarray[0]);
+        cols.forEach((value, index)=>{
+            testcolumnarray = value[0];
+        }) 
+        console.log(testobject);
+        console.log(testarray);
+        console.log(cols);
+    }
 
     return (
-    <div> 
-        {/* <TaBle title="Payment schedule" columns={columns} data={data} />  */}
-        <Button onClick={handlerefresh}>Refresh</Button>
-        <AgGridReact rowData={rowData} columnDefs={colDefs} />
-        <TaBle title={props.title + " financing plan"} columns={columns} data={datafn(props.title)} />
-        Replace with AG charts! Below Anyone home?
-        
-    </div>)
+        <div>
+            <div> 
+            {/* <TaBle title="Payment schedule" columns={columns} data={data} />  */}
+            <Button onClick={handlerefresh}>Refresh</Button>
+            <Button onClick={handlePrintData}>Print data</Button>
+            {/* <AgGridReact rowData={rowData} columnDefs={colDefs} /> */}
+            <Center><TaBle title={props.title + " financing plan"} columns={columns} data={datafn(props.title)} /></Center>
+            Replace with AG charts! Below Anyone home?
+            </div>
+            <div className="ag-theme-quartz" style={{ height: 300, width:700 }}>
+                {/* The AG Grid component */}
+                <AgGridReact rowData={rowData} columnDefs={colDefs} />
+            </div>
+        </div>
+    
+    
+    )
 }
 
 export default Table1and2;

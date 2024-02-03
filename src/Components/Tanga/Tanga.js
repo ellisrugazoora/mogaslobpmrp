@@ -32,7 +32,7 @@ function Tanga(){
                             content: 
                                 <Center>
                                     <Table1and2 title="July" />
-                                </Center> 
+                                </Center>
                             }} />}} />
             </Box>
 

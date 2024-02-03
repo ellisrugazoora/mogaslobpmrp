@@ -20,8 +20,8 @@ function UserStatus() {
   const user = useCurrentUser();
 
   return <div>
+      <Button colorScheme='twitter' onClick={logout}>Logout</Button>
       {user?.email}
-      <Button onClick={logout}>Logout</Button>
   </div>
 }
 

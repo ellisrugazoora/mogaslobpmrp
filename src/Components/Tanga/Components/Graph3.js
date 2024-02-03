@@ -7,6 +7,7 @@ import NumberInp from './NumberInp';
 import TaBle from './TaBle';
 import { Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from '@chakra-ui/react';
 import TabInTab from './TabInTab';
+import TableAG from './TableAG';
 
 
 function Graph3(props){
@@ -291,6 +292,7 @@ function Graph3(props){
 
                 </Flex>
             </Center>
+            
         </div>
     )
 }
