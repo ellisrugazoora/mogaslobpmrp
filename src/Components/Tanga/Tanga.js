@@ -4,9 +4,12 @@ import "./Tanga.css"
 import { Box, Center, Wrap } from "@chakra-ui/layout";
 import Graph3 from "./Components/Graph3";
 import TabsComp from "./Components/TabsComp";
-import TaBle from "./Components/TaBle";
-import Testtab from "./Components/Testtab";
+import TabInTab from "./Components/TabInTab";
+import Table1and2 from "./Components/Table1and2";
+import { Button } from "@chakra-ui/react";
 
+var storeddata = localStorage.getItem('Julystored_data');
+var parsedata = JSON.parse(storeddata);
 
 function Tanga(){
     return (
@@ -17,15 +20,23 @@ function Tanga(){
             <Box className="Tanga-body" width='100%'>
                 <TabsComp /*home={{title: "Home", content: <Graph3 title="Jan"  display="inventory/product" startdate={{year:2024, month:0,date:1}} enddate={{year:2024, month:0,date:31}}/>}} */
                     one={{title: "Jan",content: <Graph3 title="Jan"  startdate={{year:2024, month:0,date:1}} enddate={{year:2024, month:0,date:31}}/>}} 
-                    two={{title: "Feb",content: <Graph3 title="Feb"  startdate={{year:2024, month:1,date:1}} enddate={{year:2024, month:1,date:28}}/>}} 
-                    three={{title: "Mar",content: <Graph3 title="Mar"  startdate={{year:2024, month:2,date:1}} enddate={{year:2024, month:2,date:31}}/>}}
-                    four={{title: "Apr", content: <Graph3 title="Apr"  startdate={{year:2024, month:3,date:1}} enddate={{year:2024, month:3,date:30}}/>}}
-                    five={{title: "May", content: <Graph3 title="May"  startdate={{year:2024, month:4,date:1}} enddate={{year:2024, month:4,date:31}}/>}}
-                    six={{title: "Jun", content: <Graph3 title="Jun"  startdate={{year:2024, month:5,date:1}} enddate={{year:2024, month:5,date:30}}/>}} />
+                    two={{title: "Feb",content: <Graph3 title="Feb"  startdate={{year:2024, month:1,date:1}} enddate={{year:2024, month:1,date:28}} /*stylo={{scheme:"twitter", variant: "striped"}}*//>}} 
+                    three={{title: "Mar",content: <Graph3 title="Mar"  startdate={{year:2024, month:2,date:1}} enddate={{year:2024, month:2,date:31}} /*stylo={{scheme:"twitter", variant: "striped"}}*//>}}
+                    four={{title: "Apr", content: <Graph3 title="Apr"  startdate={{year:2024, month:3,date:1}} enddate={{year:2024, month:3,date:30}} /*stylo={{scheme:"twitter", variant: "striped"}}*//>}}
+                    five={{title: "May", content: <Graph3 title="May"  startdate={{year:2024, month:4,date:1}} enddate={{year:2024, month:4,date:31}} /*stylo={{scheme:"twitter", variant: "striped"}}*//>}}
+                    six={{title: "Jun", content: <Graph3 title="Jun"  startdate={{year:2024, month:5,date:1}} enddate={{year:2024, month:5,date:30}} /*stylo={{scheme:"twitter", variant: "striped"}}*//>}}
+                    seven={{title: "July", content: <TabInTab 
+                        one={{title:"Production", 
+                            content:<Graph3 title="July"  startdate={{year:2024, month:6,date:1}} enddate={{year:2024, month:6,date:31}}/>}} 
+                        two={{title:"Finance schedule", 
+                            content: 
+                                <Center>
+                                    <Table1and2 title="July" />
+                                </Center> 
+                            }} />}} />
             </Box>
 
         </Box>
-        // <TaBle columns={["column1", "column2", "column3"]} data={{row1: {col1: 1, col2: 2,col3: 3}, row2: {col1: 4, col2: 5,col3: 6}, row3: {col1: 7, col2: 8, col3: 9}}} />
     )
 }
 

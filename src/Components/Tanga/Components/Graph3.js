@@ -6,11 +6,13 @@ import { Button } from '@chakra-ui/button';
 import NumberInp from './NumberInp';
 import TaBle from './TaBle';
 import { Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from '@chakra-ui/react';
+import TabInTab from './TabInTab';
 
 
 function Graph3(props){
     var dataid = props.title + "stored_data";
     var data = DataFunction;
+    
     const [args, SetArgs] = useState(() =>
         {
         //let id = props.title + "data";
@@ -127,7 +129,6 @@ function Graph3(props){
         SetArgs((current) => {
             return {...current, [id]: new_val}
         });
-
     }
     function product_total(args){
         let productlist = ["_2T", "_4T", "atfIII", "DuramaxHD", "FrontiaX", "Geo80W90", "Geo85W140", "Hydrax32","HydraxZ46","HydraxZ68","PowerTransSP150","PowerTransSP220","PowerTransSP320","Sb22D210","SentryHDSae40","TurbofleetSae15W"]
@@ -153,6 +154,9 @@ function Graph3(props){
         let result = (obj.inv / obj.consrate).toFixed(1);
         return result;
     }
+    function toggleability(){
+        return false
+    }
     var buttonsize = "md";
     var initdate = new Date();
     var prod_table_columns = ["Products", "Quantity (Tons)", "Maximize"]
@@ -173,8 +177,9 @@ function Graph3(props){
         prod14: {col1: "SB 22 D210", col2: <NumberInp value={args.Sb22D210} prod="Sb22D210" onChange={prodtable} init={args.Sb22D210} />, col4: <Button size={buttonsize} id='max' name='Sb22D210' onClick={tablebutton}>Set Max</Button>},
         prod15: {col1: "Sentry HD Sae 40", col2: <NumberInp value={args.SentryHDSae40} prod="SentryHDSae40" onChange={prodtable} init={args.SentryHDSae40} />, col4: <Button size={buttonsize} id='max' name='SentryHDSae40' onClick={tablebutton}>Set Max</Button>},
         prod16: {col1: "Turbofleet Sae 15W", col2: <NumberInp value={args.TurbofleetSae15W} prod="TurbofleetSae15W" onChange={prodtable} init={args.TurbofleetSae15W} />, col4: <Button size={buttonsize} id='max' name='TurbofleetSae15W' onClick={tablebutton}>Set Max</Button>},
-        total: {col1: "Total", col2: product_total(args), col3: <Button size={'md'} isDisabled>Empty</Button> }
+        total: {col1: "Total", col2: product_total(args), col3: <Button size={'md'} isDisabled={toggleability}>Empty</Button> }
     }
+    
     var inv_table_columns = ["Inventory", "Required", "In stock (Tons)", "Avg. daily consumption rate (Tons)","Stock holding period","Lead time (days)", "Next order date", "Deficit/excess"];
     var inv_table_data = {
         inv1: {col1: "500SN/600N", col2: data(args).bo1.sum.toFixed(2), col3: <NumberInp prod="bo1" init={args.bo1} onChange={inv_table} value={args.bo1} />, consrate:<NumberInp prod="crbo1" init={args.crbo1} onChange={inv_table} value={args.crbo1}/>, hs: shp({inv:args.bo1,consrate:args.crbo1}), col4: 60, order: orderdate({ hs: shp({inv:args.bo1,consrate:args.crbo1}),mhs:60, lt:60}), col5: (args.bo1 - data(args).bo1.sum).toFixed(2)},
@@ -196,7 +201,32 @@ function Graph3(props){
         inv16:{col1: "DYE", col2: data(args).ad11.sum.toFixed(2), col3: <NumberInp prod="ad11" init={args.ad11} onChange={inv_table} value={args.ad11} />, consrate:<NumberInp prod="crad11" init={args.crad11} onChange={inv_table} value={args.crad11}/>, hs: shp({inv:args.ad11,consrate:args.crad11}),col4: 40,order: orderdate({hs: shp({inv:args.ad11,consrate:args.crad11}), mhs:60, lt:40}),col5: (args.ad11 - data(args).ad11.sum).toFixed(2)},
         inv17:{col1: "TURB", col2: data(args).ad12.sum.toFixed(2), col3: <NumberInp prod="ad12" init={args.ad12} onChange={inv_table} value={args.ad12} />, consrate:<NumberInp prod="crad12" init={args.crad12} onChange={inv_table} value={args.crad12}/>, hs: shp({inv:args.ad12,consrate:args.crad12}),col4: 40,order: orderdate({hs: shp({inv:args.ad12,consrate:args.crad12}), mhs:60, lt:40}),col5: (args.ad12 - data(args).ad12.sum).toFixed(2)}
     };
-    ;
+    var finance_table = {
+        inv1: {col1: "500SN/600N", col2: data(args).bo1.sum.toFixed(2), hs: shp({inv:args.bo1,consrate:args.crbo1}), col4: 60, order: orderdate({ hs: shp({inv:args.bo1,consrate:args.crbo1}),mhs:60, lt:60}), col5: (args.bo1 - data(args).bo1.sum).toFixed(2)},
+        inv2: {col1: "150SN", col2: data(args).bo2.sum.toFixed(2), hs: shp({inv:args.bo2,consrate:args.crbo2}),col4: 60,order: orderdate({hs: shp({inv:args.bo2,consrate:args.crbo2}), mhs:60, lt:60}),col5: (args.bo2 - data(args).bo2.sum).toFixed(2)},
+        inv3: {col1: "BS150", col2: data(args).bo3.sum.toFixed(2), hs: shp({inv:args.bo3,consrate:args.crbo3}),col4: 60,order: orderdate({hs: shp({inv:args.bo3,consrate:args.crbo3}), mhs:60, lt:60}),col5: (args.bo3 - data(args).bo3.sum).toFixed(2)},
+        inv4: {col1: "SN80/SN100", col2: data(args).bo4.sum.toFixed(2), hs: shp({inv:args.bo4,consrate:args.crbo4}),col4: 60,order: orderdate({hs: shp({inv:args.bo4,consrate:args.crbo4}), mhs:60, lt:60}),col5: (args.bo4 - data(args).bo4.sum).toFixed(2)},
+        inv5: {col1: "DPK", col2: data(args).bo5.sum.toFixed(2), hs: shp({inv:args.bo5,consrate:args.crbo5}),col4: 60,order: orderdate({hs: shp({inv:args.bo5,consrate:args.crbo5}), mhs:60, lt:60}),col5: (args.bo5 - data(args).bo5.sum).toFixed(2)},
+
+        inv6: {col1: "TBN+", col2: data(args).ad1.sum.toFixed(2), hs: shp({inv:args.ad1,consrate:args.crad1}),col4: 40,order: orderdate({hs: shp({inv:args.ad1,consrate:args.crad1}), mhs:60, lt:40}),col5: (args.ad1 - data(args).ad1.sum).toFixed(2)},
+        inv7: {col1: "PPD", col2: data(args).ad2.sum.toFixed(2), hs: shp({inv:args.ad2,consrate:args.crad2}),col4: 40,order: orderdate({hs: shp({inv:args.ad2,consrate:args.crad2}), mhs:60, lt:40}),col5: (args.ad2 - data(args).ad2.sum).toFixed(2)},
+        inv8: {col1: "CI-4", col2: data(args).ad3.sum.toFixed(2), hs: shp({inv:args.ad3,consrate:args.crad3}),col4: 40, order: orderdate({hs: shp({inv:args.ad3,consrate:args.crad3}), mhs:60, lt:40}),col5: (args.ad3 - data(args).ad3.sum).toFixed(2)},
+        inv9: {col1: "BS200", col2: data(args).ad4.sum.toFixed(2), hs: shp({inv:args.ad4,consrate:args.crad4}),col4: 40,order: orderdate({hs: shp({inv:args.ad4,consrate:args.crad4}), mhs:60, lt:40}),col5: (args.ad4 - data(args).ad4.sum).toFixed(2)},
+        inv10: {col1: "VII", col2: data(args).ad5.sum.toFixed(2), hs: shp({inv:args.ad5,consrate:args.crad5}),col4: 40,order: orderdate({hs: shp({inv:args.ad5,consrate:args.crad5}), mhs:60, lt:40}),col5: (args.ad5 - data(args).ad5.sum).toFixed(2)},
+        inv11: {col1: "MONO PA EO", col2: data(args).ad6.sum.toFixed(2), hs: shp({inv:args.ad6,consrate:args.crad6}),col4: 40,order: orderdate({hs: shp({inv:args.ad6,consrate:args.crad6}), mhs:60, lt:40}),col5: (args.ad6 - data(args).ad6.sum).toFixed(2)},
+        inv12: {col1: "4T PA PEO", col2: data(args).ad7.sum.toFixed(2), hs: shp({inv:args.ad7,consrate:args.crad7}),col4: 40,order: orderdate({hs: shp({inv:args.ad7,consrate:args.crad7}), mhs:60, lt:40}),col5: (args.ad7 - data(args).ad7.sum).toFixed(2)},
+        inv13:{col1: "ATF PA", col2: data(args).ad8.sum.toFixed(2), hs: shp({inv:args.ad8,consrate:args.crad8}),col4: 40,order: orderdate({hs: shp({inv:args.ad8,consrate:args.crad8}), mhs:60, lt:40}), col5: (args.ad8 - data(args).ad8.sum).toFixed(2)},
+        inv14:{col1: "2T PA", col2: data(args).ad9.sum.toFixed(2), hs: shp({inv:args.ad9,consrate:args.crad9}),col4: 40,order: orderdate({hs: shp({inv:args.ad9,consrate:args.crad9}), mhs:60, lt:40}), col5: (args.ad9 - data(args).ad9.sum).toFixed(2)},
+        inv15:{col1: "HYA", col2: data(args).ad10.sum.toFixed(2), hs: shp({inv:args.ad10,consrate:args.crad10}),col4: 40,order: orderdate({hs: shp({inv:args.ad10,consrate:args.crad10}), mhs:60, lt:40}),col5: (args.ad10 - data(args).ad10.sum).toFixed(2)},
+        inv16:{col1: "DYE", col2: data(args).ad11.sum.toFixed(2), hs: shp({inv:args.ad11,consrate:args.crad11}),col4: 40,order: orderdate({hs: shp({inv:args.ad11,consrate:args.crad11}), mhs:60, lt:40}),col5: (args.ad11 - data(args).ad11.sum).toFixed(2)},
+        inv17:{col1: "TURB", col2: data(args).ad12.sum.toFixed(2), hs: shp({inv:args.ad12,consrate:args.crad12}),col4: 40,order: orderdate({hs: shp({inv:args.ad12,consrate:args.crad12}), mhs:60, lt:40}),col5: (args.ad12 - data(args).ad12.sum).toFixed(2)}
+    
+    }
+    //var testobj = {a:1,b:"strsign", c:data(args).ad12.sum.toFixed(2)};
+    useEffect(()=>{
+        //localStorage.setItem(props.title + '_inv_table', JSON.stringify(inv_table_data))
+        localStorage.setItem(props.title + "_inv_table", JSON.stringify(finance_table))
+    }, [args])
 
     function comparedates(dateone, datetwo){
         var start = String(dateone.getFullYear()) + String(dateone.getMonth()).padStart(2,'0') + String(dateone.getDate()).padStart(2,'0');
@@ -211,21 +241,21 @@ function Graph3(props){
         }
         else {
             result = "later";}
-        console.log(result);
+        //console.log(result);
         return result;
     }
     
     var current = (dates) => {
         let result;
         if((comparedates(dates.current, dates.start) === "later") && (comparedates(dates.current, dates.end) === "earlier")){
-            console.log("current")
+            //console.log("current")
             result = "current"
         }
         else if((comparedates(dates.current, dates.start) === "equal") || (comparedates(dates.current, dates.end) === "equal")){
             result = "current"
         }
         else {
-            console.log("not current")
+            //console.log("not current")
             result = "notcurrent"
         }
         return result;
@@ -233,8 +263,10 @@ function Graph3(props){
     const startdater = new Date(props.startdate.year,props.startdate.month, props.startdate.date);
     const enddater = new Date(props.enddate.year, props.enddate.month, props.enddate.date);
     var currentmonth = {current: "Current", notcurrent: "Not current"}
+
     return (
         <div>
+            {/* <TabInTab /> */}
             {currentmonth[current({start: startdater, current:initdate, end:enddater})]} {` `} Month
             {/* as of: {`${initdate.getDate()}/${String(initdate.getMonth() + 1).padStart(2, '0')}/${initdate.getFullYear()} `} */}
             {/* Today's Date's month: {initdate.toLocaleDateString('en-US', { month: 'short' })}  */}
@@ -245,16 +277,16 @@ function Graph3(props){
             </Center>
             {/* <Input onChange={handledate} type='date' width={160}/> */}
             {/* {display[current({start: startdater, current:initdate, end:enddater})]} */}
-            
+            <Button onClick={()=>{localStorage.clear()}}>clear local storage</Button>
             <Center overflow={'auto'} border={"1px"} borderRadius='15px'>
                 <Flex width='90%' overflow={'auto'}>
 
                     <Box>
-                        <TaBle title="Products" columns={prod_table_columns} data={prod_table_data} />
+                        <TaBle title="Products" columns={prod_table_columns} data={prod_table_data}  />
                     </Box>
                     <Spacer width={10} />
                     <Box  >
-                        <TaBle title="Inventory" columns={inv_table_columns} data={inv_table_data} />
+                        <TaBle title="Inventory" columns={inv_table_columns} data={inv_table_data}  />
                     </Box>
 
                 </Flex>

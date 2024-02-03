@@ -14,8 +14,8 @@ function DataFunction(mult){
             return result
         }
         else {
-            console.log(`Spare is negative: ${result} for ${inv}`)
-            return 0
+            return 0;
+            //console.log(`Result: ${result}`)
         }
     }
     //find the limiting reagent

@@ -3,15 +3,14 @@ import { Center } from "@chakra-ui/layout";
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr, TableCaption } from "@chakra-ui/table";
 
 function TaBle(props){
-    
+
     return (
         <div>
             {props.title}
-            
+        
             <TableContainer className="tablecont" border={"0.5px outset"} borderRadius={"10px"} shadow={'lg'}>
-                <Table variant='striped' colorScheme='twitter' size={'sm'}  width={100} >
+                <Table variant="striped" colorScheme="twitter" size={'sm'}  width={100} >
                     {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
-                    
                     <Thead>
                         <Tr>
                             {props.columns.map((col, colnum) => {

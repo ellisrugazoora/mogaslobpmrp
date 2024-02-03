@@ -3,7 +3,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs"
 function TabsComp(props){
     return (
         <div className="tabs" width='100%'>
-            <Tabs isFitted width={'100vw'} overflow={'scroll'} /*minWidth={1850}*/ height={"100vh"}>
+            <Tabs isFitted width={'100vw'} /*minWidth={1850}*/ height={"100vh"}>
                 <TabList>
                     {/* <Tab>{props.home.title}</Tab> */}
                     <Tab>{props.one.title}</Tab>
@@ -12,9 +12,10 @@ function TabsComp(props){
                     <Tab>{props.four.title}</Tab>
                     <Tab>{props.five.title}</Tab>
                     <Tab>{props.six.title}</Tab>
+                    <Tab>{props.seven.title}</Tab>
                     {/*<Tab>{props.seven.title}</Tab> */}
                 </TabList>
-                <TabPanels width={'100%'} overflow={'auto'}>
+                <TabPanels width={'100%'} /*overflow={'auto'}*/>
                     {/* <TabPanel> {props.home.content} </TabPanel> */}
                     <TabPanel> {props.one.content} </TabPanel>
                     <TabPanel> {props.two.content} </TabPanel>
@@ -22,6 +23,7 @@ function TabsComp(props){
                     <TabPanel >{props.four.content}</TabPanel>
                     <TabPanel> {props.five.content} </TabPanel>
                     <TabPanel > {props.six.content} </TabPanel>
+                    <TabPanel > {props.seven.content} </TabPanel>
                     {/* <TabPanel >{props.seven.content}</TabPanel> */}
                 </TabPanels>
             </Tabs>
