@@ -13,7 +13,7 @@ var columns = ["Consignment", "Date1", "Date2", "Date3"]
 function Table1and2(props){
     const [rawdata, SetRawData] = useState(() => {
         let stored = localStorage.getItem(props.title + "_inv_table");
-        return stored ? stored : {
+        return stored ? JSON.parse(stored) : {
             inv1: {col1: "500SN/600N", col2: 10, hs: 20, col4: 60, order: 30, col5: 40},
             inv2: {col1: "150SN", col2: 10, hs: 20,col4: 60,order: 30,col5: 40},
             inv3: {col1: "BS150", col2: 10, hs: 20,col4: 60,order: 30,col5: 40},
@@ -51,10 +51,10 @@ function Table1and2(props){
         console.log(month)
         //let id = month + "_inv_table";
         //let rawdata = localStorage.getItem(id); 
-        let jsondata = JSON.parse(rawdata);
-        console.log(`Json data: ${jsondata.inv1.col2}; raw data: ${rawdata}`)
+        //let jsondata = rawdata;
+        //console.log(`Json data: ${jsondata.inv1.col2}; raw data: ${rawdata}`)
         return {
-            row1: {consignment: "Consignment1", date1: jsondata.inv1.col2, date2:"order", date3: "pay"},
+            row1: {consignment: "Consignment1", date1:" ", date2:"order", date3: "pay"},
             row2: {consignment: "Consignment1", date1:" ", date2:"order", date3: "pay"},
             row3: {consignment: "Consignment1", date1:" ", date2:"order", date3: "pay"},
             row4: {consignment: "Consignment1", date1:" ", date2:"order", date3: "pay"}
@@ -64,7 +64,7 @@ function Table1and2(props){
         SetRawData(localStorage.getItem(props.title + "_inv_table"))
     }
     function handlePrintData(){
-        let dataobject = JSON.parse(rawdata);
+        let dataobject = rawdata;
         let dataarray = Object.entries(dataobject);
         console.log(dataarray)
         let testobject = {};
