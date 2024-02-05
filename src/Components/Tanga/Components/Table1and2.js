@@ -11,7 +11,29 @@ var columns = ["Consignment", "Date1", "Date2", "Date3"]
 
 
 function Table1and2(props){
-    const [rawdata, SetRawData] = useState(localStorage.getItem(props.title + "_inv_table"))
+    const [rawdata, SetRawData] = useState(() => {
+        let stored = localStorage.getItem(props.title + "_inv_table");
+        return stored ? stored : {
+            inv1: {col1: "500SN/600N", col2: 10, hs: 20, col4: 60, order: 30, col5: 40},
+            inv2: {col1: "150SN", col2: 10, hs: 20,col4: 60,order: 30,col5: 40},
+            inv3: {col1: "BS150", col2: 10, hs: 20,col4: 60,order: 30,col5: 40},
+            inv4: {col1: "SN80/SN100", col2: 10, hs: 20,col4: 60,order: 30,col5: 40},
+            inv5: {col1: "DPK", col2: 10, hs: 20,col4: 60,order: 30,col5: 40},
+    
+            inv6: {col1: "TBN+", col2: 10, hs: 20,col4: 40,order: 30,col5: 40},
+            inv7: {col1: "PPD", col2: 10, hs: 20,col4: 40,order: 30,col5: 40},
+            inv8: {col1: "CI-4", col2: 10, hs: 20,col4: 40, order: 30,col5: 40},
+            inv9: {col1: "BS200", col2: 10, hs: 20,col4: 40,order: 30,col5: 40},
+            inv10: {col1: "VII", col2: 10, hs: 20,col4: 40,order: 30,col5: 40},
+            inv11: {col1: "MONO PA EO", col2: 10, hs: 20,col4: 40,order: 30,col5: 40},
+            inv12: {col1: "4T PA PEO", col2: 10, hs: 20,col4: 40,order: 30,col5: 40},
+            inv13:{col1: "ATF PA", col2: 10, hs: 20,col4: 40,order: 30, col5: 40},
+            inv14:{col1: "2T PA", col2: 10, hs: 20,col4: 40,order: 30, col5: 40},
+            inv15:{col1: "HYA", col2: 10, hs: 20,col4: 40,order: 30,col5: 40},
+            inv16:{col1: "DYE", col2: 10, hs: 20,col4: 40,order: 30,col5: 40},
+            inv17:{col1: "TURB", col2: 10, hs: 20,col4: 40,order: 30,col5: 40}
+        }
+    })
     const [rowData, setRowData] = useState([
         { make: "Tesla", model: "Model Y", price: 64950, electric: true },
         { make: "Ford", model: "F-Series", price: 33850, electric: false },

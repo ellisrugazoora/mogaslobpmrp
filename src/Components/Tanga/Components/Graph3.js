@@ -221,7 +221,6 @@ function Graph3(props){
         inv15:{col1: "HYA", col2: data(args).ad10.sum.toFixed(2), hs: shp({inv:args.ad10,consrate:args.crad10}),col4: 40,order: orderdate({hs: shp({inv:args.ad10,consrate:args.crad10}), mhs:60, lt:40}),col5: (args.ad10 - data(args).ad10.sum).toFixed(2)},
         inv16:{col1: "DYE", col2: data(args).ad11.sum.toFixed(2), hs: shp({inv:args.ad11,consrate:args.crad11}),col4: 40,order: orderdate({hs: shp({inv:args.ad11,consrate:args.crad11}), mhs:60, lt:40}),col5: (args.ad11 - data(args).ad11.sum).toFixed(2)},
         inv17:{col1: "TURB", col2: data(args).ad12.sum.toFixed(2), hs: shp({inv:args.ad12,consrate:args.crad12}),col4: 40,order: orderdate({hs: shp({inv:args.ad12,consrate:args.crad12}), mhs:60, lt:40}),col5: (args.ad12 - data(args).ad12.sum).toFixed(2)}
-    
     }
     //var testobj = {a:1,b:"strsign", c:data(args).ad12.sum.toFixed(2)};
     useEffect(()=>{
