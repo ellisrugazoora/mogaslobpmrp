@@ -5,6 +5,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import TableAG from "./TableAG";
+import { createRecord } from "thin-backend";
 
 var columns = ["Consignment", "Date1", "Date2", "Date3"];
 
@@ -129,16 +130,24 @@ function Table1and2(props){
     //     setRowData(testarray);
     //     setColDefs(testcolumnarray);
     // }
-
+    const [record, SetRecord] = useState(0);
+    function handleCreateRecord(){
+        console.log("Handle create record")
+        
+    }
+    function handleRefreshRecord(){
+        console.log("handle refresh record")
+        //SetRecord() //set record to whatever is in database
+    }
+    //const insertRecord = createRecord('')
     return (
         <div>
             <div> 
             {/* <TaBle title="Payment schedule" columns={columns} data={data} />  */}
             <Button onClick={handlerefresh}>Refresh</Button>
-            {/* <Button onClick={handlePrintData}>Print data</Button> */}
-            {/* <AgGridReact rowData={rowData} columnDefs={colDefs} /> */}
-            {/* <Center><TaBle title={props.title + " financing plan"} columns={columns} data={datafn(props.title)} /></Center> */}
-            {/* Replace with AG charts! Below Anyone home? */}
+            <Button onClick={handleCreateRecord}>Create Record</Button>
+            <Button onClick={handleRefreshRecord}>Refresh record</Button><br />
+            Record: {record}
             </div>
             <div className="ag-theme-quartz" style={{ height: 700, width:950 }} >
                 {/* The AG Grid component */}
