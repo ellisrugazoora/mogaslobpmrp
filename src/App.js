@@ -6,8 +6,8 @@ import StockApp from "./Components/StockApp";
 import Music from './Components/Music/Music';
 
 import { Box, Button, ChakraBaseProvider, ChakraProvider } from '@chakra-ui/react';
-import { ensureIsUser, initThinBackend, logout } from 'thin-backend';
-import { ThinBackend, useCurrentUser } from 'thin-backend-react';
+import { createRecord, ensureIsUser, initThinBackend, logout, query } from 'thin-backend';
+import { ThinBackend, useCurrentUser, useQuery } from 'thin-backend-react';
 
 initThinBackend({
   // This url is different for each backend, this one points to 'mogaslobpmrp'
@@ -23,6 +23,10 @@ function UserStatus() {
       <Button colorScheme='twitter' onClick={logout}>Logout</Button>
       {user?.email}
   </div>
+}
+
+function Products(){
+  //const products = useQuery(query('products'))
 }
 
 function App() {

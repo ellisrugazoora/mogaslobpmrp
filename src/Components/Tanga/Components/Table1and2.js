@@ -43,11 +43,6 @@ function Table1and2(props){
             rowdata_array[index] = value[1];
         })
         return rowdata_array;
-        // [
-        // { make: "Tesla", model: "Model Y", price: 64950, electric: true },
-        // { make: "Ford", model: "F-Series", price: 33850, electric: false },
-        // { make: "Toyota", model: "Corolla", price: 29600, electric: false },
-        // ]
     });
       
       // Column Definitions: Defines & controls grid columns.
@@ -66,26 +61,7 @@ function Table1and2(props){
         }) 
 
         return columns_array
-        // [
-        // { field: "make" },
-        // { field: "model" },
-        // { field: "price" },
-        // { field: "electric" }
-        // ]
     });
-    var datafn = (month) => {
-        console.log(month)
-        //let id = month + "_inv_table";
-        //let data = localStorage.getItem(id); 
-        //let jsondata = data;
-        //console.log(`Json data: ${jsondata.inv1.col2}; raw data: ${data}`)
-        return {
-            row1: {consignment: "Consignment1", date1: data.inv1.col2, date2:"order", date3: "pay"},
-            row2: {consignment: "Consignment1", date1:" ", date2:"order", date3: "pay"},
-            row3: {consignment: "Consignment1", date1:" ", date2:"order", date3: "pay"},
-            row4: {consignment: "Consignment1", date1:" ", date2:"order", date3: "pay"}
-        }
-    }
     function handlerefresh(){
         if(localStorage.getItem(props.title + "_inv_table")){
             SetData(JSON.parse(localStorage.getItem(props.title + "_inv_table")));
@@ -139,7 +115,6 @@ function Table1and2(props){
         console.log("handle refresh record")
         //SetRecord() //set record to whatever is in database
     }
-    //const insertRecord = createRecord('')
     return (
         <div>
             <div> 
