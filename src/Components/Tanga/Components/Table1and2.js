@@ -14,24 +14,24 @@ function Table1and2(props){
     const [data, SetData] = useState(() => {
         let stored = localStorage.getItem(props.title + "_inv_table");
         return stored ? JSON.parse(stored) : {
-            inv1: {product: "500SN/600N", Qty: 10, Stockholding_period: 20, Leadtime: 60,supplier: "KDR", orderdate: 30},
-            inv2: {product: "150SN", Qty: 10, Stockholding_period: 20,Leadtime: 60,supplier: "KDR",orderdate: 30},
-            inv3: {product: "BS150", Qty: 10, Stockholding_period: 20,Leadtime: 60,supplier: "KDR",orderdate: 30},
-            inv4: {product: "SN80/SN100", Qty: 10, Stockholding_period: 20,Leadtime: 60,supplier: "KDR",orderdate: 30},
-            inv5: {product: "DPK", Qty: 10, Stockholding_period: 20,Leadtime: 60,supplier: "KDR",orderdate: 30},
+            inv1: {product: "500SN/600N", Qty: 10, Stockholding_period: 20, Leadtime: 60,supplier: "KDR", orderdate: 30, paymentDueDate:"TBD"},
+            inv2: {product: "150SN", Qty: 10, Stockholding_period: 20,Leadtime: 60,supplier: "KDR",orderdate: 30, paymentDueDate:"TBD"},
+            inv3: {product: "BS150", Qty: 10, Stockholding_period: 20,Leadtime: 60,supplier: "KDR",orderdate: 30, paymentDueDate:"TBD"},
+            inv4: {product: "SN80/SN100", Qty: 10, Stockholding_period: 20,Leadtime: 60,supplier: "KDR",orderdate: 30, paymentDueDate:"TBD"},
+            inv5: {product: "DPK", Qty: 10, Stockholding_period: 20,Leadtime: 60,supplier: "KDR",orderdate: 30, paymentDueDate:"TBD"},
     
-            inv6: {product: "TBN+", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30},
-            inv7: {product: "PPD", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30},
-            inv8: {product: "CI-4", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD", orderdate: 30},
-            inv9: {product: "BS200", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30},
-            inv10:{product: "VII", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "BlackBull",orderdate: 30},
-            inv11:{product: "MONO PA EO", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30},
-            inv12:{product: "4T PA PEO", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30},
-            inv13:{product: "ATF PA", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30},
-            inv14:{product: "2T PA", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30},
-            inv15:{product: "HYA", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30},
-            inv16:{product: "DYE", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30},
-            inv17:{product: "TURB", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30}
+            inv6: {product: "TBN+", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD"},
+            inv7: {product: "PPD", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD"},
+            inv8: {product: "CI-4", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD", orderdate: 30, paymentDueDate:"TBD"},
+            inv9: {product: "BS200", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD"},
+            inv10:{product: "VII", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "BlackBull",orderdate: 30, paymentDueDate:"TBD"},
+            inv11:{product: "MONO PA EO", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD"},
+            inv12:{product: "4T PA PEO", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD"},
+            inv13:{product: "ATF PA", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD"},
+            inv14:{product: "2T PA", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD"},
+            inv15:{product: "HYA", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD"},
+            inv16:{product: "DYE", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD"},
+            inv17:{product: "TURB", Qty: 10, Stockholding_period: 20,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD"}
         }
     })
     const [rowData, setRowData] = useState(() => {
