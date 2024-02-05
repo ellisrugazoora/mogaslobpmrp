@@ -61,7 +61,7 @@ function Table1and2(props){
         }
     }
     function handlerefresh(){
-        SetRawData(localStorage.getItem(props.title + "_inv_table"))
+        SetRawData(JSON.parse(localStorage.getItem(props.title + "_inv_table")))
     }
     function handlePrintData(){
         let dataobject = rawdata;
