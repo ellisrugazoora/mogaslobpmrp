@@ -54,7 +54,7 @@ function Table1and2(props){
         //let jsondata = rawdata;
         //console.log(`Json data: ${jsondata.inv1.col2}; raw data: ${rawdata}`)
         return {
-            row1: {consignment: "Consignment1", date1:" ", date2:"order", date3: "pay"},
+            row1: {consignment: "Consignment1", date1: rawdata.inv1.col2, date2:"order", date3: "pay"},
             row2: {consignment: "Consignment1", date1:" ", date2:"order", date3: "pay"},
             row3: {consignment: "Consignment1", date1:" ", date2:"order", date3: "pay"},
             row4: {consignment: "Consignment1", date1:" ", date2:"order", date3: "pay"}
