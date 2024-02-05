@@ -61,7 +61,12 @@ function Table1and2(props){
         }
     }
     function handlerefresh(){
-        SetRawData(JSON.parse(localStorage.getItem(props.title + "_inv_table")))
+        if(localStorage.getItem(props.title + "_inv_table")){
+            SetRawData(JSON.parse(localStorage.getItem(props.title + "_inv_table")));
+        }
+        else {
+            console.log("There exists no local storage currrently")
+        }
     }
     function handlePrintData(){
         let dataobject = rawdata;
