@@ -22,7 +22,7 @@ function TaBle(props){
                             {
                                 Object.entries(props.data).map((row, rownum) => {
                                     return (<Tr height={10}>{Object.entries(row[1]).map((col, colnum) => {
-                                        return (<Td width={100}>{col[1]}</Td>)
+                                        return (<Td width={100} >{col[1]}</Td>)
                                     })}</Tr>)
                                 })
                             }

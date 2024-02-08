@@ -7,6 +7,7 @@ import TabsComp from "./Components/TabsComp";
 import TabInTab from "./Components/TabInTab";
 import Table1and2 from "./Components/Table1and2";
 import { Button } from "@chakra-ui/react";
+import Formulas from "./Components/Formulas";
 
 var storeddata = localStorage.getItem('Julystored_data');
 var parsedata = JSON.parse(storeddata);
@@ -33,7 +34,10 @@ function Tanga(){
                                 <Center>
                                     <Table1and2 title="July" />
                                 </Center>
-                            }} />}} />
+                            }} />}} 
+                    // eight={{title: "Formulas", content: <Formulas />}}
+                            
+                            />
             </Box>
 
         </Box>
