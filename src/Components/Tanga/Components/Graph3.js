@@ -8,8 +8,19 @@ import TaBle from './TaBle';
 import { Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from '@chakra-ui/react';
 import TabInTab from './TabInTab';
 import TableAG from './TableAG';
+import { getCurrentUser, getCurrentUserId } from 'thin-backend';
 
-
+function userAccess_fn() {
+    return getCurrentUser().then((value) => {
+        let result;
+        if (value.email === "ellisrgrz@gmail.com") {
+            result = false;
+        } else {
+            result = true;
+        }
+        return result;
+    });
+}
 function Graph3(props){
     var dataid = props.title + "stored_data";
     var data = DataFunction;
@@ -23,7 +34,7 @@ function Graph3(props){
         formulas: {
             _2T: populateformula({bo1:0.9050, bo5:0.08, ad9:0.0150}),
             _4T: populateformula({bo1:0.878, ad1:0.002,ad2:0.002, ad5:0.063, ad7:0.0550}),
-            atfIII: populateformula({bo2:0.6097,bo4:0.3,ad8:0.09,ad11:0.0003}),
+            atfIII: populateformula({bo2:0.9317,ad8:0.068,ad11:0.0003}),
             DuramaxHD: populateformula({bo1:0.72, bo3:0.23,ad1:0.006,ad6:0.0440}), 
             FrontiaX: populateformula({bo1:0.6480, bo2:0.2160, ad2:0.002,ad5:0.080,ad7:0.0540}),
             Geo80W90:populateformula({bo1:0.7370,bo3:0.23,ad2:0.002,ad4:0.023, ad5:0.008}),
@@ -34,8 +45,8 @@ function Graph3(props){
             PowerTransSP150:populateformula({bo1:0.760,bo3:0.223,ad2: 0.002,ad4:0.0150}),
             PowerTransSP220:populateformula({bo1:0.3280,bo3:0.65,ad2:0.002,ad4:0.02}),
             PowerTransSP320:populateformula({bo1:0.15, bo3:0.8330,ad2:0.002,ad4:0.0150}),
-            Sb22D210:populateformula({bo2:0.9,bo4:0.1}),
-            SentryHDSae40:populateformula({bo1:0.7830,bo3:0.1800,ad1:0.003,ad6:0.0340}),
+            Sb22D210:populateformula({bo2:1,bo4:0}),
+            SentryHDSae40:populateformula({bo1:0.730,bo3:0.233,ad1:0.003,ad6:0.0340}),
             TurbofleetSae15W:populateformula({bo1:0.3950,bo2:0.3990,ad1:0.002,ad2:0.002,ad3:0.1170,ad5:0.085})
         },
         _2T:80, _4T:200,atfIII: 5,DuramaxHD:85, FrontiaX:10,Geo80W90:7,Geo85W140:28,Hydrax32:2,HydraxZ46:2,HydraxZ68:5,PowerTransSP150:1,PowerTransSP220:2,PowerTransSP320:2,Sb22D210:1,SentryHDSae40:25,TurbofleetSae15W:65,
@@ -109,6 +120,8 @@ function Graph3(props){
         return result
     }
     function prodtable(number,id){
+        getCurrentUser().then((value)=>{console.log(value.email)})
+        console.log(getCurrentUser())
         let new_val = parseInt(number, 10);
         //let new_val = parseFloat(number);
         //let new_val = number;
@@ -165,7 +178,7 @@ function Graph3(props){
         else {
             newdate.setDate(current.getDate())
         }
-        return `${newdate.getDate()}/${String(newdate.getMonth() + 1).padStart(2,'0')}/${newdate.getFullYear()%100}`;
+        return `${String(newdate.getDate()).padStart(2,'0')}/${String(newdate.getMonth() + 1).padStart(2,'0')}/${newdate.getFullYear()}`; 
     }
 
     var shp = (obj)=>{
@@ -179,6 +192,37 @@ function Graph3(props){
     function toggleability(){
         return false
     }
+    const [userAccess, SetUserAccess] = useState(false)
+    useEffect(()=>{
+        userAccess_fn().then((result)=>{
+            SetUserAccess(result)
+        })
+    },[])
+    function testers(){
+        return true
+    }
+    async function userAccess_one() {
+        const value = await getCurrentUser();
+        if (value.email === "ellisrgrz@gmail.com") {
+            return true;
+        } else {
+            return true;
+        }
+    }
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const value = await getCurrentUser();
+            if (value.email === "ellisrgrz@gmail.com") {
+                setButtonDisabled(true);
+            } else {
+                setButtonDisabled(false);
+            }
+        };
+
+        fetchData();
+    }, []);
     var buttonsize = "md";
     var initdate = new Date();
     var prod_table_columns = ["Products", "Quantity (Tons)", "Maximize"]
@@ -199,7 +243,7 @@ function Graph3(props){
         prod14: {col1: "SB 22 D210", col2: <NumberInp value={args.Sb22D210} prod="Sb22D210" onChange={prodtable} init={args.Sb22D210} />, col4: <Button size={buttonsize} id='max' name='Sb22D210' onClick={tablebutton}>Set Max</Button>},
         prod15: {col1: "Sentry HD Sae 40", col2: <NumberInp value={args.SentryHDSae40} prod="SentryHDSae40" onChange={prodtable} init={args.SentryHDSae40} />, col4: <Button size={buttonsize} id='max' name='SentryHDSae40' onClick={tablebutton}>Set Max</Button>},
         prod16: {col1: "Turbofleet Sae 15W", col2: <NumberInp value={args.TurbofleetSae15W} prod="TurbofleetSae15W" onChange={prodtable} init={args.TurbofleetSae15W} />, col4: <Button size={buttonsize} id='max' name='TurbofleetSae15W' onClick={tablebutton}>Set Max</Button>},
-        total: {col1: "Total", col2: product_total(args), col3: <Button size={'md'} isDisabled={toggleability}>Empty</Button> }
+        total: {col1: "Total", col2: product_total(args), col3: <Button size={'md'} isDisabled={isButtonDisabled} >Empty</Button> }
     }
     
     var inv_table_columns = ["Inventory", "Required", "In stock (Tons)", "In Transit (Tons)", "Avg. daily consumption rate (Tons)","Stock holding period","Lead time (days)", "Next order date", "Deficit/excess"];
@@ -248,13 +292,13 @@ function Graph3(props){
     }, [args])
     function paymentDue(supplier, inv, date){
         let paymentTerms = {Royal: 60, KDR: 6, Blackbull: 10, IMCD: 60}
-        //let order_date = inv_table_data[inv][date];
-        let order_date = new Date(inv_table_data[inv][date]);
+        const [dayer, monther, yearer] = inv_table_data[inv][date].split('/').map(Number);
+        let order_date = new Date(yearer,monther,dayer);
         let defer = paymentTerms[supplier];
         let due_date = new Date()
-        due_date.setDate((order_date).getDate()/* + defer*/);
-        //return `${due_date.getDate()}/${due_date.getMonth()}/${due_date.getFullYear()}`
-        return order_date
+        due_date.setDate((order_date).getDate() + defer);
+        return `${due_date.getDate()}/${due_date.getMonth()}/${due_date.getFullYear()}`
+        //return due_date;
     }
     function amountDue(raw_material, length_of_stock){
         let cost_per_unit = {bo1:1200,bo2:1200,bo3:1200,bo4:1200,bo5:1200,bo6:1200,bo7:1200,ad1:1200,ad2:1200,ad3:1200,ad4:1200,ad5:1200,ad6:1200,ad7:1200,ad8:1200,ad9:1200,ad10:1200,ad11:1200,ad12:1200};
@@ -305,6 +349,7 @@ function Graph3(props){
             return ''
         }
     }
+    
     return (
         <div>
             {/* <TabInTab /> */}
@@ -317,8 +362,8 @@ function Graph3(props){
                 </Box>
             </Center>
             {/* {numberStateful} */}
-            <Button isDisabled onClick={()=>{localStorage.clear()}}>clear local storage</Button>
-            <Center>Minimum holding stock (days): <NumberInp prod="mhs" init={args.mhs} onChange={inv_table} value={args.mhs} /></Center>
+            <Button isDisabled={true} onClick={()=>{localStorage.clear()}}>clear local storage</Button>
+            <Center>Buffer stock (days): <NumberInp prod="mhs" init={args.mhs} onChange={inv_table} value={args.mhs} /></Center>
             <Center overflow={'auto'} border={"1px"} borderRadius='15px'>
                 <Flex width='90%' overflow={'auto'}>
 

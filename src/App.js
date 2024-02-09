@@ -5,7 +5,7 @@ import Tanga from './Components/Tanga/Tanga';
 import StockApp from "./Components/StockApp";
 import Music from './Components/Music/Music';
 
-import { Box, Button, ChakraBaseProvider, ChakraProvider } from '@chakra-ui/react';
+import { Box, Button, ChakraBaseProvider, ChakraProvider, Input } from '@chakra-ui/react';
 import { createRecord, ensureIsUser, getCurrentUserId, initThinBackend, logout, query } from 'thin-backend';
 import { ThinBackend, useCurrentUser, useQuery } from 'thin-backend-react';
 
@@ -48,13 +48,28 @@ function AddTask(){
   }
   return <Button colorScheme='twitter' onClick={onClick}>Add Task</Button>
 }
-function test(){
+
+function fetchAndPrint(){
+  console.log("Fetch and print")
   const taskos = query('tasks').fetch();
-  return taskos
+  console.log(taskos.then((tasklist)=>{
+    let result=[];
+    tasklist.forEach((task, index)=>{
+      result.push(task.title)
+    })
+    console.log(result);
+  }));
+}
+function saveToDB(e){
+  let value = e.target.value
+  console.log(`save to DB: ${value}`)
+  createRecord('tasks',{
+    title: `Number ${value}`, 
+    userId: getCurrentUserId()
+  })
 }
 function App() {
   var display = {a: <StockApp />, b: <Tanga />, c: <Music />}
-  const [retrieve, SetRetrieve] = useState(0);
   return (
     <ThinBackend requireLogin>
       <ChakraProvider>
@@ -63,8 +78,9 @@ function App() {
         </div>
         {/* <TaskList /> */}
         {/* <AddTask /> */}
-        {test}
-      {/* <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> */}
+        {/* <Button onClick={fetchAndPrint}>Fetch data from DB and print it</Button> */}
+        {/* <Input onClick={saveToDB} width={100} type='number'/> */}
+        
       <Box className="App" width={"100%"}>
         {display.b}
       </Box>

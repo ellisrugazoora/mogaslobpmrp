@@ -13,7 +13,7 @@ function TabsComp(props){
                     <Tab>{props.five.title}</Tab>
                     <Tab>{props.six.title}</Tab>
                     <Tab>{props.seven.title}</Tab>
-                    {/* <Tab>{props.eight.title}</Tab> */}
+                    <Tab>{props.eight.title}</Tab>
                     {/*<Tab>{props.seven.title}</Tab> */}
                 </TabList>
                 <TabPanels width={'100%'} /*overflow={'auto'}*/>
@@ -25,7 +25,7 @@ function TabsComp(props){
                     <TabPanel> {props.five.content} </TabPanel>
                     <TabPanel > {props.six.content} </TabPanel>
                     <TabPanel > {props.seven.content} </TabPanel>
-                    {/* <TabPanel> {props.eight.content} </TabPanel> */}
+                    <TabPanel> {props.eight.content} </TabPanel>
                     {/* <TabPanel >{props.seven.content}</TabPanel> */}
                 </TabPanels>
             </Tabs>
