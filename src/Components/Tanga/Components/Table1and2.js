@@ -15,24 +15,24 @@ function Table1and2(props){
     const [data, SetData] = useState(() => {
         let stored = localStorage.getItem(props.title + "_inv_table");
         return stored ? JSON.parse(stored) : {
-            inv1: {product: "500SN/600N", Qty: 10, Leadtime: 60,supplier: "KDR", orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv2: {product: "150SN", Qty: 10,Leadtime: 60,supplier: "KDR",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv3: {product: "BS150", Qty: 10,Leadtime: 60,supplier: "KDR",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv4: {product: "SN80/SN100", Qty: 10,Leadtime: 60,supplier: "KDR",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv5: {product: "DPK", Qty: 10,Leadtime: 60,supplier: "KDR",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv1: {product: "500SN/600N", Qty: 10, Stockholding_period:0, Leadtime: 60,supplier: "KDR", orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv2: {product: "150SN", Qty: 10, Stockholding_period:0,Leadtime: 60,supplier: "KDR",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv3: {product: "BS150", Qty: 10, Stockholding_period:0,Leadtime: 60,supplier: "KDR",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv4: {product: "SN80/SN100", Qty: 10, Stockholding_period:0,Leadtime: 60,supplier: "KDR",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv5: {product: "DPK", Qty: 10,Stockholding_period:0,Leadtime: 60,supplier: "KDR",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
     
-            inv6: {product: "TBN+", Qty: 10,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv7: {product: "PPD", Qty: 10,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv8: {product: "CI-4", Qty: 10,Leadtime: 40,supplier: "IMCD", orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv9: {product: "BS200", Qty: 10,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv10:{product: "VII", Qty: 10,Leadtime: 40,supplier: "BlackBull",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv11:{product: "MONO PA EO", Qty: 10,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv12:{product: "4T PA PEO", Qty: 10,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv13:{product: "ATF PA", Qty: 10,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv14:{product: "2T PA", Qty: 10,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv15:{product: "HYA", Qty: 10,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv16:{product: "DYE", Qty: 10,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
-            inv17:{product: "TURB", Qty: 10,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""}
+            inv6: {product: "TBN+", Qty: 10,Stockholding_period:0,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv7: {product: "PPD", Qty: 10,Stockholding_period:0,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv8: {product: "CI-4", Qty: 10,Stockholding_period:0,Leadtime: 40,supplier: "IMCD", orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv9: {product: "BS200", Qty: 10,Stockholding_period:0,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv10:{product: "VII", Qty: 10,Stockholding_period:0,Leadtime: 40,supplier: "BlackBull",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv11:{product: "MONO PA EO", Qty: 10,Stockholding_period:0,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv12:{product: "4T PA PEO", Qty: 10,Stockholding_period:0,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv13:{product: "ATF PA", Qty: 10,Stockholding_period:0,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv14:{product: "2T PA", Qty: 10,Stockholding_period:0,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv15:{product: "HYA", Qty: 10,Stockholding_period:0,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv16:{product: "DYE", Qty: 10,Stockholding_period:0,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
+            inv17:{product: "TURB", Qty: 10,Stockholding_period:0,Leadtime: 40,supplier: "IMCD",orderdate: 30, paymentDueDate:"TBD", Amount: ""}
         }
     })
    

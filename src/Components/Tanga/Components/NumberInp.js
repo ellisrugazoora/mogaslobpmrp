@@ -4,9 +4,12 @@ function NumberInp(props){
     function handlechange(number){
         props.onChange(number, props.prod);
     }
+    function handleaccess(){
+        props.access();
+    }
     return (
-        <NumberInput isDisabled={false} step={1}  size={'md'}  defaultValue={props.init} onChange={handlechange} value={props.value} width={'150px'}>
-            <NumberInputField bg={"white"} />
+        <NumberInput isDisabled={props.access} step={1}  size={'md'}  defaultValue={props.init} onChange={handlechange} value={props.value} width={'150px'}>
+            <NumberInputField bg={"white"} isDisabled={props.access}/>
             <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
