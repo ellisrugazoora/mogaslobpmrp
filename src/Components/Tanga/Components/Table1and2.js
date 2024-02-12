@@ -14,6 +14,7 @@ var columns = ["Consignment", "Date1", "Date2", "Date3"];
 function Table1and2(props){
     const [data, SetData] = useState(() => {
         let stored = localStorage.getItem(props.title + "_inv_table");
+        
         return stored ? JSON.parse(stored) : {
             inv1: {product: "500SN/600N", Qty: 10, Stockholding_period:0, Leadtime: 60,supplier: "KDR", orderdate: 30, paymentDueDate:"TBD", Amount: ""},
             inv2: {product: "150SN", Qty: 10, Stockholding_period:0,Leadtime: 60,supplier: "KDR",orderdate: 30, paymentDueDate:"TBD", Amount: ""},
@@ -45,14 +46,15 @@ function Table1and2(props){
         return rowdata_array;
     });
     const dateComparator = (stringDate1, stringDate2) => {
+        console.log("Date comparator function")
         const [day1, month1, year1] = stringDate1.split('/').map(Number);
         const [day2, month2, year2] = stringDate2.split('/').map(Number);
         const date1 = new Date(year1, month1 - 1, day1)
         const date2 = new Date(year2, month2 - 1, day2)
         var date1Number = String(date1.getFullYear()) + String(date1.getMonth()).padStart(2,'0') + String(date1.getDate()).padStart(2,'0');
         var date2Number = String(date2.getFullYear()) + String(date2.getMonth()).padStart(2,'0') + String(date2.getDate()).padStart(2,'0');
+        //let difference = parseInt(date1Number,10) - parseInt(date2Number,10);
         let difference = parseInt(date1Number,10) - parseInt(date2Number,10);
-        
         return difference;
       };
       
@@ -68,10 +70,10 @@ function Table1and2(props){
         })
         let cols = Object.entries(rowdata_array[0]);
         cols.forEach((value, index)=>{
-            if(index === 0){
+            if(value[0] === "product"){
                 columns_array.push({field: value[0], flex:1});
             }
-            else if(index === 4){
+            else if(value[0] === "orderdate"){
                 columns_array.push({field: value[0], comparator: dateComparator, flex:1});
             }
             else {
@@ -102,10 +104,10 @@ function Table1and2(props){
         })
         let cols = Object.entries(testarray[0]);
         cols.forEach((value, index)=>{
-            if(index === 0){
+            if(value[0] === "product"){
                 testcolumnarray.push({field: value[0]/*, pinned:'left'*/, flex:1});
             }
-            else if(index === 4){
+            else if(value[0] === "orderdate"){
                 testcolumnarray.push({field: value[0], comparator: dateComparator, flex:1});
             }
             else {
@@ -150,20 +152,7 @@ function Table1and2(props){
         console.log(selectedRows)
 
     }
-    function compareDates(){
-        let d1 = rowData[0].orderdate;
-        let d2 = rowData[1].orderdate;
-        console.log(d1, d2)
-        const [day1, month1, year1] = d1.split('/').map(Number);
-        const [day2, month2, year2] = d2.split('/').map(Number);
 
-        const date1 = new Date(year1, month1 - 1, day1)
-        const date2 = new Date(year2, month2 - 1, day2)
-        var date1Number = String(date1.getFullYear()) + String(date1.getMonth()).padStart(2,'0') + String(date1.getDate()).padStart(2,'0');
-        var date2Number = String(date2.getFullYear()) + String(date2.getMonth()).padStart(2,'0') + String(date2.getDate()).padStart(2,'0');
-        let difference = parseInt(date1Number,10) - parseInt(date2Number,10);
-        console.log(`Date1:${date1}; Date2:${date2}; Date1num: ${date1Number}; Date2num:${date2Number}`)
-    }
     return (
         <div>
             <div> 
