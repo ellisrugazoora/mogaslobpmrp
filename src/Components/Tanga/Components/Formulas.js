@@ -44,6 +44,7 @@ function Formulas(){
     function summer(obj){
         return obj._500SN + obj._150SN + obj._BS150 + obj._SN80 + obj.DPK + obj.TBN + obj.PPD + obj.CI4 + obj.GOA + obj.VII + obj.MONO_PA_EO + obj._4T_PA_PEO + obj.ATF_PA + obj._2T_PA + obj.HYA + obj.DYE + obj.Lubrizol8510;
     }
+    //initialize rowData as what is in the database
     const [rowData, SetRowData] = useState(() => {
         let stored_formula = localStorage.getItem('formulas')
         return stored_formula ? JSON.parse(stored_formula) : [

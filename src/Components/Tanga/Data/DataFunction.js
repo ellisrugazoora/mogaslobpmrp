@@ -5,7 +5,7 @@ function DataFunction(mult){
         return result;
     }
     let total = (inv) => {
-        let result = val("_2T", inv) + val("_4T", inv) + val("atfIII", inv) + val("DuramaxHD", inv) + val("FrontiaX", inv) + val("Geo80W90", inv) + val("Geo85W140", inv) + val("Hydrax32", inv) + val("HydraxZ46", inv) + val("HydraxZ68", inv) + val("PowerTransSP150", inv) + val("PowerTransSP220", inv) + val("PowerTransSP320", inv) + val("Sb22D210", inv) + val("SentryHDSae40", inv) + val("TurbofleetSae15W", inv)
+        let result = val("_2T", inv) + val("_4T", inv) + val("atfIII", inv) + val("DuramaxHD", inv) + val("FrontiaX", inv) + val("Geo80W90", inv) + val("Geo85W140", inv) + val("Hydrax32", inv) + val("HydraxZ46", inv) + val("HydraxZ68", inv) + val("PowerTransSP150", inv) + val("PowerTransSP220", inv) + val("PowerTransSP320", inv) + val("Sb22D210", inv) + val("SentryHDSae40", inv) + val("TurbofleetSae15W", inv)// + val("DuramaxExtra", inv);
         return result
     }
     var spare_fn = (inv) => {
@@ -39,6 +39,7 @@ function DataFunction(mult){
         Sb22D210:val("Sb22D210", "bo1"),
         SentryHDSae40:val("SentryHDSae40", "bo1"),
         TurbofleetSae15W:val("TurbofleetSae15W", "bo1"),
+        DuramaxExtra: val("DuramaxExtra", "bo1"),
     }, //the sum of all should equal current inventory. If 
     bo2: {
         quarter: "150SN",
@@ -60,6 +61,7 @@ function DataFunction(mult){
         Sb22D210:val("Sb22D210", "bo2"),
         SentryHDSae40:val("SentryHDSae40", "bo2"),
         TurbofleetSae15W:val("TurbofleetSae15W", "bo2"),
+        DuramaxExtra: val("DuramaxExtra", "bo2")
     },
     bo3: {
         quarter: "BS150",
@@ -81,6 +83,7 @@ function DataFunction(mult){
         Sb22D210:val("Sb22D210", "bo3"),
         SentryHDSae40:val("SentryHDSae40", "bo3"),
         TurbofleetSae15W:val("TurbofleetSae15W", "bo3"),
+        DuramaxExtra: val("DuramaxExtra", "bo3")
     },
     bo4: {
         quarter: "SN80/SN100",
@@ -102,6 +105,7 @@ function DataFunction(mult){
         Sb22D210:val("Sb22D210", "bo4"),
         SentryHDSae40:val("SentryHDSae40", "bo4"),
         TurbofleetSae15W:val("TurbofleetSae15W", "bo4"),
+        DuramaxExtra: val("DuramaxExtra", "bo4")
     },
     bo5: {
         quarter: "DPK",
@@ -123,6 +127,7 @@ function DataFunction(mult){
         Sb22D210:val("Sb22D210", "bo5"),
         SentryHDSae40:val("SentryHDSae40", "bo5"),
         TurbofleetSae15W:val("TurbofleetSae15W", "bo5"),
+        DuramaxExtra: val("DuramaxExtra", "bo5")
     },
     ad1: {
         quarter: "TBN+",
@@ -144,6 +149,7 @@ function DataFunction(mult){
         Sb22D210:val("Sb22D210", "ad1"),
         SentryHDSae40:val("SentryHDSae40", "ad1"),
         TurbofleetSae15W:val("TurbofleetSae15W", "ad1"),
+        DuramaxExtra: val("DuramaxExtra", "ad1")
     },
     ad2: {
         quarter: "PPD",
@@ -164,7 +170,8 @@ function DataFunction(mult){
         PowerTransSP320:val("PowerTransSP320", "ad2"),
         Sb22D210:val("Sb22D210", "ad2"),
         SentryHDSae40:val("SentryHDSae40", "ad2"),
-        TurbofleetSae15W:val("TurbofleetSae15W", "ad2")
+        TurbofleetSae15W:val("TurbofleetSae15W", "ad2"),
+        DuramaxExtra: val("DuramaxExtra", "ad2")
     },
     ad3: {
         quarter: "CI-4",
@@ -185,7 +192,8 @@ function DataFunction(mult){
         PowerTransSP320:val("PowerTransSP320", "ad3"),
         Sb22D210:val("Sb22D210", "ad3"),
         SentryHDSae40:val("SentryHDSae40", "ad3"),
-        TurbofleetSae15W:val("TurbofleetSae15W", "ad3")
+        TurbofleetSae15W:val("TurbofleetSae15W", "ad3"),
+        DuramaxExtra: val("DuramaxExtra", "ad3")
     },
     ad4: {
         quarter: "GOA",
@@ -206,7 +214,8 @@ function DataFunction(mult){
         PowerTransSP320:val("PowerTransSP320", "ad4"),
         Sb22D210:val("Sb22D210", "ad4"),
         SentryHDSae40:val("SentryHDSae40", "ad4"),
-        TurbofleetSae15W:val("TurbofleetSae15W", "ad4")
+        TurbofleetSae15W:val("TurbofleetSae15W", "ad4"),
+        DuramaxExtra: val("DuramaxExtra", "ad4")
     },
     ad5: {
         quarter: "VII",
@@ -227,7 +236,8 @@ function DataFunction(mult){
         PowerTransSP320:val("PowerTransSP320", "ad5"),
         Sb22D210:val("Sb22D210", "ad5"),
         SentryHDSae40:val("SentryHDSae40", "ad5"),
-        TurbofleetSae15W:val("TurbofleetSae15W", "ad5")
+        TurbofleetSae15W:val("TurbofleetSae15W", "ad5"),
+        DuramaxExtra: val("DuramaxExtra", "ad5")
     },
     ad6: {
         quarter: "MONO PA EO",
@@ -248,7 +258,8 @@ function DataFunction(mult){
         PowerTransSP320:val("PowerTransSP320", "ad6"),
         Sb22D210:val("Sb22D210", "ad6"),
         SentryHDSae40:val("SentryHDSae40", "ad6"),
-        TurbofleetSae15W:val("TurbofleetSae15W", "ad6")
+        TurbofleetSae15W:val("TurbofleetSae15W", "ad6"),
+        DuramaxExtra: val("DuramaxExtra", "ad6")
     },
     ad7: {
         quarter: "4T PA PEO",
@@ -269,7 +280,8 @@ function DataFunction(mult){
         PowerTransSP320:val("PowerTransSP320", "ad7"),
         Sb22D210:val("Sb22D210", "ad7"),
         SentryHDSae40:val("SentryHDSae40", "ad7"),
-        TurbofleetSae15W:val("TurbofleetSae15W", "ad7")
+        TurbofleetSae15W:val("TurbofleetSae15W", "ad7"),
+        DuramaxExtra: val("DuramaxExtra", "ad7")
     },
     ad8: {
         quarter: "ATF PA",
@@ -290,7 +302,8 @@ function DataFunction(mult){
         PowerTransSP320:val("PowerTransSP320", "ad8"),
         Sb22D210:val("Sb22D210", "ad8"),
         SentryHDSae40:val("SentryHDSae40", "ad8"),
-        TurbofleetSae15W:val("TurbofleetSae15W", "ad8")
+        TurbofleetSae15W:val("TurbofleetSae15W", "ad8"),
+        DuramaxExtra: val("DuramaxExtra", "ad8")
     },
     ad9: {
         quarter: "2T PA",
@@ -311,7 +324,8 @@ function DataFunction(mult){
         PowerTransSP320:val("PowerTransSP320", "ad9"),
         Sb22D210:val("Sb22D210", "ad9"),
         SentryHDSae40:val("SentryHDSae40", "ad9"),
-        TurbofleetSae15W:val("TurbofleetSae15W", "ad9")
+        TurbofleetSae15W:val("TurbofleetSae15W", "ad9"),
+        DuramaxExtra: val("DuramaxExtra", "ad9")
     },
     ad10: {
         quarter: "HYA",
@@ -332,7 +346,8 @@ function DataFunction(mult){
         PowerTransSP320:val("PowerTransSP320", "ad10"),
         Sb22D210:val("Sb22D210", "ad10"),
         SentryHDSae40:val("SentryHDSae40", "ad10"),
-        TurbofleetSae15W:val("TurbofleetSae15W", "ad10")
+        TurbofleetSae15W:val("TurbofleetSae15W", "ad10"),
+        DuramaxExtra: val("DuramaxExtra", "ad10")
     },
     ad11: {
         quarter: "DYE",
@@ -353,7 +368,8 @@ function DataFunction(mult){
         PowerTransSP320:val("PowerTransSP320", "ad11"),
         Sb22D210:val("Sb22D210", "ad11"),
         SentryHDSae40:val("SentryHDSae40", "ad11"),
-        TurbofleetSae15W:val("TurbofleetSae15W", "ad11")
+        TurbofleetSae15W:val("TurbofleetSae15W", "ad11"),
+        DuramaxExtra: val("DuramaxExtra", "ad11")
     },
     ad12: {
         quarter: "TURB",
@@ -374,7 +390,8 @@ function DataFunction(mult){
         PowerTransSP320:val("PowerTransSP320", "ad12"),
         Sb22D210:val("Sb22D210", "ad12"),
         SentryHDSae40:val("SentryHDSae40", "ad12"),
-        TurbofleetSae15W:val("TurbofleetSae15W", "ad12")
+        TurbofleetSae15W:val("TurbofleetSae15W", "ad12"),
+        DuramaxExtra: val("DuramaxExtra", "ad12")
     },
     ad13: {
         quarter: "TM PA",
@@ -395,7 +412,8 @@ function DataFunction(mult){
         PowerTransSP320:val("PowerTransSP320", "ad13"),
         Sb22D210:val("Sb22D210", "ad13"),
         SentryHDSae40:val("SentryHDSae40", "ad13"),
-        TurbofleetSae15W:val("TurbofleetSae15W", "ad13")
+        TurbofleetSae15W:val("TurbofleetSae15W", "ad13"),
+        DuramaxExtra: val("DuramaxExtra", "ad13")
     },
     series1: {
         type: 'bar',
@@ -510,6 +528,13 @@ function DataFunction(mult){
         stacked: true,
     },
     series17: {
+        type: 'bar',
+        xKey: 'quarter',
+        yKey: 'DuramaxExtra',
+        yName: 'DuramaxExtra',
+        stacked: true,
+    },
+    series18: {
         type: 'bar',
         xKey: 'quarter',
         yKey: 'spare',
