@@ -5,10 +5,9 @@ import DataFunction from '../Data/DataFunction';
 import { Button } from '@chakra-ui/button';
 import NumberInp from './NumberInp';
 import TaBle from './TaBle';
-import { Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from '@chakra-ui/react';
 import TabInTab from './TabInTab';
 import TableAG from './TableAG';
-import { getCurrentUser, getCurrentUserId, query } from 'thin-backend';
+import { ensureIsUser, getCurrentUser, getCurrentUserId, query } from 'thin-backend';
 import { useQuery } from 'thin-backend-react';
 
 function TableDB(){
@@ -47,7 +46,7 @@ function Graph3(props){
         //let _4T_value = retrieve[0].quantity;
         let stored_data = localStorage.getItem(dataid);
         return stored_data ?  JSON.parse(stored_data) : {
-        bo1: 306.776, bo2: 237.701, bo3:152.46, bo4: 0, bo5: 1.04, bo6: 110, ad1:0.422, ad2:1.058, ad3:11.768, ad4:0.383, ad5: 27.866, ad6: 2.786, ad7: 9.853, ad8: 0.998, ad9:1.437, ad10: 1.03, ad11: 0.0009, ad12: 0.457, //Starting inventory is a prop
+        bo1: 262.17, bo2: 218.77, bo3:108.9, bo4: 0, bo5: 1.04, bo6: 110, ad1:0.422, ad2:1.058, ad3:11.768, ad4:0.383, ad5: 27.866, ad6: 2.786, ad7: 9.853, ad8: 0.998, ad9:1.437, ad10: 1.03, ad11: 0.0009, ad12: 0.457, //Starting inventory is a prop
         formulas: {
             _2T: populateformula({bo1:0.9050, bo5:0.08, ad9:0.0150}),
             _4T: populateformula({bo1:0.878, ad1:0.002,ad2:0.002, ad5:0.063, ad7:0.0550}),
@@ -437,7 +436,7 @@ function Graph3(props){
 
                 </Flex>
             </Center>
-            {/* <TableDB /> */}
+            <TableDB />
         </div>
     )
 }

@@ -6,9 +6,10 @@ import StockApp from "./Components/StockApp";
 import Music from './Components/Music/Music';
 
 import { Box, Button, ChakraBaseProvider, ChakraProvider, Input } from '@chakra-ui/react';
-import { createRecord, ensureIsUser, getCurrentUser, getCurrentUserId, initThinBackend, logout, query } from 'thin-backend';
+import { createRecord, ensureIsUser, getCurrentUser, getCurrentUserId, initAuth, initThinBackend, logout, query } from 'thin-backend';
 import { ThinBackend, useCurrentUser, useQuery } from 'thin-backend-react';
 
+await initAuth()
 initThinBackend({
   // This url is different for each backend, this one points to 'mogaslobpmrp'
   host: 'https://lobpbackend.thinbackend.app'
@@ -76,6 +77,7 @@ function App() {
   return (
     <ThinBackend requireLogin>
       <ChakraProvider>
+        
         <div className='container'>
           <UserStatus />
           {/* <Button onClick={()=>{
@@ -94,6 +96,7 @@ function App() {
       </Box>
       </ChakraProvider>
     </ThinBackend>
+    
   );
 }
 
