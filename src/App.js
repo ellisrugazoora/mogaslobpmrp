@@ -9,7 +9,6 @@ import { Box, Button, ChakraBaseProvider, ChakraProvider, Input } from '@chakra-
 import { createRecord, ensureIsUser, getCurrentUser, getCurrentUserId, initAuth, initThinBackend, logout, query } from 'thin-backend';
 import { ThinBackend, useCurrentUser, useQuery } from 'thin-backend-react';
 
-await initAuth()
 initThinBackend({
   // This url is different for each backend, this one points to 'mogaslobpmrp'
   host: 'https://lobpbackend.thinbackend.app'
@@ -19,9 +18,8 @@ function UserStatus() {
   // Use the `useCurrentUser()` react hook to access the current logged in user
   // Returns `null` while the user is being fetched
   const user = useCurrentUser();
-  const id = getCurrentUser()
+  const id = getCurrentUser();
   id.then((value)=>{console.log(`UserStatus: ${value.email}`)})
-  
   return <div>
       <Button colorScheme='twitter' onClick={logout}>Logout</Button>
       {user?.email}
@@ -77,14 +75,13 @@ function App() {
   return (
     <ThinBackend requireLogin>
       <ChakraProvider>
-        
         <div className='container'>
           <UserStatus />
-          <Button onClick={()=>{
+          {/* <Button onClick={()=>{
             let id = getCurrentUserId()
             let user = getCurrentUser();
             user.then((value)=>{console.log(value.email)})
-            console.log(id)}}>Current user</Button>
+            console.log(id)}}>Current user</Button> */}
         </div>
         {/* <TaskList /> */}
         {/* <AddTask /> */}

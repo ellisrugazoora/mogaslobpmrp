@@ -11,9 +11,26 @@ import { ensureIsUser, getCurrentUser, getCurrentUserId, query } from 'thin-back
 import { useQuery } from 'thin-backend-react';
 
 function TableDB(){
+    const id = getCurrentUserId()
     const data = useQuery(query('january_sales_projections').orderByAsc('quantity'));
-    useQuery(query('january_sales_projections'));
     const table_data = [];
+    const [tableData, setTableData] = useState([]);
+    useEffect(() => {
+        const FetchData = async () => {
+            try {
+                const result = await useQuery(query('january_sales_projections').orderByAsc('quantity'));
+                const newData = result.map((product, index) => ({
+                    col1: product.productName,
+                    col2: product.quantity
+                }));
+                setTableData(newData);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+    
+        FetchData();
+    }, []);
     // data.forEach((product, index)=>{
     //     table_data.push({col1: product.productName, col2: product.quantity})
     // })
@@ -26,13 +43,15 @@ function TableDB(){
     var cellBgColor = '';
     const tasks = useQuery(query('tasks').orderByDesc('createdAt'));
     if (tasks === null) {
-        return <div>Loading ...</div>;
+        return <div>{tableData}Loading ...</div>;
     }
     return <div>
+                {tableData}
                 <Button onClick={()=>{console.log(data)}}>Print data</Button>
-                {tasks.map(task => <div>{task.title}</div>)}
+                {/* {tasks.map(task => <div>{task.title}</div>)} */}
                 {data.map(product => <div>Name: {product.productName}, Qty: {product.quantity}</div>)}
-                {/* <TaBle title="Products" columns={prod_table_columns} data={prod_table_data} bg={cellBgColor} /> */}
+                {/* {tableData.map(product => <div>Name: {product.productName}, Qty: {product.quantity}</div>)} */}
+                <TaBle title="Products" columns={prod_table_columns} data={tableData} bg={cellBgColor} />
             </div>
 }
 
@@ -244,7 +263,7 @@ function Graph3(props){
             
         }
         fetchData();
-    },[args])//what should stimulate this retreival of data from the front end,
+    },[])//what should stimulate this retreival of data from the front end,
     const backend_data = 0;
     async function initDbData(){
         const _4T_initial = await query('january_sales_projections').fetch();
