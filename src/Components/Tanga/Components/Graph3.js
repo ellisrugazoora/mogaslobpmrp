@@ -11,10 +11,11 @@ import { ensureIsUser, getCurrentUser, getCurrentUserId, query } from 'thin-back
 import { useQuery } from 'thin-backend-react';
 
 function TableDB(){
-    const data = useQuery(query('january_sales_projections').orderByAsc('quantity'))
+    const data = useQuery(query('january_sales_projections').orderByAsc('quantity'));
+    useQuery(query('january_sales_projections'));
     const table_data = [];
     // data.forEach((product, index)=>{
-    //     table_data.push({col1: product.quantity, col2: product.productName})
+    //     table_data.push({col1: product.productName, col2: product.quantity})
     // })
     const prod_table_columns = ["column1", "column2"];
     var prod_table_data = [
@@ -28,9 +29,9 @@ function TableDB(){
         return <div>Loading ...</div>;
     }
     return <div>
-                {/* <Button onClick={()=>{console.log(tasks)}}>Print data</Button> */}
+                <Button onClick={()=>{console.log(data)}}>Print data</Button>
                 {tasks.map(task => <div>{task.title}</div>)}
-                {data.map(product => <div>{product.quantity}</div>)}
+                {data.map(product => <div>Name: {product.productName}, Qty: {product.quantity}</div>)}
                 {/* <TaBle title="Products" columns={prod_table_columns} data={prod_table_data} bg={cellBgColor} /> */}
             </div>
 }
@@ -421,7 +422,7 @@ function Graph3(props){
             </Center>
             {/* {numberStateful} */}
             <Button isDisabled={true} onClick={()=>{localStorage.clear()}}>clear local storage</Button>
-            {/* <Button onClick={getJanProj}>Get Jan Projections</Button> */}
+            <Button onClick={getJanProj}>Get Jan Projections</Button>
             <Center>Buffer stock (days): <NumberInp prod="mhs" init={args.mhs} onChange={inv_table} value={args.mhs} /></Center>
             <Center overflow={'auto'} border={"1px"} borderRadius='15px'>
                 <Flex width='90%' overflow={'auto'}>

@@ -80,11 +80,11 @@ function App() {
         
         <div className='container'>
           <UserStatus />
-          {/* <Button onClick={()=>{
+          <Button onClick={()=>{
             let id = getCurrentUserId()
             let user = getCurrentUser();
             user.then((value)=>{console.log(value.email)})
-            console.log(id)}}>Current user</Button> */}
+            console.log(id)}}>Current user</Button>
         </div>
         {/* <TaskList /> */}
         {/* <AddTask /> */}
