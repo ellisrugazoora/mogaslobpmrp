@@ -9,6 +9,35 @@ import { Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, Num
 import TabInTab from './TabInTab';
 import TableAG from './TableAG';
 import { getCurrentUser, getCurrentUserId, query } from 'thin-backend';
+import { useQuery } from 'thin-backend-react';
+
+function TableDB(){
+    //const data = useQuery(query('january_sales_projections').fetch())
+    
+
+    const table_data = [];
+    
+    // data.forEach((product, index)=>{
+    //     table_data.push({col1: product.quantity, col2: product.productName})
+    // })
+    const prod_table_columns = ["column1", "column2"];
+    var prod_table_data = [
+        {col1: 1, col2: 2},
+        {col1: 3, col2: 4},
+        {col1: 5, col2: 2}
+    ]
+    var cellBgColor = '';
+    
+    const tasks = useQuery(query('tasks').orderByDesc('createdAt'));
+    if (tasks === null) {
+        return <div>Loading ...</div>;
+    }
+    return <div>
+                {/* <Button onClick={()=>{console.log(tasks)}}>Print data</Button> */}
+                {tasks.map(task => <div>{task.title}</div>)}
+                {/* <TaBle title="Products" columns={prod_table_columns} data={prod_table_data} bg={cellBgColor} /> */}
+            </div>
+}
 
 function Graph3(props){
     var dataid = props.title + "stored_data";
@@ -207,12 +236,32 @@ function Graph3(props){
     const [test, SetTest] = useState(12);
     useEffect(()=>{
         const fetchData = async () => {
-            let _4T_initial = await query('january_sales_projections').fetch();
-            let result = _4T_initial[0].quantity;
-            SetTest(result)
+            try {
+                let _4T_initial = await query('january_sales_projections').fetch();
+                let result = _4T_initial[0].quantity;
+                SetTest(result)
+            }
+            catch(error) {
+                console.log(`The error is ${error}`)
+            }
+            
         }
         fetchData();
-    },[])//what should stimulate this retreival of data from the front end,
+    },[args])//what should stimulate this retreival of data from the front end,
+    const backend_data = 0;
+    async function initDbData(){
+        const _4T_initial = await query('january_sales_projections').fetch();
+        let result = _4T_initial[0].quantity;
+        backend_data = result;
+    }
+    //initDbData();
+    
+    var prod_table_data_fake = async () => {
+        const _4T_initial = await query('january_sales_projections').fetch();
+        let result = _4T_initial[0].quantity;
+        return result
+    }
+    var tester = prod_table_data_fake();
     var buttonsize = "md";
     var initdate = new Date();
     var prod_table_columns = ["Products", "Quantity (Tons)", "Maximize", "Test"]
@@ -360,8 +409,8 @@ function Graph3(props){
     async function getJanProj(){
         let janData = await query('january_sales_projections').fetch();
         let result = janData[0].quantity;
-        console.log(result);
-        return result;
+        console.log(janData);
+        //return result;
     }
     return (
         <div>
@@ -376,7 +425,7 @@ function Graph3(props){
             </Center>
             {/* {numberStateful} */}
             <Button isDisabled={true} onClick={()=>{localStorage.clear()}}>clear local storage</Button>
-            {/* <Button onClick={getJanProj}>Get Jan Projections</Button> */}
+            <Button onClick={getJanProj}>Get Jan Projections</Button>
             <Center>Buffer stock (days): <NumberInp prod="mhs" init={args.mhs} onChange={inv_table} value={args.mhs} /></Center>
             <Center overflow={'auto'} border={"1px"} borderRadius='15px'>
                 <Flex width='90%' overflow={'auto'}>
@@ -391,7 +440,7 @@ function Graph3(props){
 
                 </Flex>
             </Center>
-            
+            <TableDB />
         </div>
     )
 }
