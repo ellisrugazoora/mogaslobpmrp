@@ -6,7 +6,7 @@ import StockApp from "./Components/StockApp";
 import Music from './Components/Music/Music';
 
 import { Box, Button, ChakraBaseProvider, ChakraProvider, Input } from '@chakra-ui/react';
-import { createRecord, ensureIsUser, getCurrentUserId, initThinBackend, logout, query } from 'thin-backend';
+import { createRecord, ensureIsUser, getCurrentUser, getCurrentUserId, initThinBackend, logout, query } from 'thin-backend';
 import { ThinBackend, useCurrentUser, useQuery } from 'thin-backend-react';
 
 initThinBackend({
@@ -18,7 +18,9 @@ function UserStatus() {
   // Use the `useCurrentUser()` react hook to access the current logged in user
   // Returns `null` while the user is being fetched
   const user = useCurrentUser();
-
+  const id = getCurrentUser()
+  id.then((value)=>{console.log(`UserStatus: ${value.email}`)})
+  
   return <div>
       <Button colorScheme='twitter' onClick={logout}>Logout</Button>
       {user?.email}
@@ -26,6 +28,7 @@ function UserStatus() {
 }
 
 function TaskList(){
+  getCurrentUser().then((user)=>{console.log(`email: ${user.email}`)})
   const tasks = useQuery(query('tasks').orderByDesc('createdAt'));
   if (tasks === null) {
     return <div>Loading ...</div>;
@@ -75,6 +78,11 @@ function App() {
       <ChakraProvider>
         <div className='container'>
           <UserStatus />
+          <Button onClick={()=>{
+            let id = getCurrentUserId()
+            let user = getCurrentUser();
+            user.then((value)=>{console.log(value.email)})
+            console.log(id)}}>Current user</Button>
         </div>
         {/* <TaskList /> */}
         {/* <AddTask /> */}
