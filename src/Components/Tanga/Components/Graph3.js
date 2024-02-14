@@ -68,10 +68,10 @@ function Graph3(props){
             DuramaxExtra: populateformula({bo1:0.63, bo3:0.274, ad6: 0.044, ad5: 0.05, ad2: 0.002})
         },
         _2T:80, _4T: 320,atfIII: 12,DuramaxHD:102, FrontiaX:18,Geo80W90:10,Geo85W140:26,Hydrax32:2,HydraxZ46:5,HydraxZ68:9,PowerTransSP150:1,PowerTransSP220:3,PowerTransSP320:4,Sb22D210:3,SentryHDSae40:30,TurbofleetSae15W:93, DuramaxExtra: 20,
-        crbo1: 14.3, crbo2: 1.4, crbo3:2.07, crbo4: 0.06, crbo5: 0.24, crbo6: 0.01, crad1:0.01, crad2:0.03, crad3:0.3, crad4:0.05, crad5: 0.71, crad6: 0.14, crad7: 0.44, crad8: 0.02, crad9:0.05, crad10: 0.003, crad11: 1, crad12: 1,
+        crbo1: 19.8, crbo2: 2.44, crbo3:2.35, crbo4: 0.06, crbo5: 0.24, crbo6: 0.02, crad1:0.02, crad2:0.03, crad3:0.4, crad4:0.05, crad5: 1.14, crad6: 0.2, crad7: 0.714, crad8: 0.03, crad9:0.05, crad10: 0.005, crad11: 1, crad12: 1,
         trbo1: 325.88, trbo2: 120, trbo3:20.5, trbo4: 20, trbo5: 0, trbo6: 0, trad1:0, trad2:0, trad3:4.06, trad4:0, trad5: 13.896, trad6: 0, trad7: 22.6, trad8: 1.91, trad9:4.995, trad10: 0.84, trad11: 0, trad12: 0,
         mhs:30,
-        prbo1: 1175, prbo2: 1090, prbo3:1375, prbo4: 0, prbo5: 0, prbo6: 0.01, prad1:3660, prad2:1185, prad3:4750, prad4:8450, prad5: 2330, prad6: 4250, prad7: 4670, prad8: 1095, prad9:6900, prad10: 8900, prad11: 1, prad12: 1,
+        prbo1: 1175, prbo2: 1090, prbo3:1375, prbo4: 0, prbo5: 0, prbo6: 0, prad1:3660, prad2:1185, prad3:4750, prad4:8450, prad5: 2330, prad6: 4250, prad7: 4670, prad8: 1095, prad9:6900, prad10: 8900, prad11: 1, prad12: 1,
         daysbo1: 30, daysbo2: 30, daysbo3:30, daysbo4: 30, daysbo5: 30, daysbo6: 30, daysad1:30, daysad2:30, daysad3:30, daysad4:30, daysad5: 30, daysad6: 30, daysad7: 30, daysad8:30, daysad9:30, daysad10: 30, daysad11: 30, daysad12: 30
     }}
     );
