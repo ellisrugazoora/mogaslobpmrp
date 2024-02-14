@@ -263,7 +263,7 @@ function Graph3(props){
     var initdate = new Date();
     var prod_table_columns = ["Products", "Quantity (Tons)", "Maximize", "Test"]
     var prod_table_data = { //I could assign args backend data, or I could plug backend data straight into here
-        prod1: {col1: "2T", col2: <NumberInp access={access.product} value={args._2T} prod="_2T" onChange={prodtable} init={args._2T} />, col4: <Button size={buttonsize} id='max' name='_2T' onClick={tablebutton} isDisabled={access.product} >Set Max</Button>, test: test},
+        prod1: {col1: "2T", col2: <NumberInp access={access.product} value={args._2T} prod="_2T" onChange={prodtable} init={args._2T} />, col4: <Button size={buttonsize} id='max' name='_2T' onClick={tablebutton} isDisabled={access.product} >Set Max</Button>},
         prod2: {col1: "4T", col2: <NumberInp access={access.product} value={args._4T} prod="_4T" onChange={prodtable} init={args._4T} />, col4: <Button size={buttonsize} id='max' name='_4T' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
         prod3: {col1: "ATF III", col2: <NumberInp access={access.product} value={args.atfIII} prod="atfIII" onChange={prodtable} init={args.atfIII} />, col4: <Button size={buttonsize} id='max' name='atfIII' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
         prod4: {col1: "Duramax HD", col2: <NumberInp access={access.product} value={args.DuramaxHD} prod="DuramaxHD" onChange={prodtable} init={args.DuramaxHD} />, col4: <Button size={buttonsize} id='max' name='DuramaxHD' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
