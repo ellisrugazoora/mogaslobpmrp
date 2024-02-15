@@ -42,6 +42,7 @@ function TaskList(){
 function Tester(){
   const [data, setData] = useState(0);
   const [refresh, setRefresh] = useState(0);
+  const [onloadrefresh, setOnloadrefresh] = useState(0);
   useEffect(()=>{
     const fetch = async () => {
       const data_array = await query('january_sales_projections').fetch();
@@ -51,9 +52,13 @@ function Tester(){
     fetch()
   },[refresh])
   function triggerRefresh(){setRefresh(value => value + 1)}
+  function triggerRefreshOnload(){setOnloadrefresh(value => value + 1)}
   return <div>
       The quantity of 4T: {data}
+      value of onClick refresh: {refresh}
+      value of onLoad refresh: {onloadrefresh}
       <Button onClick={triggerRefresh}>Trigger refresh</Button>
+      <Button onLoad={triggerRefreshOnload} >on Load refresh</Button>
     </div>
 }
 //const insertTask = 
