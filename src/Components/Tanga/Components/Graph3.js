@@ -426,6 +426,7 @@ function Graph3(props){
         let janData = await query('january_sales_projections').fetch();
         let result = janData[0].quantity;
         console.log(janData);
+        console.log(result)
         //return result;
     }
     return (
@@ -456,7 +457,7 @@ function Graph3(props){
 
                 </Flex>
             </Center>
-            <TableDB />
+            {/* <TableDB /> */}
         </div>
     )
 }

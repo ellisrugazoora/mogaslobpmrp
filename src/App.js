@@ -39,7 +39,21 @@ function TaskList(){
     }
   </div>
 }
-
+function Tester(){
+  const [data, setData] = useState(0);
+  useEffect(()=>{
+    const fetch = async () => {
+      const data_array = await query('january_sales_projections').fetch();
+      setData(data_array[0].quantity)
+      console.log("fetch has been executed")
+    }
+    fetch()
+  },[])
+  return <div>
+      The quantity of 4T: {data}
+      
+    </div>
+}
 //const insertTask = 
 function AddTask(){
   const onClick = () => {
@@ -77,14 +91,15 @@ function App() {
       <ChakraProvider>
         <div className='container'>
           <UserStatus />
-          {/* <Button onClick={()=>{
+          <Button onClick={()=>{
             let id = getCurrentUserId()
             let user = getCurrentUser();
             user.then((value)=>{console.log(value.email)})
-            console.log(id)}}>Current user</Button> */}
+            console.log(id)}}>Current user</Button>
         </div>
         {/* <TaskList /> */}
         {/* <AddTask /> */}
+        <Tester />
         {/* <Button onClick={fetchAndPrint}>Fetch data from DB and print it</Button> */}
         {/* <Input onClick={saveToDB} width={100} type='number'/> */}
         
