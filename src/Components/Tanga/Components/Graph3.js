@@ -10,15 +10,13 @@ import TableAG from './TableAG';
 import { ensureIsUser, getCurrentUser, getCurrentUserId, initAuth, initThinBackend, query } from 'thin-backend';
 import { useQuery } from 'thin-backend-react';
 
-initThinBackend({
-    // This url is different for each backend, this one points to 'mogaslobpmrp'
-    host: 'https://lobpbackend.thinbackend.app'
-});
 
 function TableDB(){
-        const products = useQuery(query('january_sales_projections'),
-            {refetchInterval: 50
-            })
+        const products = useQuery(query('january_sales_projections')/*,
+            {enabled: true, // Initially set to true to start data fetching
+            staleTime: 5000, // Consider data stale after 5 seconds
+            cacheTime: 6000
+            }*/)
         if(products === null){
             return <div>Loading ...</div>;
         }
@@ -200,21 +198,6 @@ function Graph3(props){
         return result;
     }
 
-    const [isButtonDisabled, setButtonDisabled] = useState(false);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const value = await getCurrentUser();
-            if (value.email === "ellisrgrz@gmail.com") {
-                setButtonDisabled(true);
-            } else {
-                //setButtonDisabled(true);
-                setButtonDisabled(false); //limit access to just me
-            }
-        };
-        fetchData();
-    }, []); //306.776 ... 325.888
-
     const [access, SetAcess] = useState({product: false, inventory: false, transit: false, consumption: false})
     useEffect(()=>{
         const fetchData = async () => {
@@ -223,39 +206,10 @@ function Graph3(props){
         }
         fetchData()
     },[])
-    const [test, SetTest] = useState(12);
-    useEffect(()=>{
-        const fetchData = async () => {
-            try {
-                let _4T_initial = await query('january_sales_projections').fetch();
-                let result = _4T_initial[0].quantity;
-                SetTest(result)
-            }
-            catch(error) {
-                console.log(`The error is ${error}`)
-            }
-            
-        }
-        fetchData();
-    },[])//what should stimulate this retreival of data from the front end,
-    const backend_data = 0;
-    async function initDbData(){
-        const _4T_initial = await query('january_sales_projections').fetch();
-        let result = _4T_initial[0].quantity;
-        backend_data = result;
-    }
-    //initDbData();
+    //what should stimulate this retreival of data from the front end,
     
-    var prod_table_data_fake = async () => {
-        const _4T_initial = await query('january_sales_projections').fetch();
-        let result = _4T_initial[0].quantity;
-        return result
-    }
-    var tester = prod_table_data_fake();
     var buttonsize = "md";
-    function consrate(obj){
-        
-    }
+
     var initdate = new Date();
     var prod_table_columns = ["Products", "Quantity (Tons)", "Maximize"]
     var prod_table_data = { //I could assign args backend data, or I could plug backend data straight into here
@@ -276,7 +230,7 @@ function Graph3(props){
         prod14: {col1: "SB 22 D210", col2: <NumberInp access={access.product} value={args.Sb22D210} prod="Sb22D210" onChange={prodtable} init={args.Sb22D210} />, col4: <Button size={buttonsize} id='max' name='Sb22D210' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
         prod15: {col1: "Sentry HD Sae 40", col2: <NumberInp access={access.product} value={args.SentryHDSae40} prod="SentryHDSae40" onChange={prodtable} init={args.SentryHDSae40} />, col4: <Button size={buttonsize} id='max' name='SentryHDSae40' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
         prod16: {col1: "Turbofleet Sae 15W", col2: <NumberInp access={access.product} value={args.TurbofleetSae15W} prod="TurbofleetSae15W" onChange={prodtable} init={args.TurbofleetSae15W} />, col4: <Button size={buttonsize} id='max' name='TurbofleetSae15W' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        total: {col1: "Total", col2: product_total(args), col3: <Button size={'md'} isDisabled={isButtonDisabled} >Empty</Button> }
+        total: {col1: "Total", col2: product_total(args), col3: <Button size={'md'} isDisabled={true} >Empty</Button> }
     }
     
     var inv_table_columns = ["Inventory", "Required", "In stock (Tons)", "In Transit (Tons)", "Avg. daily consumption rate (Tons)","Stock holding period","Lead time (days)", "Next order date", "Order Qty (days)","Order Qty (MT) ", "Price per MT", "Value (USD)"];

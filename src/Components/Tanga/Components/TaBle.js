@@ -1,5 +1,3 @@
-import { Button } from "@chakra-ui/button";
-import { Center } from "@chakra-ui/layout";
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr, TableCaption } from "@chakra-ui/table";
 
 function TaBle(props){

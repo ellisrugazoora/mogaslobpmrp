@@ -3,7 +3,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs"
 function TabsComp(props){
     return (
         <div className="tabs" width='100%'>
-            <Tabs isFitted width={'100vw'} /*minWidth={1850}*/ height={"100vh"}>
+            <Tabs isFitted width={'100vw'} height={"100vh"} isLazy>
                 <TabList>
                     {/* <Tab>{props.home.title}</Tab> */}
                     <Tab>{props.one.title}</Tab>
@@ -14,7 +14,6 @@ function TabsComp(props){
                     <Tab>{props.six.title}</Tab>
                     <Tab>{props.seven.title}</Tab>
                     <Tab>{props.eight.title}</Tab>
-                    {/*<Tab>{props.seven.title}</Tab> */}
                 </TabList>
                 <TabPanels width={'100%'} /*overflow={'auto'}*/>
                     {/* <TabPanel> {props.home.content} </TabPanel> */}
@@ -26,7 +25,6 @@ function TabsComp(props){
                     <TabPanel > {props.six.content} </TabPanel>
                     <TabPanel > {props.seven.content} </TabPanel>
                     <TabPanel> {props.eight.content} </TabPanel>
-                    {/* <TabPanel >{props.seven.content}</TabPanel> */}
                 </TabPanels>
             </Tabs>
         </div>

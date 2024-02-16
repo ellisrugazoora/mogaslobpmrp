@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Savedata from "./Components/Savedata";
 import "./Tanga.css"
 import { Box, Center, Wrap } from "@chakra-ui/layout";
 import Graph3 from "./Components/Graph3";
@@ -9,8 +8,6 @@ import Table1and2 from "./Components/Table1and2";
 import { Button } from "@chakra-ui/react";
 import Formulas from "./Components/Formulas";
 
-var storeddata = localStorage.getItem('Julystored_data');
-var parsedata = JSON.parse(storeddata);
 
 function Tanga(){
     return (

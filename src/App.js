@@ -93,8 +93,9 @@ function saveToDB(e){
 }
 function Projections(){
   const products = useQuery(query('january_sales_projections'),
-    {enabled: true, // Initially set to false to prevent immediate data fetching
-    refetchInterval: 50})
+    {enabled: true, // Initially set to true to start data fetching
+    staleTime: 5000, // Consider data stale after 5 seconds
+    cacheTime: 6000})
   if(products === null){
       return <div>Loading ...</div>;
   }
@@ -105,20 +106,21 @@ function Projections(){
     </div>
 }
 function App() {
-  var display = {a: <StockApp />, b: <Tanga />, c: <Music />}
+  //var display = {a: <StockApp />, b: <Tanga />, c: <Music />}
   return (
     <ChakraProvider>
     <ThinBackend requireLogin>
       
         <div className='container'>
           <UserStatus />
-          <Button onClick={()=>{
+          {/* <Button onClick={()=>{
             let id = getCurrentUserId()
             let user = getCurrentUser();
             user.then((value)=>{console.log(value.email)})
-            console.log(id)}}>Current user</Button>
+            console.log(id)}}>Current user</Button> */}
         </div>
         {/* <Projections /> */}
+        {/* <TaskList /> */}
         {/* <TaskList /> */}
         {/* <AddTask /> */}
         {/* <Tester /> */}

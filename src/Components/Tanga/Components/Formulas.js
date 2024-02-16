@@ -4,43 +4,9 @@ import { Center } from "@chakra-ui/layout";
 import { AgGridReact } from "ag-grid-react";
 import { Button, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from "@chakra-ui/react";
 
-function Testcompo(){
-    return <Button>Hey</Button>
-}
+
 function Formulas(){
-    const [number, SetNumber] = useState(() => {
-        let stored_number = localStorage.getItem('number');
-        return stored_number ? JSON.parse(stored_number) : 0
-    });
-
-    useEffect(() => {
-        localStorage.setItem('number', JSON.stringify(number))
-    }, [number])
-
-    function changeNumber(value, id){
-        SetNumber(currentValue => value)
-    }
-    function populateformula(obj){
-        let result = {product: "", bo1:0,bo2:0,bo3:0,bo4:0,bo5:0,bo6:0,bo7:0,ad1:0,ad2:0,ad3:0,ad4:0,ad5:0,ad6:0,ad7:0,ad8:0,ad9:0,ad10:0,ad11:0,ad12:0,ad13:0};
-        for (const key in obj) {
-            result[key] = obj[key];
-        }
-        return result;
-    }
-    const [test, SetTest] = useState(0);
-    function handleTest(value, id){
-        SetTest(value)
-    }
-    function Total_ext(){
-        let array = Object.entries(this);
-        let sum = 0;
-        array.forEach((value, index)=>{
-            if(index < array.length() - 1){
-                sum =+ value[1];
-            } 
-        })
-        return sum
-    }
+    
     function summer(obj){
         return obj._500SN + obj._150SN + obj._BS150 + obj._SN80 + obj.DPK + obj.TBN + obj.PPD + obj.CI4 + obj.GOA + obj.VII + obj.MONO_PA_EO + obj._4T_PA_PEO + obj.ATF_PA + obj._2T_PA + obj.HYA + obj.DYE + obj.Lubrizol8510;
     }
