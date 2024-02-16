@@ -15,25 +15,23 @@ function TableDB(){
     const data = useQuery(query('january_sales_projections').orderByAsc('quantity'));
     const table_data = [];
     const [tableData, setTableData] = useState([]);
-    useEffect(() => {
-        const FetchData = async () => {
-            try {
-                const result = await useQuery(query('january_sales_projections').orderByAsc('quantity'));
-                const newData = result.map((product, index) => ({
-                    col1: product.productName,
-                    col2: product.quantity
-                }));
-                setTableData(newData);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
+    // useEffect(() => {
+    //     const FetchData = async () => {
+    //         try {
+    //             const result = await useQuery(query('january_sales_projections').orderByAsc('quantity'));
+    //             const newData = result.map((product, index) => ({
+    //                 col1: product.productName,
+    //                 col2: product.quantity
+    //             }));
+    //             setTableData(newData);
+    //         } catch (error) {
+    //             console.error("Error fetching data:", error);
+    //         }
+    //     };
     
-        FetchData();
-    }, []);
-    // data.forEach((product, index)=>{
-    //     table_data.push({col1: product.productName, col2: product.quantity})
-    // })
+    //     FetchData();
+    // }, []);
+
     const prod_table_columns = ["column1", "column2"];
     var prod_table_data = [
         {col1: 1, col2: 2},
@@ -42,16 +40,17 @@ function TableDB(){
     ]
     var cellBgColor = '';
     const tasks = useQuery(query('tasks').orderByDesc('createdAt'));
-    if (tasks === null) {
-        return <div>{tableData}Loading ...</div>;
+    if (data === null) {
+        return <div>Loading ...</div>;
     }
     return <div>
                 {tableData}
                 <Button onClick={()=>{console.log(data)}}>Print data</Button>
+                {/* <Button onLoad={}>Onload</Button> */}
                 {/* {tasks.map(task => <div>{task.title}</div>)} */}
                 {data.map(product => <div>Name: {product.productName}, Qty: {product.quantity}</div>)}
                 {/* {tableData.map(product => <div>Name: {product.productName}, Qty: {product.quantity}</div>)} */}
-                <TaBle title="Products" columns={prod_table_columns} data={tableData} bg={cellBgColor} />
+                {/* <TaBle title="Products" columns={prod_table_columns} data={tableData} bg={cellBgColor} /> */}
             </div>
 }
 
@@ -279,6 +278,9 @@ function Graph3(props){
     }
     var tester = prod_table_data_fake();
     var buttonsize = "md";
+    function consrate(obj){
+        
+    }
     var initdate = new Date();
     var prod_table_columns = ["Products", "Quantity (Tons)", "Maximize"]
     var prod_table_data = { //I could assign args backend data, or I could plug backend data straight into here
@@ -457,7 +459,7 @@ function Graph3(props){
 
                 </Flex>
             </Center>
-            {/* <TableDB /> */}
+            <TableDB />
         </div>
     )
 }

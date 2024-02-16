@@ -50,7 +50,7 @@ function Tester(){
       console.log("fetch has been executed")
     }
     fetch()
-  },[refresh])
+  },[refresh, onloadrefresh])
   function triggerRefresh(){setRefresh(value => value + 1)}
   function triggerRefreshOnload(){setOnloadrefresh(value => value + 1)}
   return <div>
@@ -106,7 +106,7 @@ function App() {
         </div>
         {/* <TaskList /> */}
         {/* <AddTask /> */}
-        <Tester />
+        {/* <Tester /> */}
         {/* <Button onClick={fetchAndPrint}>Fetch data from DB and print it</Button> */}
         {/* <Input onClick={saveToDB} width={100} type='number'/> */}
         
