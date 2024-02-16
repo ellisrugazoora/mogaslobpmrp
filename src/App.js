@@ -91,11 +91,25 @@ function saveToDB(e){
     userId: getCurrentUserId()
   })
 }
+function Projections(){
+  const products = useQuery(query('january_sales_projections'),
+    {enabled: true, // Initially set to false to prevent immediate data fetching
+    refetchInterval: 50})
+  if(products === null){
+      return <div>Loading ...</div>;
+  }
+  return <div>
+      {products.map((product, index) => {
+        return <div>Product: {product.productName} Qty: {product.quantity}</div>
+      })}
+    </div>
+}
 function App() {
   var display = {a: <StockApp />, b: <Tanga />, c: <Music />}
   return (
+    <ChakraProvider>
     <ThinBackend requireLogin>
-      <ChakraProvider>
+      
         <div className='container'>
           <UserStatus />
           <Button onClick={()=>{
@@ -104,6 +118,7 @@ function App() {
             user.then((value)=>{console.log(value.email)})
             console.log(id)}}>Current user</Button>
         </div>
+        {/* <Projections /> */}
         {/* <TaskList /> */}
         {/* <AddTask /> */}
         {/* <Tester /> */}
@@ -111,10 +126,12 @@ function App() {
         {/* <Input onClick={saveToDB} width={100} type='number'/> */}
         
       <Box className="App" width={"100%"}>
-        {display.b}
+        {/* {display.b} */}
+        <Tanga />
       </Box>
-      </ChakraProvider>
+      
     </ThinBackend>
+    </ChakraProvider>
     
   );
 }

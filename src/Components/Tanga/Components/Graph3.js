@@ -7,51 +7,26 @@ import NumberInp from './NumberInp';
 import TaBle from './TaBle';
 import TabInTab from './TabInTab';
 import TableAG from './TableAG';
-import { ensureIsUser, getCurrentUser, getCurrentUserId, query } from 'thin-backend';
+import { ensureIsUser, getCurrentUser, getCurrentUserId, initAuth, initThinBackend, query } from 'thin-backend';
 import { useQuery } from 'thin-backend-react';
 
-function TableDB(){
-    const id = getCurrentUserId()
-    const data = useQuery(query('january_sales_projections').orderByAsc('quantity'));
-    const table_data = [];
-    const [tableData, setTableData] = useState([]);
-    // useEffect(() => {
-    //     const FetchData = async () => {
-    //         try {
-    //             const result = await useQuery(query('january_sales_projections').orderByAsc('quantity'));
-    //             const newData = result.map((product, index) => ({
-    //                 col1: product.productName,
-    //                 col2: product.quantity
-    //             }));
-    //             setTableData(newData);
-    //         } catch (error) {
-    //             console.error("Error fetching data:", error);
-    //         }
-    //     };
-    
-    //     FetchData();
-    // }, []);
+initThinBackend({
+    // This url is different for each backend, this one points to 'mogaslobpmrp'
+    host: 'https://lobpbackend.thinbackend.app'
+});
 
-    const prod_table_columns = ["column1", "column2"];
-    var prod_table_data = [
-        {col1: 1, col2: 2},
-        {col1: 3, col2: 4},
-        {col1: 5, col2: 2}
-    ]
-    var cellBgColor = '';
-    const tasks = useQuery(query('tasks').orderByDesc('createdAt'));
-    if (data === null) {
-        return <div>Loading ...</div>;
-    }
-    return <div>
-                {tableData}
-                <Button onClick={()=>{console.log(data)}}>Print data</Button>
-                {/* <Button onLoad={}>Onload</Button> */}
-                {/* {tasks.map(task => <div>{task.title}</div>)} */}
-                {data.map(product => <div>Name: {product.productName}, Qty: {product.quantity}</div>)}
-                {/* {tableData.map(product => <div>Name: {product.productName}, Qty: {product.quantity}</div>)} */}
-                {/* <TaBle title="Products" columns={prod_table_columns} data={tableData} bg={cellBgColor} /> */}
-            </div>
+function TableDB(){
+        const products = useQuery(query('january_sales_projections'),
+            {refetchInterval: 50
+            })
+        if(products === null){
+            return <div>Loading ...</div>;
+        }
+        return <div>
+            {products.map((product, index) => {
+              return <div>Product: {product.productName} Qty: {product.quantity}</div>
+            })}
+          </div>
 }
 
 function Graph3(props){
