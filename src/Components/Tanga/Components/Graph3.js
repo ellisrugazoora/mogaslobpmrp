@@ -7,23 +7,104 @@ import NumberInp from './NumberInp';
 import TaBle from './TaBle';
 import TabInTab from './TabInTab';
 import TableAG from './TableAG';
-import { ensureIsUser, getCurrentUser, getCurrentUserId, initAuth, initThinBackend, query } from 'thin-backend';
+import { createRecord, ensureIsUser, getCurrentUser, getCurrentUserId, initAuth, initThinBackend, query, updateRecord } from 'thin-backend';
 import { useQuery } from 'thin-backend-react';
+import { AgGridReact } from 'ag-grid-react';
 
 
 function TableDB(){
-        const products = useQuery(query('january_sales_projections')/*,
-            {enabled: true, // Initially set to true to start data fetching
-            staleTime: 5000, // Consider data stale after 5 seconds
-            cacheTime: 6000
-            }*/)
-        if(products === null){
+        const products = useQuery(query('january_sales_projections'))
+        const raw_materials = useQuery(query('january_requirements'))
+        if((products === null) || (raw_materials === null)){
             return <div>Loading ...</div>;
         }
+
+        var rowData = [];
+        var colDefs = [];
+        var rowDataInv = []
+        var colDefsInv = [];
+        var rowIds = {};
+        var rowIdsInv = {};
+        if(products !== null){
+            rowData = products.map((product, index)=>{
+                return {Product: product.productName, Quantity: product.quantity}
+            })
+            colDefs = Object.entries(rowData[0]).map((col, index)=>{
+                if(col[0] === "Product"){
+                    return {field: col[0], flex: 1}
+                }
+                else {
+                    return {field: col[0], editable: true, flex: 1,
+                        cellEditor: 'agNumberCellEditor',
+                        cellEditorParams: {
+                          precision: 2,
+                          step: 0.25,
+                          showStepperButtons: true,
+                        }
+                    }
+                }
+            })
+            products.forEach((product, index)=>{
+                rowIds[product.productName] = product.id;
+            })
+        }
+        if(raw_materials !== null){
+            rowDataInv = raw_materials.map((raw_mat, index)=>{
+                return {Raw_material: raw_mat.rawMaterial, Quantity: raw_mat.requirement, In_stock: raw_mat.inStock, 
+                    In_transit: raw_mat.inTransit, Avg_daily_consumption: raw_mat.avgDailyConsumption, 
+                    Stock_holding_period: raw_mat.stockHoldingPeriod, Lead_time: raw_mat.leadTime}
+            })
+            colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
+                    return {field: col[0], width: 200}
+            })
+            raw_materials.forEach((product, index)=>{
+                rowIds[product.productName] = product.id;
+            })
+        }
+        function cellValueChange(value){
+            var new_qty = value.data.Quantity;
+            var prod = value.data.Product;
+            console.log(value)
+            console.log(`New Qty: ${new_qty}`)
+            updateRecord('january_sales_projections',rowIds[prod],{quantity: new_qty})
+        }
+        function cellValueChangeInv(value){
+            console.log(value.data)
+            // var new_qty = value.data.Quantity;
+            // var prod = value.data.Product;
+            //updateRecord('january_requirements',)
+        }
         return <div>
-            {products.map((product, index) => {
+            {/* {products.map((product, index) => {
               return <div>Product: {product.productName} Qty: {product.quantity}</div>
-            })}
+            })} */}
+            <Button onClick={()=>{console.log(rowData)}}>Print rowData</Button>
+            <Button onClick={()=>{console.log(colDefs)}}>Print colDefs</Button>
+            <Button onClick={()=>{console.log(products)}}>Print products</Button>
+            <Button onClick={()=>{console.log(rowIds)}}>Print Products IDs</Button>
+            <Button onClick={()=>{console.log(raw_materials)}}>Print Raw materials</Button>
+            <Center>
+                <Flex width={1225}>
+                    <div className="ag-theme-quartz" style={{ height: 700, width:600 }} >
+                        <AgGridReact 
+                            rowData={rowData} 
+                            columnDefs={colDefs}
+                            rowSelection='multiple'
+                            onCellValueChanged={cellValueChange}
+                            />
+                    </div>
+                    <Spacer />
+                    <div className="ag-theme-quartz" style={{ height: 700, width:600 }} >
+                        <AgGridReact 
+                            rowData={rowDataInv} 
+                            columnDefs={colDefsInv}
+                            rowSelection='multiple'
+                            //onCellValueChanged={cellValueChangeInv}
+                            />
+                    </div>
+                </Flex>
+            </Center>
+            
           </div>
 }
 
@@ -372,8 +453,8 @@ function Graph3(props){
                 </Box>
             </Center>
             {/* {numberStateful} */}
-            <Button isDisabled={true} onClick={()=>{localStorage.clear()}}>clear local storage</Button>
-            <Button onClick={getJanProj}>Get Jan Projections</Button>
+            {/* <Button isDisabled={true} onClick={()=>{localStorage.clear()}}>clear local storage</Button> */}
+            {/* <Button onClick={getJanProj}>Get Jan Projections</Button> */}
             <Center>Buffer stock (days): <NumberInp prod="mhs" init={args.mhs} onChange={inv_table} value={args.mhs} /></Center>
             <Center overflow={'auto'} border={"1px"} borderRadius='15px'>
                 <Flex width='90%' overflow={'auto'}>
@@ -388,7 +469,7 @@ function Graph3(props){
 
                 </Flex>
             </Center>
-            <TableDB />
+            {/* <TableDB /> */}
         </div>
     )
 }

@@ -92,10 +92,12 @@ function saveToDB(e){
   })
 }
 function Projections(){
-  const products = useQuery(query('january_sales_projections'),
-    {enabled: true, // Initially set to true to start data fetching
-    staleTime: 5000, // Consider data stale after 5 seconds
-    cacheTime: 6000})
+  const products = useQuery(query('january_sales_projections')
+    // ,
+    // {enabled: true, // Initially set to true to start data fetching
+    // staleTime: 5000, // Consider data stale after 5 seconds
+    // cacheTime: 6000}
+    )
   if(products === null){
       return <div>Loading ...</div>;
   }
@@ -110,22 +112,9 @@ function App() {
   return (
     <ChakraProvider>
     <ThinBackend requireLogin>
-      
         <div className='container'>
           <UserStatus />
-          {/* <Button onClick={()=>{
-            let id = getCurrentUserId()
-            let user = getCurrentUser();
-            user.then((value)=>{console.log(value.email)})
-            console.log(id)}}>Current user</Button> */}
         </div>
-        {/* <Projections /> */}
-        {/* <TaskList /> */}
-        {/* <TaskList /> */}
-        {/* <AddTask /> */}
-        {/* <Tester /> */}
-        {/* <Button onClick={fetchAndPrint}>Fetch data from DB and print it</Button> */}
-        {/* <Input onClick={saveToDB} width={100} type='number'/> */}
         
       <Box className="App" width={"100%"}>
         {/* {display.b} */}
