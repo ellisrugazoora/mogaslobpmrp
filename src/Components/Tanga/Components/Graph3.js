@@ -18,7 +18,7 @@ function TableDB(){
         if((products === null) || (raw_materials === null)){
             return <div>Loading ...</div>;
         }
-
+        //hello
         var rowData = [];
         var colDefs = [];
         var rowDataInv = []
