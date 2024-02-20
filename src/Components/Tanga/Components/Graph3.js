@@ -115,12 +115,12 @@ function TableDB(props){
             {/* {products.map((product, index) => {
               return <div>Product: {product.productName} Qty: {product.quantity}</div>
             })} */}
-            <Button onClick={()=>{console.log(rowData)}}>Print rowData</Button>
+            {/* <Button onClick={()=>{console.log(rowData)}}>Print rowData</Button>
             <Button onClick={()=>{console.log(colDefs)}}>Print colDefs</Button>
             <Button onClick={()=>{console.log(products)}}>Print products</Button>
             <Button onClick={()=>{console.log(rowIds)}}>Print Products IDs</Button>
             <Button onClick={()=>{console.log(raw_materials)}}>Print Raw materials</Button>
-            <Button onClick={()=>{console.log(formulas)}}>Print formulas</Button>
+            <Button onClick={()=>{console.log(formulas)}}>Print formulas</Button> */}
             {/* <Input type='number' step={1} defaultValue={1} width={100} onChange={(e)=>{SetTest(parseInt(e.target.value,10));minstock = e.target.value; console.log(e.target.value)}}/> */}
             <Center >
                 <Flex width={1225} overflow={'auto'}>
