@@ -10,49 +10,86 @@ import TableAG from './TableAG';
 import { createRecord, ensureIsUser, getCurrentUser, getCurrentUserId, initAuth, initThinBackend, query, updateRecord } from 'thin-backend';
 import { useQuery } from 'thin-backend-react';
 import { AgGridReact } from 'ag-grid-react';
+import { Input } from '@chakra-ui/react';
 
 
-function TableDB(){
+function TableDB(props){
+        //var data = DataFunction;
+        const formulas = useQuery(query('product_formulas'));
         const products = useQuery(query('january_sales_projections'))
         const raw_materials = useQuery(query('january_requirements'))
-        if((products === null) || (raw_materials === null)){
+        
+        //const [test, SetTest] = useState(10);
+        if((products === null) || (raw_materials === null) || (formulas === null)){
             return <div>Loading ...</div>;
         }
 
         var rowData = [];
         var colDefs = [];
-        var rowDataInv = []
+        var rowDataInv = [];
         var colDefsInv = [];
         var rowIds = {};
         var rowIdsInv = {};
-        if(products !== null){
-            rowData = products.map((product, index)=>{
-                return {Product: product.productName, Quantity: product.quantity}
-            })
-            colDefs = Object.entries(rowData[0]).map((col, index)=>{
-                if(col[0] === "Product"){
-                    return {field: col[0], flex: 1}
+        //if(products !== null){
+        rowData = products.map((product, index)=>{
+            return {Product: product.productName, Quantity: product.quantity}
+        })
+        colDefs = Object.entries(rowData[0]).map((col, index)=>{
+            if(col[0] === "Product"){
+                return {field: col[0], flex: 1}
+            }
+            else {
+                return {field: col[0], editable: true, flex: 1,
+                    cellEditor: 'agNumberCellEditor',
+                    cellEditorParams: {
+                        precision: 2,
+                        step: 0.25,
+                        showStepperButtons: true,
+                    }, sort: 'desc'
                 }
-                else {
-                    return {field: col[0], editable: true, flex: 1,
-                        cellEditor: 'agNumberCellEditor',
-                        cellEditorParams: {
-                          precision: 2,
-                          step: 0.25,
-                          showStepperButtons: true,
-                        }
-                    }
-                }
+            }
+        })
+        products.forEach((product, index)=>{
+            rowIds[product.productName] = product.id;
+        })
+        
+        function populateformula(obj){
+            let result = {"500SN/600N":0,"150SN":0,"BS150":0,"SN80/SN100":0,"DPK":0,"TBN+":0,"PPD":0,"CI_4":0, "GOA":0,"VII":0,"MONO":0,"4T_PA":0,"ATF":0,"2T_PA":0,"HYA":0,"DYE":0, "LZ8510":0}
+            Object.entries(obj).forEach((value, index)=>{
+                result[value[0]] = value[1];
             })
-            products.forEach((product, index)=>{
-                rowIds[product.productName] = product.id;
-            })
+            return result
         }
-        if(raw_materials !== null){
+        var formula = {
+            "_4T": populateformula({"500SN/600N":0.878, "TBN+":0.002, "PPD":0.002, "VII":0.063, "4T_PA":0.055}),
+            "_2T": populateformula({"500SN/600N": 0.905, "DPK":0.08, "2T_PA":0.015}),
+            "DuramaxHD": populateformula({"500SN/600N":0.72, "BS150":0.23, "TBN+":0.006, "MONO":0.044}),
+            "TurbofleetSae15W": populateformula({"500SN/600N": 0.395, "150SN":0.399, "TBN+":0.002, "PPD":0.002, "CI_4":0.117, "VII":0.085}),
+            "SentryHDSae40": populateformula({"500SN/600N": 0.73, "BS150":0.233, "TBN+":0.003, "MONO":0.034}),
+            "Geo85W140": populateformula({"500SN/600N": 0.07, "BS150":0.887, "PPD":0.003, "GOA": 0.04}),
+            "HydraxZ68": populateformula({"500SN/600N": 0.6895, "150SN":0.3, "PPD": 0.002, "HYA": 0.0085}),
+            "DuramaxExtra": populateformula({"500SN/600N":0.63, "BS150": 0.274, "PPD":0.002, "VII":0.05,"MONO":0.044}),
+            "Sb22D210": populateformula({"150SN":1}),
+            "Geo80W90": populateformula({"500SN/600N":0.737, "BS150":0.23, "PPD":0.002, "GOA":0.023, "VII":0.008}),
+            "HydraxZ46": populateformula({"500SN/600N":0.24, "150SN":0.7495, "PPD":0.002, "HYA":0.0085}),
+            "PrestinaT68": populateformula({"500SN/600N": 0.671, "150SN":0.32, "PPD": 0.002, "LZ8510":0.007}),
+            "atfIII": populateformula({"150SN":0.9317, "ATF_PA":0.068, "DYE":0.0003}),
+            "Hydrax32": populateformula({"150SN": 0.9895, "PPD": 0.002, "HYA":0.0085}),
+            "FrontiaX": populateformula({"500SN/600N": 0.648, "150SN":0.216, "PPD":0.002, "VII":0.08, "4T_PA":0.054}),
+            "PowerTransSP150": populateformula({"500SN/600N": 0.76, "BS150": 0.223, "PPD":0.002, "GOA":0.015}),
+            "PowerTransSP220": populateformula({"500SN/600N": 0.328, "BS150":0.65, "PPD":0.002, "GOA": 0.02}),
+            "PowerTransSP320": populateformula({"500SN/600N": 0.15, "BS150":0.833, "PPD":0.002, "GOA":0.015})
+        }
+
             rowDataInv = raw_materials.map((raw_mat, index)=>{
-                return {Raw_material: raw_mat.rawMaterial, Quantity: raw_mat.requirement, In_stock: raw_mat.inStock, 
-                    In_transit: raw_mat.inTransit, Avg_daily_consumption: raw_mat.avgDailyConsumption, 
-                    Stock_holding_period: raw_mat.stockHoldingPeriod, Lead_time: raw_mat.leadTime}
+                return {Raw_material: raw_mat.rawMaterial, get Quantity(){
+                    let sum = 0; rowData.forEach((product,i)=>{
+                        sum = sum + (product.Quantity * formula[product.Product][this.Raw_material])
+                        console.log(product.Product, formula[product.Product])
+                    }); 
+                    return parseFloat(sum.toFixed(2)) //+ formula[this.Raw_material] + test
+                }, In_stock: raw_mat.inStock, In_transit: raw_mat.inTransit, /*Avg_daily_consumption: raw_mat.avgDailyConsumption, 
+                Stock_holding_period: raw_mat.stockHoldingPeriod,*/ Lead_time: raw_mat.leadTime}
             })
             colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
                     return {field: col[0], width: 200}
@@ -60,7 +97,7 @@ function TableDB(){
             raw_materials.forEach((product, index)=>{
                 rowIds[product.productName] = product.id;
             })
-        }
+        //}
         function cellValueChange(value){
             var new_qty = value.data.Quantity;
             var prod = value.data.Product;
@@ -83,8 +120,10 @@ function TableDB(){
             <Button onClick={()=>{console.log(products)}}>Print products</Button>
             <Button onClick={()=>{console.log(rowIds)}}>Print Products IDs</Button>
             <Button onClick={()=>{console.log(raw_materials)}}>Print Raw materials</Button>
-            <Center>
-                <Flex width={1225}>
+            <Button onClick={()=>{console.log(formulas)}}>Print formulas</Button>
+            {/* <Input type='number' step={1} defaultValue={1} width={100} onChange={(e)=>{SetTest(parseInt(e.target.value,10));minstock = e.target.value; console.log(e.target.value)}}/> */}
+            <Center >
+                <Flex width={1225} overflow={'auto'}>
                     <div className="ag-theme-quartz" style={{ height: 700, width:600 }} >
                         <AgGridReact 
                             rowData={rowData} 
@@ -105,18 +144,17 @@ function TableDB(){
                 </Flex>
             </Center>
             
+            
           </div>
 }
 
 function Graph3(props){
+    //const products = useQuery(query('january_sales_projections'))
     var dataid = props.title + "stored_data";
     var data = DataFunction;
     
     const [args, SetArgs] = useState(() =>
         {
-        //const backend_data = query(dataid).fetch();
-        //let retrieve = query('january_sales_projections').fetch();
-        //let _4T_value = retrieve[0].quantity;
         let stored_data = localStorage.getItem(dataid);
         return stored_data ?  JSON.parse(stored_data) : {
         bo1: 262.17, bo2: 218.77, bo3:108.9, bo4: 0, bo5: 1.04, bo6: 110, ad1:0.422, ad2:1.058, ad3:11.768, ad4:0.383, ad5: 27.866, ad6: 2.786, ad7: 9.853, ad8: 0.998, ad9:1.437, ad10: 1.03, ad11: 0.0009, ad12: 0.457, //Starting inventory is a prop
@@ -287,10 +325,9 @@ function Graph3(props){
         }
         fetchData()
     },[])
-    //what should stimulate this retreival of data from the front end,
     
     var buttonsize = "md";
-
+    
     var initdate = new Date();
     var prod_table_columns = ["Products", "Quantity (Tons)", "Maximize"]
     var prod_table_data = { //I could assign args backend data, or I could plug backend data straight into here
@@ -316,7 +353,7 @@ function Graph3(props){
     
     var inv_table_columns = ["Inventory", "Required", "In stock (Tons)", "In Transit (Tons)", "Avg. daily consumption rate (Tons)","Stock holding period","Lead time (days)", "Next order date", "Order Qty (days)","Order Qty (MT) ", "Price per MT", "Value (USD)"];
     var inv_table_data = {
-        inv1: {col1: "500SN/600N", col2: (data(args).bo1.sum.toFixed(2)), col3: <NumberInp access={access.inventory} prod="bo1" init={args.bo1} onChange={inv_table} value={args.bo1} />,transit: <NumberInp access={access.transit} prod="trbo1" init={args.trbo1} onChange={inv_table} value={args.trbo1} />, consrate:<NumberInp access={access.consumption} prod="crbo1" init={args.crbo1} onChange={inv_table} value={args.crbo1}/>, 
+        inv1: {col1: "500SN/600N", col2: (data(args).bo1.sum.toFixed(2)), col3: <NumberInp access={access.inventory} prod="bo1" init={args.bo1} onChange={inv_table} value={args.bo1} />,transit: <NumberInp access={access.transit} prod="trbo1" init={args.trbo1} onChange={inv_table} value={args.trbo1} />, consrate: <NumberInp access={access.consumption} prod="crbo1" init={args.crbo1} onChange={inv_table} value={args.crbo1}/>, 
             hs: shp({inv:args.bo1,consrate:args.crbo1, transit: args.trbo1}), col4: 60, order: orderdate({ hs: shp({inv:args.bo1,consrate:args.crbo1, transit: args.trbo1}),mhs:args.mhs, lt:60,transit: args.trbo1, consrate:args.crbo1}), qtyDays: <NumberInp init={args.daysbo1} access={false} onChange={inv_table} value={args.daysbo1} prod="daysbo1"/>, qtyTons: parseFloat((args.daysbo1 * args.crbo1).toFixed(2)), price: <NumberInp init={args.prbo1} access={false} onChange={inv_table} value={args.prbo1} prod="prbo1"/>, get value(){return this.qtyTons * args.prbo1}},
         inv2: {col1: "150SN", col2: (data(args).bo2.sum.toFixed(2)), col3: <NumberInp access={access.inventory} prod="bo2" init={args.bo2} onChange={inv_table} value={args.bo2} />,transit: <NumberInp access={access.transit} prod="trbo2" init={args.trbo2} onChange={inv_table} value={args.trbo2} />, consrate:<NumberInp access={access.consumption} prod="crbo2" init={args.crbo2} onChange={inv_table} value={args.crbo2}/>, 
             hs: shp({inv:args.bo2,consrate:args.crbo2, transit: args.trbo2}),col4: 60,order: orderdate({ hs: shp({inv:args.bo2,consrate:args.crbo2, transit: args.trbo2}),mhs:args.mhs, lt:60,transit: args.trbo2, consrate:args.crbo2}),qtyDays: <NumberInp init={args.daysbo2} access={false} onChange={inv_table} value={args.daysbo2} prod="daysbo2"/>, qtyTons: parseFloat((args.daysbo2 * args.crbo2).toFixed(2)), price: <NumberInp init={args.prbo2} access={false} onChange={inv_table} value={args.prbo2} prod="prbo2"/>, get value(){return this.qtyTons * args.prbo2}},
@@ -373,9 +410,11 @@ function Graph3(props){
         inv16:{product: "DYE", Qty: parseFloat(data(args).ad11.sum.toFixed(2)), Stockholding_period: shp({inv:args.ad11,consrate:args.crad11, transit: args.trad11}),leadtime: 40,supplier: "IMCD",orderdate: orderdate({hs: shp({inv:args.ad11,consrate:args.crad11, transit: args.trad11}), mhs:args.mhs, lt:40}), paymentDueDate: paymentDue("IMCD", "inv16", "order"), amountDue: amountDue("ad11",1).toLocaleString('en-US', { style: 'currency', currency: 'USD' })},
         inv17:{product: "TURB", Qty: parseFloat(data(args).ad12.sum.toFixed(2)), Stockholding_period: shp({inv:args.ad12,consrate:args.crad12, transit: args.trad12}),leadtime: 40,supplier: "IMCD",orderdate: orderdate({hs: shp({inv:args.ad12,consrate:args.crad12, transit: args.trad12}), mhs:args.mhs, lt:40}), paymentDueDate: paymentDue("IMCD", "inv17", "order"), amountDue: amountDue("ad12",1).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
     }
+    
     useEffect(()=>{
         localStorage.setItem(props.title + "_inv_table", JSON.stringify(finance_table))
     }, [args])
+    
     function paymentDue(supplier, inv, date){
         let paymentTerms = {Royal: 60, KDR: 6, Blackbull: 10, IMCD: 60}
         const [dayer, monther, yearer] = inv_table_data[inv][date].split('/').map(Number);
@@ -441,21 +480,25 @@ function Graph3(props){
         console.log(result)
         //return result;
     }
+    // if(products === null){
+    //     return <div>...loading</div>
+    // }
     return (
         <div>
             {/* <TabInTab /> */}
             {currentmonth[current({start: startdater, current:initdate, end:enddater})]} {` `} Month
             {/* as of: {`${initdate.getDate()}/${String(initdate.getMonth() + 1).padStart(2, '0')}/${initdate.getFullYear()} `} */}
             {/* Today's Date's month: {initdate.toLocaleDateString('en-US', { month: 'short' })}  */}
-            <Center overflow={'auto'}>
+            {/* <Center overflow={'auto'}>
                 <Box bg='white' padding={3} border={"1px"} borderRadius='15px' width='80%' height='500px' shadow={'lg'} overflow={'auto'}>
                         <AgChartsReact options={chartOptions}/>
                 </Box>
-            </Center>
+            </Center> */}
+            {/* Quantity: {products[0].quantity} */}
             {/* {numberStateful} */}
             {/* <Button isDisabled={true} onClick={()=>{localStorage.clear()}}>clear local storage</Button> */}
             {/* <Button onClick={getJanProj}>Get Jan Projections</Button> */}
-            <Center>Buffer stock (days): <NumberInp prod="mhs" init={args.mhs} onChange={inv_table} value={args.mhs} /></Center>
+            {/* <Center>Buffer stock (days): <NumberInp prod="mhs" init={args.mhs} onChange={inv_table} value={args.mhs} /></Center>
             <Center overflow={'auto'} border={"1px"} borderRadius='15px'>
                 <Flex width='90%' overflow={'auto'}>
 
@@ -468,8 +511,8 @@ function Graph3(props){
                     </Box>
 
                 </Flex>
-            </Center>
-            {/* <TableDB /> */}
+            </Center> */}
+            <TableDB />
         </div>
     )
 }
