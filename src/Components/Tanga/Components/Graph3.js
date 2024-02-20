@@ -59,7 +59,7 @@ function TableDB(props){
                 result[value[0]] = value[1];
             })
             return result
-        }
+        }//Test
         var formula = {
             "_4T": populateformula({"500SN/600N":0.878, "TBN+":0.002, "PPD":0.002, "VII":0.063, "4T_PA":0.055}),
             "_2T": populateformula({"500SN/600N": 0.905, "DPK":0.08, "2T_PA":0.015}),
@@ -81,7 +81,7 @@ function TableDB(props){
             "PowerTransSP320": populateformula({"500SN/600N": 0.15, "BS150":0.833, "PPD":0.002, "GOA":0.015})
         }
         var live_formulas = () => {
-            
+
         }
             rowDataInv = raw_materials.map((raw_mat, index)=>{
                 return {Raw_material: raw_mat.rawMaterial, get Quantity(){
