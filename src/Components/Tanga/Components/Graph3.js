@@ -80,7 +80,9 @@ function TableDB(props){
             "PowerTransSP220": populateformula({"500SN/600N": 0.328, "BS150":0.65, "PPD":0.002, "GOA": 0.02}),
             "PowerTransSP320": populateformula({"500SN/600N": 0.15, "BS150":0.833, "PPD":0.002, "GOA":0.015})
         }
-
+        var live_formulas = () => {
+            
+        }
             rowDataInv = raw_materials.map((raw_mat, index)=>{
                 return {Raw_material: raw_mat.rawMaterial, get Quantity(){
                     let sum = 0; rowData.forEach((product,i)=>{

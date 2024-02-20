@@ -55,9 +55,9 @@ function Formulas(){
         return obj._500SN + obj._150SN + obj._BS150 + obj._SN80 + obj.DPK + obj.TBN + obj.PPD + obj.CI4 + obj.GOA + obj.VII + obj.MONO_PA_EO + obj._4T_PA_PEO + obj.ATF_PA + obj._2T_PA + obj.HYA + obj.DYE + obj.Lubrizol8510;
     }
     //initialize rowData as what is in the database
-    const [rowData, SetRowData] = useState(() => {
-        //let stored_formula = localStorage.getItem('formulas')
-        return /*stored_formula ? JSON.parse(stored_formula) : */[
+    /*const [rowData, SetRowData] = useState(() => {
+        let stored_formula = localStorage.getItem('formulas')
+        return stored_formula ? JSON.parse(stored_formula) : [
             {Product:"Sentry 4T", _500SN:0.8780, _150SN: 0, _BS150:0, _SN80:0, DPK:0, TBN:0.002,PPD:0.002, CI4:0, GOA:0,VII:0.0630,MONO_PA_EO:0, _4T_PA_PEO:0.0550, ATF_PA:0, _2T_PA:0, HYA:0, DYE:0, Lubrizol8510:0, get Total(){return summer(this)}},
             {Product:"Mogas 2T", _500SN:0.9050, _150SN: 0, _BS150:0, _SN80:0, DPK:0.08, TBN:0,PPD:0, CI4:0, GOA:0,VII:0,MONO_PA_EO:0, _4T_PA_PEO:0, ATF_PA:0, _2T_PA:0.015, HYA:0, DYE:0, Lubrizol8510:0, get Total(){return summer(this)}},
             {Product:"Duramax HD 40", _500SN:0.72, _150SN: 0, _BS150:0.23, _SN80:0, DPK:0, TBN:0.006,PPD:0, CI4:0, GOA:0,VII:0,MONO_PA_EO:0.0440, _4T_PA_PEO:0, ATF_PA:0, _2T_PA:0, HYA:0, DYE:0, Lubrizol8510:0, get Total(){return summer(this)}},
@@ -78,7 +78,7 @@ function Formulas(){
             {Product:"Powertrans SP220", _500SN:0.3280, _150SN: 0, _BS150:0.6500, _SN80:0, DPK:0, TBN:0,PPD:0.002, CI4:0, GOA:0.002,VII:0,MONO_PA_EO:0, _4T_PA_PEO:0, ATF_PA:0, _2T_PA:0, HYA:0, DYE:0, Lubrizol8510:0, get Total(){return summer(this)}},
             {Product:"Powertrans SP320", _500SN:0.15, _150SN: 0, _BS150:0.8330, _SN80:0, DPK:0, TBN:0,PPD:0.002, CI4:0, GOA:0.0150,VII:0,MONO_PA_EO:0, _4T_PA_PEO:0, ATF_PA:0, _2T_PA:0, HYA:0, DYE:0, Lubrizol8510:0, get Total(){return summer(this)}}
         ]    
-    })
+    })*/
     var rows = [];
     var cols = [];
     rows = formulas.map((product, index)=>{
@@ -130,7 +130,7 @@ function Formulas(){
     
     return (
         <div>
-            <Button onClick={()=>{console.log(rows)}}>Print rows</Button>
+            {/* <Button onClick={()=>{console.log(rows)}}>Print rows</Button> */}
             <Center>
                 <div className="ag-theme-quartz" style={{ height: 700, width:1200 }} >
                     {/* The AG Grid component */}
