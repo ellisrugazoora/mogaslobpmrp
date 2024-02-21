@@ -12,11 +12,8 @@ import Formulas from "./Components/Formulas";
 function Tanga(){
     return (
         <Box className="Tanga" width={"100%"}>
-            {/* <header className="Tanga-header">
-                Tanga production planning app
-            </header> */}
             <Box className="Tanga-body" width='100%'>
-                <TabsComp /*home={{title: "Home", content: <Graph3 title="Jan"  display="inventory/product" startdate={{year:2024, month:0,date:1}} enddate={{year:2024, month:0,date:31}}/>}} */
+                <TabsComp 
                     one={{title: "Jan",content: <TabInTab
                         one={{title:"Production", 
                             content:<Graph3 title="Jan"  startdate={{year:2024, month:0,date:1}} enddate={{year:2024, month:0,date:31}}/>}} 
