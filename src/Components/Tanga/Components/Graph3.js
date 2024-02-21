@@ -61,24 +61,24 @@ function TableDB(props){
             return result
         }//Test
         var formula = {
-            "_4T": populateformula({"500SN/600N":0.878, "TBN+":0.002, "PPD":0.002, "VII":0.063, "4T_PA":0.055}),
-            "_2T": populateformula({"500SN/600N": 0.905, "DPK":0.08, "2T_PA":0.015}),
-            "DuramaxHD": populateformula({"500SN/600N":0.72, "BS150":0.23, "TBN+":0.006, "MONO":0.044}),
-            "TurbofleetSae15W": populateformula({"500SN/600N": 0.395, "150SN":0.399, "TBN+":0.002, "PPD":0.002, "CI_4":0.117, "VII":0.085}),
-            "SentryHDSae40": populateformula({"500SN/600N": 0.73, "BS150":0.233, "TBN+":0.003, "MONO":0.034}),
-            "Geo85W140": populateformula({"500SN/600N": 0.07, "BS150":0.887, "PPD":0.003, "GOA": 0.04}),
-            "HydraxZ68": populateformula({"500SN/600N": 0.6895, "150SN":0.3, "PPD": 0.002, "HYA": 0.0085}),
-            "DuramaxExtra": populateformula({"500SN/600N":0.63, "BS150": 0.274, "PPD":0.002, "VII":0.05,"MONO":0.044}),
-            "Sb22D210": populateformula({"150SN":1}),
-            "Geo80W90": populateformula({"500SN/600N":0.737, "BS150":0.23, "PPD":0.002, "GOA":0.023, "VII":0.008}),
-            "HydraxZ46": populateformula({"500SN/600N":0.24, "150SN":0.7495, "PPD":0.002, "HYA":0.0085}),
-            "PrestinaT68": populateformula({"500SN/600N": 0.671, "150SN":0.32, "PPD": 0.002, "LZ8510":0.007}),
-            "atfIII": populateformula({"150SN":0.9317, "ATF_PA":0.068, "DYE":0.0003}),
-            "Hydrax32": populateformula({"150SN": 0.9895, "PPD": 0.002, "HYA":0.0085}),
-            "FrontiaX": populateformula({"500SN/600N": 0.648, "150SN":0.216, "PPD":0.002, "VII":0.08, "4T_PA":0.054}),
-            "PowerTransSP150": populateformula({"500SN/600N": 0.76, "BS150": 0.223, "PPD":0.002, "GOA":0.015}),
-            "PowerTransSP220": populateformula({"500SN/600N": 0.328, "BS150":0.65, "PPD":0.002, "GOA": 0.02}),
-            "PowerTransSP320": populateformula({"500SN/600N": 0.15, "BS150":0.833, "PPD":0.002, "GOA":0.015})
+            "Sentry 4T": populateformula({"500SN/600N":0.878, "TBN+":0.002, "PPD":0.002, "VII":0.063, "4T_PA":0.055}),
+            "Mogas 2T": populateformula({"500SN/600N": 0.905, "DPK":0.08, "2T_PA":0.015}),
+            "Duramax HD 40": populateformula({"500SN/600N":0.72, "BS150":0.23, "TBN+":0.006, "MONO":0.044}),
+            "Turbofleet 15W/40": populateformula({"500SN/600N": 0.395, "150SN":0.399, "TBN+":0.002, "PPD":0.002, "CI_4":0.117, "VII":0.085}),
+            "Sentry HD40": populateformula({"500SN/600N": 0.73, "BS150":0.233, "TBN+":0.003, "MONO":0.034}),
+            "Dynatrans 85W/140": populateformula({"500SN/600N": 0.07, "BS150":0.887, "PPD":0.003, "GOA": 0.04}),
+            "Hydrax Z 68": populateformula({"500SN/600N": 0.6895, "150SN":0.3, "PPD": 0.002, "HYA": 0.0085}),
+            "Duramax Extra 25W/50": populateformula({"500SN/600N":0.63, "BS150": 0.274, "PPD":0.002, "VII":0.05,"MONO":0.044}),
+            "Mogas SB22": populateformula({"150SN":1}),
+            "Dynatrans 80W/90": populateformula({"500SN/600N":0.737, "BS150":0.23, "PPD":0.002, "GOA":0.023, "VII":0.008}),
+            "Hydrax Z46": populateformula({"500SN/600N":0.24, "150SN":0.7495, "PPD":0.002, "HYA":0.0085}),
+            "Prestina T68": populateformula({"500SN/600N": 0.671, "150SN":0.32, "PPD": 0.002, "LZ8510":0.007}),
+            "Mogas ATF": populateformula({"150SN":0.9317, "ATF_PA":0.068, "DYE":0.0003}),
+            "Hydrax Z32": populateformula({"150SN": 0.9895, "PPD": 0.002, "HYA":0.0085}),
+            "Frontia X 20W50": populateformula({"500SN/600N": 0.648, "150SN":0.216, "PPD":0.002, "VII":0.08, "4T_PA":0.054}),
+            "Powertrans SP150": populateformula({"500SN/600N": 0.76, "BS150": 0.223, "PPD":0.002, "GOA":0.015}),
+            "Powertrans SP220": populateformula({"500SN/600N": 0.328, "BS150":0.65, "PPD":0.002, "GOA": 0.02}),
+            "Powertrans SP320": populateformula({"500SN/600N": 0.15, "BS150":0.833, "PPD":0.002, "GOA":0.015})
         }
         var live_formulas = () => {
 
