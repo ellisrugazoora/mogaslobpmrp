@@ -303,7 +303,6 @@ function Graph3(props){
         let mhs = parseFloat(obj.mhs);
         let hs = parseFloat(obj.hs);
         let lt = parseFloat(obj.lt);
-        //let days_until_order = obj.hs - (mhs + obj.lt) + transit_holding_stock_period; //OPTION B
         let days_until_order = hs - (mhs + lt); //OPTION A
         let newdate = new Date();
 
