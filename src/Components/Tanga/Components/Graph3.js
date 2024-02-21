@@ -10,7 +10,6 @@ import TableAG from './TableAG';
 import { createRecord, ensureIsUser, getCurrentUser, getCurrentUserId, initAuth, initThinBackend, query, updateRecord } from 'thin-backend';
 import { useQuery } from 'thin-backend-react';
 import { AgGridReact } from 'ag-grid-react';
-import { Input } from '@chakra-ui/react';
 
 
 function TableDB(props){
@@ -52,53 +51,60 @@ function TableDB(props){
         products.forEach((product, index)=>{
             rowIds[product.productName] = product.id;
         })
-        
-        function populateformula(obj){
-            let result = {"500SN/600N":0,"150SN":0,"BS150":0,"SN80/SN100":0,"DPK":0,"TBN+":0,"PPD":0,"CI_4":0, "GOA":0,"VII":0,"MONO":0,"4T_PA":0,"ATF":0,"2T_PA":0,"HYA":0,"DYE":0, "LZ8510":0}
-            Object.entries(obj).forEach((value, index)=>{
-                result[value[0]] = value[1];
+
+        const idmap_reverse = {
+            "f2f9942a-c350-43c9-b6b9-a3a393dafc5a": "Sentry 4T",
+             "8419f052-a10f-4992-908d-26669dbede3a":"Mogas 2T",
+            "e45c36f6-ecb0-4958-b46e-af9dca1c8f17":"Duramax HD 40",
+             "055ecd2f-63ac-4225-aacf-a6003f87627f": "Turbofleet 15W/40",
+            "eb60fd05-0229-44d3-a2ec-7fa948931582": "Sentry HD40",
+            "24b807f9-f0dd-4b14-8a73-c992789e84b3":"Dynatrans 85W/140",
+             "cbe9f35f-7865-441f-8db0-861bf1a79668": "Hydrax Z 68",
+            "67a92531-ab3d-4b9e-895c-6c6e42280437": "Duramax Extra 25W/50",
+            "58a2638f-180e-457f-97eb-c19a36da3708": "Mogas SB22",
+             "5fe72dfd-2e74-4bba-8a7c-23bf7f051bc1": "Dynatrans 80W/90",
+            "3ec83a13-9d99-4d56-aaa4-f9448d3e5a31": "Hydrax Z46",
+            "abab71c7-de9b-4268-996a-eddbffb55b6a":"Prestina T68",
+            "a447f2c2-aad5-41e2-bb76-ff85bfe3ae28": "Mogas ATF",
+             "646c9d75-6e33-4922-9438-d91bd4e13e53": "Hydrax Z32",
+            "5186e371-60c8-4cd1-b7f9-3299ea3f492d": "Frontia X 20W50",
+            "693e71f1-5bc0-4ab2-80cb-06fbdcc099e9": "Powertrans SP150",
+            "faca54b3-0680-47ba-a868-c635526832ca": "Powertrans SP220",
+            "28449845-2b5d-4eb9-99d4-5facd0fc0387": "Powertrans SP320"
+        }
+        var live_formulas = (array) => {
+            let result = {};
+            array.forEach((value, index)=>{
+                result[idmap_reverse[value.id]] = {};
+                Object.entries(value).forEach((val, ind)=>{
+                    if((val[0] !== "userId") && (val[0] !== "id")){
+                        result[idmap_reverse[value.id]][val[0]] = val[1]
+                    }
+                })
             })
             return result
-        }//Test
-        var formula = {
-            "Sentry 4T": populateformula({"500SN/600N":0.878, "TBN+":0.002, "PPD":0.002, "VII":0.063, "4T_PA":0.055}),
-            "Mogas 2T": populateformula({"500SN/600N": 0.905, "DPK":0.08, "2T_PA":0.015}),
-            "Duramax HD 40": populateformula({"500SN/600N":0.72, "BS150":0.23, "TBN+":0.006, "MONO":0.044}),
-            "Turbofleet 15W/40": populateformula({"500SN/600N": 0.395, "150SN":0.399, "TBN+":0.002, "PPD":0.002, "CI_4":0.117, "VII":0.085}),
-            "Sentry HD40": populateformula({"500SN/600N": 0.73, "BS150":0.233, "TBN+":0.003, "MONO":0.034}),
-            "Dynatrans 85W/140": populateformula({"500SN/600N": 0.07, "BS150":0.887, "PPD":0.003, "GOA": 0.04}),
-            "Hydrax Z 68": populateformula({"500SN/600N": 0.6895, "150SN":0.3, "PPD": 0.002, "HYA": 0.0085}),
-            "Duramax Extra 25W/50": populateformula({"500SN/600N":0.63, "BS150": 0.274, "PPD":0.002, "VII":0.05,"MONO":0.044}),
-            "Mogas SB22": populateformula({"150SN":1}),
-            "Dynatrans 80W/90": populateformula({"500SN/600N":0.737, "BS150":0.23, "PPD":0.002, "GOA":0.023, "VII":0.008}),
-            "Hydrax Z46": populateformula({"500SN/600N":0.24, "150SN":0.7495, "PPD":0.002, "HYA":0.0085}),
-            "Prestina T68": populateformula({"500SN/600N": 0.671, "150SN":0.32, "PPD": 0.002, "LZ8510":0.007}),
-            "Mogas ATF": populateformula({"150SN":0.9317, "ATF_PA":0.068, "DYE":0.0003}),
-            "Hydrax Z32": populateformula({"150SN": 0.9895, "PPD": 0.002, "HYA":0.0085}),
-            "Frontia X 20W50": populateformula({"500SN/600N": 0.648, "150SN":0.216, "PPD":0.002, "VII":0.08, "4T_PA":0.054}),
-            "Powertrans SP150": populateformula({"500SN/600N": 0.76, "BS150": 0.223, "PPD":0.002, "GOA":0.015}),
-            "Powertrans SP220": populateformula({"500SN/600N": 0.328, "BS150":0.65, "PPD":0.002, "GOA": 0.02}),
-            "Powertrans SP320": populateformula({"500SN/600N": 0.15, "BS150":0.833, "PPD":0.002, "GOA":0.015})
         }
-        var live_formulas = () => {
+        
+        const keymerp = {"500SN/600N": "sn500", "150SN":"sn150", "BS150":"bs150", "SN80/SN100":"sn80sn100", "DPK":"dpk", "TBN+":"tbn", "PPD":"ppd", "CI_4":"ci4", "GOA":"goa", "VII":"vii", "MONO":"mono", "4T_PA":"pa4t", "ATF":"atf", "2T_PA":"pa2t", "HYA":"hya", "DYE":"dye", "LZ8510":"lz8510"};
 
-        }
-            rowDataInv = raw_materials.map((raw_mat, index)=>{
-                return {Raw_material: raw_mat.rawMaterial, get Quantity(){
-                    let sum = 0; rowData.forEach((product,i)=>{
-                        sum = sum + (product.Quantity * formula[product.Product][this.Raw_material])
-                        console.log(product.Product, formula[product.Product])
-                    }); 
-                    return parseFloat(sum.toFixed(2)) //+ formula[this.Raw_material] + test
-                }, In_stock: raw_mat.inStock, In_transit: raw_mat.inTransit, /*Avg_daily_consumption: raw_mat.avgDailyConsumption, 
-                Stock_holding_period: raw_mat.stockHoldingPeriod,*/ Lead_time: raw_mat.leadTime}
-            })
-            colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
-                    return {field: col[0], width: 200}
-            })
-            raw_materials.forEach((product, index)=>{
-                rowIds[product.productName] = product.id;
-            })
+        rowDataInv = raw_materials.map((raw_mat, index)=>{
+            let frmla = live_formulas(formulas);
+            return {Raw_material: raw_mat.rawMaterial, get Quantity(){
+                let sum = 0; rowData.forEach((product,i)=>{
+                    //sum = sum + (product.Quantity * formula[product.Product][this.Raw_material])
+                    sum = sum + (product.Quantity * frmla[product.Product][keymerp[this.Raw_material]])
+                    console.log(product.Product, frmla[product.Product])
+                }); 
+                return parseFloat(sum.toFixed(2)) //+ formula[this.Raw_material] + test
+            }, In_stock: raw_mat.inStock, In_transit: raw_mat.inTransit, /*Avg_daily_consumption: raw_mat.avgDailyConsumption, 
+            Stock_holding_period: raw_mat.stockHoldingPeriod,*/ Lead_time: raw_mat.leadTime}
+        })
+        colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
+                return {field: col[0], width: 200}
+        })
+        raw_materials.forEach((product, index)=>{
+            rowIds[product.productName] = product.id;
+        })
         //}
         function cellValueChange(value){
             var new_qty = value.data.Quantity;
@@ -122,7 +128,8 @@ function TableDB(props){
             <Button onClick={()=>{console.log(products)}}>Print products</Button>
             <Button onClick={()=>{console.log(rowIds)}}>Print Products IDs</Button>
             <Button onClick={()=>{console.log(raw_materials)}}>Print Raw materials</Button>
-            <Button onClick={()=>{console.log(formulas)}}>Print formulas</Button> */}
+            <Button onClick={()=>{console.log(formulas)}}>Print formulas</Button>
+            <Button onClick={()=>{console.log(live_formulas(formulas))}}>Print live formulas</Button> */}
             {/* <Input type='number' step={1} defaultValue={1} width={100} onChange={(e)=>{SetTest(parseInt(e.target.value,10));minstock = e.target.value; console.log(e.target.value)}}/> */}
             <Center >
                 <Flex width={1225} overflow={'auto'}>
@@ -151,7 +158,6 @@ function TableDB(props){
 }
 
 function Graph3(props){
-    //const products = useQuery(query('january_sales_projections'))
     var dataid = props.title + "stored_data";
     var data = DataFunction;
     
@@ -332,26 +338,7 @@ function Graph3(props){
     
     var initdate = new Date();
     var prod_table_columns = ["Products", "Quantity (Tons)", "Maximize"]
-    var prod_table_data = { //I could assign args backend data, or I could plug backend data straight into here
-        prod1: {col1: "2T", col2: <NumberInp access={access.product} value={args._2T} prod="_2T" onChange={prodtable} init={args._2T} />, col4: <Button size={buttonsize} id='max' name='_2T' onClick={tablebutton} isDisabled={access.product} >Set Max</Button>},
-        prod2: {col1: "4T", col2: <NumberInp access={access.product} value={args._4T} prod="_4T" onChange={prodtable} init={args._4T} />, col4: <Button size={buttonsize} id='max' name='_4T' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod3: {col1: "ATF III", col2: <NumberInp access={access.product} value={args.atfIII} prod="atfIII" onChange={prodtable} init={args.atfIII} />, col4: <Button size={buttonsize} id='max' name='atfIII' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod4: {col1: "Duramax HD", col2: <NumberInp access={access.product} value={args.DuramaxHD} prod="DuramaxHD" onChange={prodtable} init={args.DuramaxHD} />, col4: <Button size={buttonsize} id='max' name='DuramaxHD' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod17: {col1: "Duramax Extra", col2: <NumberInp access={access.product} value={args.DuramaxExtra} prod="DuramaxExtra" onChange={prodtable} init={args.DuramaxExtra} />, col4: <Button size={buttonsize} id='max' name='DuramaxExtra' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod5: {col1: "Frontia X", col2: <NumberInp access={access.product} value={args.FrontiaX} prod="FrontiaX" onChange={prodtable} init={args.FrontiaX} />, col4: <Button size={buttonsize} id='max' name='FrontiaX' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod6: {col1: "GEO 80W90", col2: <NumberInp access={access.product} value={args.Geo80W90} prod="Geo80W90" onChange={prodtable} init={args.Geo80W90} />, col4: <Button size={buttonsize} id='max' name='Geo80W90' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod7: {col1: "GEO 85W140", col2: <NumberInp access={access.product} value={args.Geo85W140} prod="Geo85W140" onChange={prodtable} init={args.Geo85W140} />, col4: <Button size={buttonsize} id='max' name='Geo85W140' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod8: {col1: "Hydrax 32", col2: <NumberInp access={access.product} value={args.Hydrax32} prod="Hydrax32" onChange={prodtable} init={args.Hydrax32} />, col4: <Button size={buttonsize} id='max' name='Hydrax32' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod9: {col1: "Hydrax Z 46", col2: <NumberInp access={access.product} value={args.HydraxZ46} prod="HydraxZ46" onChange={prodtable} init={args.HydraxZ46} />, col4: <Button size={buttonsize} id='max' name='HydraxZ46' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod10: {col1: "Hydrax Z 68", col2: <NumberInp access={access.product} value={args.HydraxZ68} prod="HydraxZ68" onChange={prodtable} init={args.HydraxZ68} />, col4: <Button size={buttonsize} id='max' name='HydraxZ68' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod11: {col1: "Power Trans SP 150", col2: <NumberInp access={access.product} value={args.PowerTransSP150} prod="PowerTransSP150" onChange={prodtable} init={args.PowerTransSP150} />, col4: <Button size={buttonsize} id='max' name='PowerTransSP150' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod12: {col1: "Power Trans SP 220", col2: <NumberInp access={access.product} value={args.PowerTransSP220} prod="PowerTransSP220" onChange={prodtable} init={args.PowerTransSP220} />, col4: <Button size={buttonsize} id='max' name='PowerTransSP220' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod13: {col1: "Power Trans SP 320", col2: <NumberInp access={access.product} value={args.PowerTransSP320} prod="PowerTransSP320" onChange={prodtable} init={args.PowerTransSP320} />, col4: <Button size={buttonsize} id='max' name='PowerTransSP320' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod14: {col1: "SB 22 D210", col2: <NumberInp access={access.product} value={args.Sb22D210} prod="Sb22D210" onChange={prodtable} init={args.Sb22D210} />, col4: <Button size={buttonsize} id='max' name='Sb22D210' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod15: {col1: "Sentry HD Sae 40", col2: <NumberInp access={access.product} value={args.SentryHDSae40} prod="SentryHDSae40" onChange={prodtable} init={args.SentryHDSae40} />, col4: <Button size={buttonsize} id='max' name='SentryHDSae40' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        prod16: {col1: "Turbofleet Sae 15W", col2: <NumberInp access={access.product} value={args.TurbofleetSae15W} prod="TurbofleetSae15W" onChange={prodtable} init={args.TurbofleetSae15W} />, col4: <Button size={buttonsize} id='max' name='TurbofleetSae15W' onClick={tablebutton} isDisabled={access.product}>Set Max</Button>},
-        total: {col1: "Total", col2: product_total(args), col3: <Button size={'md'} isDisabled={true} >Empty</Button> }
-    }
+    
     
     var inv_table_columns = ["Inventory", "Required", "In stock (Tons)", "In Transit (Tons)", "Avg. daily consumption rate (Tons)","Stock holding period","Lead time (days)", "Next order date", "Order Qty (days)","Order Qty (MT) ", "Price per MT", "Value (USD)"];
     var inv_table_data = {
@@ -467,53 +454,10 @@ function Graph3(props){
     const startdater = new Date(props.startdate.year,props.startdate.month, props.startdate.date);
     const enddater = new Date(props.enddate.year, props.enddate.month, props.enddate.date);
     var currentmonth = {current: "Current", notcurrent: "Not current"}
-    function cellBgColor(col){
-        if(col > 10){
-            return 'red'
-        }
-        else {
-            return ''
-        }
-    }
-    async function getJanProj(){
-        let janData = await query('january_sales_projections').fetch();
-        let result = janData[0].quantity;
-        console.log(janData);
-        console.log(result)
-        //return result;
-    }
-    // if(products === null){
-    //     return <div>...loading</div>
-    // }
+
     return (
         <div>
-            {/* <TabInTab /> */}
             {currentmonth[current({start: startdater, current:initdate, end:enddater})]} {` `} Month
-            {/* as of: {`${initdate.getDate()}/${String(initdate.getMonth() + 1).padStart(2, '0')}/${initdate.getFullYear()} `} */}
-            {/* Today's Date's month: {initdate.toLocaleDateString('en-US', { month: 'short' })}  */}
-            {/* <Center overflow={'auto'}>
-                <Box bg='white' padding={3} border={"1px"} borderRadius='15px' width='80%' height='500px' shadow={'lg'} overflow={'auto'}>
-                        <AgChartsReact options={chartOptions}/>
-                </Box>
-            </Center> */}
-            {/* Quantity: {products[0].quantity} */}
-            {/* {numberStateful} */}
-            {/* <Button isDisabled={true} onClick={()=>{localStorage.clear()}}>clear local storage</Button> */}
-            {/* <Button onClick={getJanProj}>Get Jan Projections</Button> */}
-            {/* <Center>Buffer stock (days): <NumberInp prod="mhs" init={args.mhs} onChange={inv_table} value={args.mhs} /></Center>
-            <Center overflow={'auto'} border={"1px"} borderRadius='15px'>
-                <Flex width='90%' overflow={'auto'}>
-
-                    <Box>
-                        <TaBle title="Products" columns={prod_table_columns} data={prod_table_data} bg={cellBgColor} />
-                    </Box>
-                    <Spacer width={10} />
-                    <Box  >
-                        <TaBle title="Inventory" columns={inv_table_columns} data={inv_table_data} bg={cellBgColor} />
-                    </Box>
-
-                </Flex>
-            </Center> */}
             <TableDB />
         </div>
     )
