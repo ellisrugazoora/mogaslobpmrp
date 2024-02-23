@@ -132,7 +132,7 @@ function TableDB(props){
             if((col[0] === "In stock") || (col[0] === "In transit")){
                 return {field: col[0], width: 175, editable: true, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
             }
-            else if(col[0] === "Quantity") {
+            else if(col[0] === "Quantity Required (MT)") {
                 return {field: col[0], width: 175, sort: 'desc', filter: 'agNumberColumnFilter'}
             }
             else if(col[0] === "Raw material") {
