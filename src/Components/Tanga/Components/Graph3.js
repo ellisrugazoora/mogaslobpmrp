@@ -29,7 +29,7 @@ function TableDB(props){
         })
         colDefs = Object.entries(rowData[0]).map((col, index)=>{
             if(col[0] === "Product"){
-                return {field: col[0], flex: 1}
+                return {field: col[0], flex: 1 , filter: 'agTextColumnFilter'}
             }
             else {
                 return {field: col[0], editable: true, flex: 1,
@@ -38,7 +38,8 @@ function TableDB(props){
                         precision: 2,
                         step: 0.25,
                         showStepperButtons: true,
-                    }, sort: 'desc'
+                    }, sort: 'desc',
+                    filter: 'agNumberColumnFilter'
                 }
             }
         })
@@ -118,23 +119,27 @@ function TableDB(props){
         rowDataInv = raw_materials.map((raw_mat, index)=>{
             let frmla = live_formulas(formulas);
             let id = raw_mat.id;
-            return {Raw_material: raw_mat.rawMaterial, get Quantity(){
+            return {"Raw material": raw_mat.rawMaterial, get "Quantity Required (MT)"(){
                 let sum = 0; rowData.forEach((product,i)=>{                    
                     sum = sum + (product.Quantity * frmla[product.Product][uuidto[id]]) //UUIDTO is the INV id map
                 }); 
                 return parseFloat(sum.toFixed(2)) //+ formula[this.Raw_material] + test
-            }, In_stock: raw_mat.instock, In_transit: raw_mat.intransit, /*Avg_daily_consumption: raw_mat.avgDailyConsumption, 
-            Stock_holding_period: raw_mat.stockHoldingPeriod,*/ Lead_time: raw_mat.leadtime}
+            }, "In stock": raw_mat.instock, "In transit": raw_mat.intransit, 
+            get "Avg daily consumption"(){return parseFloat((this['Quantity Required (MT)']/26).toFixed(2))}, 
+            get "Stock holding period"(){return ((this['In stock'] + this['In transit'])/this['Avg daily consumption']).toFixed(2)}, "Lead time": raw_mat.leadtime}
         })
         colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
-            if((col[0] === "In_stock") || (col[0] === "In_transit")){
-                return {field: col[0], width: 200, editable: true, cellEditor: 'numberEditor'}
+            if((col[0] === "In stock") || (col[0] === "In transit")){
+                return {field: col[0], width: 175, editable: true, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
             }
             else if(col[0] === "Quantity") {
-                return {field: col[0], width: 200, sort: 'desc'}
+                return {field: col[0], width: 175, sort: 'desc', filter: 'agNumberColumnFilter'}
+            }
+            else if(col[0] === "Raw material") {
+                return {field: col[0], width: 175, filter: 'agTextColumnFilter', pinned: 'left'}
             }
             else {
-                return {field: col[0], width: 200}
+                return {field: col[0], width: 175, filter: 'agNumberColumnFilter'}
             }
         })
 
@@ -164,34 +169,36 @@ function TableDB(props){
             updateRecord(month + '_sales_projections',RowIds[prod],{quantity: new_qty}) //
         }
         function cellValueChangeInv(value){
-            let convert = {"In_stock": "instock", "In_transit": "intransit"}
+            let convert = {"In stock": "instock", "In transit": "intransit"}
             var new_qty = value.value;
             var column = value.column.colId;
-            var raw_mat = value.data.Raw_material;
-            console.log(value.data.Raw_material, new_qty, column)
+            var raw_mat = value.data["Raw material"];
+            console.log(raw_mat, new_qty, column)
             updateRecord(month + '_requirements',backtouuid[raw_mat],{[convert[column]]: new_qty})
         }
         
         return <div>
-            <Button onClick={()=>{console.log(formulas)}}>Print formulas</Button>
+            {/* <Button onClick={()=>{console.log(formulas)}}>Print formulas</Button>
             <Button onClick={()=>{console.log(products)}}>Print products</Button>
-            <Button onClick={()=>{console.log(raw_materials)}}>Print raw materials</Button>
+            <Button onClick={()=>{console.log(raw_materials)}}>Print raw materials</Button> */}
             <Center >
                 <Flex width={1225} overflow={'auto'}>
-                    <div className="ag-theme-quartz" style={{ height: 700, width:600 }} >
+                    <div className="ag-theme-quartz" style={{ height: 700, width:450 }} >
                         <AgGridReact 
                             rowData={rowData} 
                             columnDefs={colDefs}
-                            //rowSelection='multiple'
+                            rowMultiSelectWithClick={true} 
+                            rowSelection='multiple'
                             onCellValueChanged={cellValueChange}
                             />
                     </div>
                     <Spacer />
-                    <div className="ag-theme-quartz" style={{ height: 700, width:600 }} >
+                    <div className="ag-theme-quartz" style={{ height: 700, width:650 }} >
                         <AgGridReact 
                             rowData={rowDataInv} 
                             columnDefs={colDefsInv}
-                            //rowSelection='multiple'
+                            rowMultiSelectWithClick={true} 
+                            rowSelection='multiple'
                             onCellValueChanged={cellValueChangeInv}
                             />
                     </div>
