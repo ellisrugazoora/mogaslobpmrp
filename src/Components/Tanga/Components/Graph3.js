@@ -11,11 +11,12 @@ import { createRecord, ensureIsUser, getCurrentUser, getCurrentUserId, initAuth,
 import { useQuery } from 'thin-backend-react';
 import { AgGridReact } from 'ag-grid-react';
 
-
 function TableDB(props){
-        const formulas = useQuery(query('product_formulas'));
-        const products = useQuery(query('january_sales_projections'))
-        const raw_materials = useQuery(query('january_requirements'))
+        var month = props.title;
+        const formulas = props.formulas;
+        const products = useQuery(query(month + '_sales_projections'))
+        const raw_materials = useQuery(query(month + '_requirements'))
+
         if((products === null) || (raw_materials === null) || (formulas === null)){
             return <div>Loading ...</div>;
         }
@@ -24,9 +25,7 @@ function TableDB(props){
         var colDefs = [];
         var rowDataInv = [];
         var colDefsInv = [];
-        var rowIds = {};
         var rowIdsInv = {};
-        //if(products !== null){
         rowData = products.map((product, index)=>{
             return {Product: product.productName, Quantity: product.quantity}
         })
@@ -45,11 +44,8 @@ function TableDB(props){
                 }
             }
         })
-        products.forEach((product, index)=>{
-            rowIds[product.productName] = product.id;
-        })
 
-        const idmap_reverse = {
+        const idmap_reverse = { ///THIS IS THE PRODUCT ID MAP
             "f2f9942a-c350-43c9-b6b9-a3a393dafc5a": "Sentry 4T",
              "8419f052-a10f-4992-908d-26669dbede3a":"Mogas 2T",
             "e45c36f6-ecb0-4958-b46e-af9dca1c8f17":"Duramax HD 40",
@@ -69,6 +65,45 @@ function TableDB(props){
             "faca54b3-0680-47ba-a868-c635526832ca": "Powertrans SP220",
             "28449845-2b5d-4eb9-99d4-5facd0fc0387": "Powertrans SP320"
         }
+        var uuidto = { //THIS IS THE INV ID MAP
+            "edf5b5d3-02a2-4bad-94b3-b4fc3e41d6e3": "sn500",
+            "3472449b-3939-4999-85e3-e3b94e94b7a3": "pa4t",
+            "07c9390b-ec59-40cd-bcd5-05c2cc5054b7" : "ppd",
+            "d6ddad17-eb8b-49af-83dc-ba70dfb464b6" : "lz8510",
+            "633433dd-fcf5-41eb-87c0-ce543cbca34f" : "dye",
+            "66fc50a7-5d2c-43c2-96e6-81704f03bfc0": "hya",
+            "5e8d3956-5a4e-40ae-9724-1afca9693784": "pa2t",
+            "fcf82820-9bee-40a6-902a-57fc5444ea12" : "atf",
+            "0ecb697c-a64a-405d-9f11-3c3a0d917e58": "mono",//done
+            "0c6ea774-2083-4838-ab00-23614b8c7f70": "vii",
+            "36b312c5-50ae-4251-b473-6a781bf2573e": "goa",
+            "2d4cca7f-e84f-43d9-bcc2-f8e72284513a": "ci4",
+            "1727f94f-7c43-4795-b6f2-5166d5532a78": "tbn",
+            "59b3394f-4a18-477b-b916-b5c4581d772b": "dpk",
+            "3bc41ae7-9601-493f-9f88-37f93557d521": "sn80sn100",
+            "364ba3ab-edf6-4eb8-bcc1-3a6b504cfd18": "bs150",
+            "b77e84c4-cd45-4342-a951-1dcbefc88bfd": "sn150"
+        }
+        var backtouuid = {
+            "500SN/600N": "edf5b5d3-02a2-4bad-94b3-b4fc3e41d6e3",
+            "4T_PA": "3472449b-3939-4999-85e3-e3b94e94b7a3",
+            "PPD": "07c9390b-ec59-40cd-bcd5-05c2cc5054b7",
+            "LZ8510": "d6ddad17-eb8b-49af-83dc-ba70dfb464b6",
+            "DYE": "633433dd-fcf5-41eb-87c0-ce543cbca34f",
+            "HYA": "66fc50a7-5d2c-43c2-96e6-81704f03bfc0",
+            "2T_PA": "5e8d3956-5a4e-40ae-9724-1afca9693784",
+            "ATF": "fcf82820-9bee-40a6-902a-57fc5444ea12",
+            "MONO": "0ecb697c-a64a-405d-9f11-3c3a0d917e58",//done
+            "VII": "0c6ea774-2083-4838-ab00-23614b8c7f70",
+            "GOA": "36b312c5-50ae-4251-b473-6a781bf2573e",
+            "CI_4": "2d4cca7f-e84f-43d9-bcc2-f8e72284513a",
+            "TBN+": "1727f94f-7c43-4795-b6f2-5166d5532a78",
+            "DPK": "59b3394f-4a18-477b-b916-b5c4581d772b",
+            "SN80/SN100": "3bc41ae7-9601-493f-9f88-37f93557d521",
+            "BS150": "364ba3ab-edf6-4eb8-bcc1-3a6b504cfd18",
+            "150SN": "b77e84c4-cd45-4342-a951-1dcbefc88bfd"
+        }
+
         var live_formulas = (array) => {
             let result = {};
             array.forEach((value, index)=>{
@@ -81,36 +116,65 @@ function TableDB(props){
             })
             return result
         }
-        
-        const keymerp = {"500SN/600N": "sn500", "150SN":"sn150", "BS150":"bs150", "SN80/SN100":"sn80sn100", "DPK":"dpk", "TBN+":"tbn", "PPD":"ppd", "CI_4":"ci4", "GOA":"goa", "VII":"vii", "MONO":"mono", "4T_PA":"pa4t", "ATF":"atf", "2T_PA":"pa2t", "HYA":"hya", "DYE":"dye", "LZ8510":"lz8510"};
 
         rowDataInv = raw_materials.map((raw_mat, index)=>{
             let frmla = live_formulas(formulas);
+            let id = raw_mat.id;
             return {Raw_material: raw_mat.rawMaterial, get Quantity(){
-                let sum = 0; rowData.forEach((product,i)=>{
-                    //sum = sum + (product.Quantity * formula[product.Product][this.Raw_material])
-                    sum = sum + (product.Quantity * frmla[product.Product][keymerp[this.Raw_material]])
-                    console.log(product.Product, frmla[product.Product])
+                let sum = 0; rowData.forEach((product,i)=>{                    
+                    sum = sum + (product.Quantity * frmla[product.Product][uuidto[id]]) //UUIDTO is the INV id map
                 }); 
                 return parseFloat(sum.toFixed(2)) //+ formula[this.Raw_material] + test
-            }, In_stock: raw_mat.inStock, In_transit: raw_mat.inTransit, /*Avg_daily_consumption: raw_mat.avgDailyConsumption, 
-            Stock_holding_period: raw_mat.stockHoldingPeriod,*/ Lead_time: raw_mat.leadTime}
+            }, In_stock: raw_mat.instock, In_transit: raw_mat.intransit, /*Avg_daily_consumption: raw_mat.avgDailyConsumption, 
+            Stock_holding_period: raw_mat.stockHoldingPeriod,*/ Lead_time: raw_mat.leadtime}
         })
         colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
+            if((col[0] === "In_stock") || (col[0] === "In_transit")){
+                return {field: col[0], width: 200, editable: true, cellEditor: 'numberEditor'}
+            }
+            else if(col[0] === "Quantity") {
+                return {field: col[0], width: 200, sort: 'desc'}
+            }
+            else {
                 return {field: col[0], width: 200}
+            }
         })
-        raw_materials.forEach((product, index)=>{
-            rowIds[product.productName] = product.id;
-        })
-        //}
+
+        var RowIds = {
+            "Duramax Extra 25W/50": "fbe6e413-45fb-42d2-a969-e3c0380bb968",
+            "Duramax HD 40": "ddcd45ce-a684-48c9-8243-a9b21d92e629",
+            "Dynatrans 80W/90" : "5801db58-f543-41eb-b0b2-e71a9e48e0a6",
+            "Dynatrans 85W/140" : "8504592b-bb01-4028-a541-e1e6c14e19cb",
+            "Frontia X 20W50" : "60cf9bd5-b414-46f0-a178-962b392c3411",
+            "Hydrax Z32": "441d2946-858c-4a8e-b5b1-c23f86a09a92",
+            "Hydrax Z46": "37e99d6b-2460-4e16-a39c-4db52cf30d25",
+            "Hydrax Z 68" : "35e683c7-86e6-4d67-9686-88539b12de2e",
+            "Mogas 2T": "44d8a36a-6f73-46d5-a385-90b396cb7933",//done
+            "Mogas ATF": "0d4d0e51-fb18-4a71-a4f6-32bb3d5b9126",
+            "Mogas SB22": "bfc296de-35a8-4cee-a045-83215bfc0c2e",
+            "Powertrans SP150": "13297cf2-8008-4111-98bd-6f3f51446e48",
+            "Powertrans SP220": "d6edc032-8ac8-4ed2-8ed4-a9287da993f2",
+            "Powertrans SP320": "4a53b8b5-8502-46e4-a789-39af076a0c7c",
+            "Sentry 4T": "f119f29c-3b98-474c-a19b-ec66faeaf663",//done
+            "Sentry HD40": "0077b6e0-cd44-442a-82ff-5653390b2b8e",
+            "Turbofleet 15W/40": "a19a3195-bf97-4d41-bfb0-ef36f761fb3d"}
         function cellValueChange(value){
             var new_qty = value.data.Quantity;
             var prod = value.data.Product;
             console.log(value)
             console.log(`New Qty: ${new_qty}`)
-            updateRecord('january_sales_projections',rowIds[prod],{quantity: new_qty})
+            updateRecord(month + '_sales_projections',RowIds[prod],{quantity: new_qty}) //
+        }
+        function cellValueChangeInv(value){
+            let convert = {"In_stock": "instock", "In_transit": "intransit"}
+            var new_qty = value.value;
+            var column = value.column.colId;
+            var raw_mat = value.data.Raw_material;
+            console.log(value.data.Raw_material, new_qty, column)
+            updateRecord(month + '_requirements',backtouuid[raw_mat],{[convert[column]]: new_qty})
         }
         return <div>
+            <Button onClick={()=>{console.log(live_formulas(formulas))}}>Print rowIds</Button>
             <Center >
                 <Flex width={1225} overflow={'auto'}>
                     <div className="ag-theme-quartz" style={{ height: 700, width:600 }} >
@@ -127,7 +191,7 @@ function TableDB(props){
                             rowData={rowDataInv} 
                             columnDefs={colDefsInv}
                             rowSelection='multiple'
-                            //onCellValueChanged={cellValueChangeInv}
+                            onCellValueChanged={cellValueChangeInv}
                             />
                     </div>
                 </Flex>
@@ -138,48 +202,49 @@ function TableDB(props){
 }
 
 function Graph3(props){  
-    var initdate = new Date();    
-    function comparedates(dateone, datetwo){
-        var start = String(dateone.getFullYear()) + String(dateone.getMonth()).padStart(2,'0') + String(dateone.getDate()).padStart(2,'0');
-        var end = String(datetwo.getFullYear()) + String(datetwo.getMonth()).padStart(2,'0') + String(datetwo.getDate()).padStart(2,'0');
-        let concatdiff = parseInt(start - end,10)
-        let result;
-        if(concatdiff < 0){
-            result = "earlier";
-        }
-        else if(concatdiff === 0){
-            result = "equal";
-        }
-        else {
-            result = "later";
-        }
-        //console.log(result);
-        return result;
-    }
+    // var initdate = new Date();    
+    // function comparedates(dateone, datetwo){
+    //     var start = String(dateone.getFullYear()) + String(dateone.getMonth()).padStart(2,'0') + String(dateone.getDate()).padStart(2,'0');
+    //     var end = String(datetwo.getFullYear()) + String(datetwo.getMonth()).padStart(2,'0') + String(datetwo.getDate()).padStart(2,'0');
+    //     let concatdiff = parseInt(start - end,10)
+    //     let result;
+    //     if(concatdiff < 0){
+    //         result = "earlier";
+    //     }
+    //     else if(concatdiff === 0){
+    //         result = "equal";
+    //     }
+    //     else {
+    //         result = "later";
+    //     }
+    //     //console.log(result);
+    //     return result;
+    // }
     
-    var current = (dates) => {
-        let result;
-        if((comparedates(dates.current, dates.start) === "later") && (comparedates(dates.current, dates.end) === "earlier")){
-            //console.log("current")
-            result = "current"
-        }
-        else if((comparedates(dates.current, dates.start) === "equal") || (comparedates(dates.current, dates.end) === "equal")){
-            result = "current"
-        }
-        else {
-            //console.log("not current")
-            result = "notcurrent"
-        }
-        return result;
-    }
-    const startdater = new Date(props.startdate.year,props.startdate.month, props.startdate.date);
-    const enddater = new Date(props.enddate.year, props.enddate.month, props.enddate.date);
-    var currentmonth = {current: "Current", notcurrent: "Not current"}
-
+    // var current = (dates) => {
+    //     let result;
+    //     if((comparedates(dates.current, dates.start) === "later") && (comparedates(dates.current, dates.end) === "earlier")){
+    //         //console.log("current")
+    //         result = "current"
+    //     }
+    //     else if((comparedates(dates.current, dates.start) === "equal") || (comparedates(dates.current, dates.end) === "equal")){
+    //         result = "current"
+    //     }
+    //     else {
+    //         //console.log("not current")
+    //         result = "notcurrent"
+    //     }
+    //     return result;
+    // }
+    // const startdater = new Date(props.startdate.year,props.startdate.month, props.startdate.date);
+    // const enddater = new Date(props.enddate.year, props.enddate.month, props.enddate.date);
+    // var currentmonth = {current: "Current", notcurrent: "Not current"}
+    const formulas = useQuery(query('product_formulas'));
+    let month = props.title;
     return (
         <div>
-            {currentmonth[current({start: startdater, current:initdate, end:enddater})]} {` `} Month
-            <TableDB />
+            {/* {currentmonth[current({start: startdater, current:initdate, end:enddater})]} {` `} Month */}
+            <TableDB title={month} formulas={formulas} />
         </div>
     )
 }

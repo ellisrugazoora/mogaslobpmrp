@@ -5,6 +5,7 @@ import { AgGridReact } from "ag-grid-react";
 import { Button, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from "@chakra-ui/react";
 import { deleteRecord, query, updateRecord } from "thin-backend";
 import { useQuery } from "thin-backend-react";
+import Joseph from "./Joseph";
 
 
 function Formulas(){
@@ -106,11 +107,9 @@ function Formulas(){
     
     return (
         <div>
-            {/* <Button onClick={()=>{console.log(rows)}}>Print rows</Button> */}
             <Center>
                 <div className="ag-theme-quartz" style={{ height: 700, width:1200 }} >
-                    {/* The AG Grid component */}
-                    <AgGridReact 
+                    <AgGridReact
                         rowData={rows} 
                         columnDefs={cols} 
                         rowSelection='multiple' 
