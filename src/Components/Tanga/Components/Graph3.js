@@ -9,9 +9,9 @@ import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied
 
 function TableDB(props){
         var month = props.title;
-        const formulas = useQuery(query('product_formulas').orderBy('id'));
-        const products = useQuery(query(month + '_sales_projections').orderBy('id'))
-        const raw_materials = useQuery(query(month + '_requirements').orderBy('id'))
+        const formulas = useQuery(query('product_formulas'));
+        const products = useQuery(query(month + '_sales_projections'))
+        const raw_materials = useQuery(query(month + '_requirements'))
         
         if(month !== "january"){
             console.log("NON JANUARY MONTH TAB HAS BEEN EXECUTED")
@@ -193,7 +193,7 @@ function TableDB(props){
                             />
                     </div>
                     <Spacer />
-                    <div className="ag-theme-quartz" style={{ height: 700, width:650 }} >
+                    <div className="ag-theme-quartz" style={{ height: 700, width:695 }} >
                         <AgGridReact 
                             rowData={rowDataInv} 
                             columnDefs={colDefsInv}
