@@ -12,19 +12,7 @@ function TableDB(props){
         const formulas = useQuery(query('product_formulas').orderBy('id'));
         const products = useQuery(query(month + '_sales_projections').orderBy('id'))
         const raw_materials = useQuery(query(month + '_requirements').orderBy('id'))
-        const [rowDatar, setRowData] = useState([
-            { make: "Tesla", model: "Model Y", price: 64950, electric: true },
-            { make: "Ford", model: "F-Series", price: 33850, electric: false },
-            { make: "Toyota", model: "Corolla", price: 29600, electric: false },
-          ]);
-          
-          // Column Definitions: Defines the columns to be displayed.
-          const [colDefser, setColDefs] = useState([
-            { field: "make" },
-            { field: "model" },
-            { field: "price" },
-            { field: "electric" }
-          ]);
+        
         if(month !== "january"){
             console.log("NON JANUARY MONTH TAB HAS BEEN EXECUTED")
         }
@@ -209,12 +197,6 @@ function TableDB(props){
                     </div>
                 </Flex>
             </Center>
-            <div className="ag-theme-quartz" style={{ height: 700, width:600 }} >
-                <AgGridReact
-                    rowData={rowDatar}
-                    columnDefs={colDefser}
-                />
-            </div>
           </div>
 }
 
