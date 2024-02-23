@@ -5,11 +5,13 @@ import { AgGridReact } from "ag-grid-react";
 import { Button, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from "@chakra-ui/react";
 import { deleteRecord, query, updateRecord } from "thin-backend";
 import { useQuery } from "thin-backend-react";
-import Joseph from "./Joseph";
 
 
 function Formulas(){
     const formulas = useQuery(query('product_formulas'));
+    if(formulas === null){
+        return <div>Loading ...</div>
+    }
     const keymap = {"_500SN": "sn500", "_150SN":"sn150", "_BS150":"bs150", "_SN80":"sn80sn100", "DPK":"dpk", "TBN":"tbn", "PPD":"ppd", "CI4":"ci4", "GOA":"goa", "VII":"vii", "MONO_PA_EO":"mono", "_4T_PA_PEO":"pa4t", "ATF_PA":"atf", "_2T_PA":"pa2t", "HYA":"hya", "DYE":"dye", "Lubrizol8510":"lz8510"};
 
     const idmap = {

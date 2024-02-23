@@ -1,11 +1,7 @@
-import { useEffect, useState } from "react";
 import "./Tanga.css"
-import { Box, Center, Wrap } from "@chakra-ui/layout";
+import { Box } from "@chakra-ui/layout";
 import Graph3 from "./Components/Graph3";
 import TabsComp from "./Components/TabsComp";
-import TabInTab from "./Components/TabInTab";
-import Table1and2 from "./Components/Table1and2";
-import { Button } from "@chakra-ui/react";
 import Formulas from "./Components/Formulas";
 
 
@@ -14,7 +10,7 @@ function Tanga(){
         <Box className="Tanga" width={"100%"}>
 
             <Box className="Tanga-body" width='100%'>
-                <TabsComp 
+                <TabsComp
                     one={{title: "Jan",content: <Graph3 title="january"  startdate={{year:2024, month:0,date:1}} enddate={{year:2024, month:0,date:31}}/>                  
                         }}                    
                     two={{title: "Feb",content: <Graph3 title="february"  startdate={{year:2024, month:1,date:1}} enddate={{year:2024, month:1,date:29}}/>                

@@ -1,31 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { AgChartsReact } from 'ag-charts-react';
 import { Box, Center, Spacer, Flex } from "@chakra-ui/layout";
-import DataFunction from '../Data/DataFunction';
 import { Button } from '@chakra-ui/button';
-import NumberInp from './NumberInp';
-import TaBle from './TaBle';
-import TabInTab from './TabInTab';
-import TableAG from './TableAG';
-import { createRecord, ensureIsUser, getCurrentUser, getCurrentUserId, initAuth, initThinBackend, query, updateRecord } from 'thin-backend';
+import { query, updateRecord } from 'thin-backend';
 import { useQuery } from 'thin-backend-react';
 import { AgGridReact } from 'ag-grid-react';
+import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
+import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
 
 function TableDB(props){
         var month = props.title;
-        const formulas = props.formulas;
-        const products = useQuery(query(month + '_sales_projections'))
-        const raw_materials = useQuery(query(month + '_requirements'))
-
+        const formulas = useQuery(query('product_formulas').orderBy('id'));
+        const products = useQuery(query(month + '_sales_projections').orderBy('id'))
+        const raw_materials = useQuery(query(month + '_requirements').orderBy('id'))
+        const [rowDatar, setRowData] = useState([
+            { make: "Tesla", model: "Model Y", price: 64950, electric: true },
+            { make: "Ford", model: "F-Series", price: 33850, electric: false },
+            { make: "Toyota", model: "Corolla", price: 29600, electric: false },
+          ]);
+          
+          // Column Definitions: Defines the columns to be displayed.
+          const [colDefser, setColDefs] = useState([
+            { field: "make" },
+            { field: "model" },
+            { field: "price" },
+            { field: "electric" }
+          ]);
+        if(month !== "january"){
+            console.log("NON JANUARY MONTH TAB HAS BEEN EXECUTED")
+        }
+        
         if((products === null) || (raw_materials === null) || (formulas === null)){
             return <div>Loading ...</div>;
         }
-
         var rowData = [];
         var colDefs = [];
         var rowDataInv = [];
         var colDefsInv = [];
-        var rowIdsInv = {};
         rowData = products.map((product, index)=>{
             return {Product: product.productName, Quantity: product.quantity}
         })
@@ -173,15 +183,18 @@ function TableDB(props){
             console.log(value.data.Raw_material, new_qty, column)
             updateRecord(month + '_requirements',backtouuid[raw_mat],{[convert[column]]: new_qty})
         }
+        
         return <div>
-            <Button onClick={()=>{console.log(live_formulas(formulas))}}>Print rowIds</Button>
+            <Button onClick={()=>{console.log(formulas)}}>Print formulas</Button>
+            <Button onClick={()=>{console.log(products)}}>Print products</Button>
+            <Button onClick={()=>{console.log(raw_materials)}}>Print raw materials</Button>
             <Center >
                 <Flex width={1225} overflow={'auto'}>
                     <div className="ag-theme-quartz" style={{ height: 700, width:600 }} >
                         <AgGridReact 
                             rowData={rowData} 
                             columnDefs={colDefs}
-                            rowSelection='multiple'
+                            //rowSelection='multiple'
                             onCellValueChanged={cellValueChange}
                             />
                     </div>
@@ -190,14 +203,18 @@ function TableDB(props){
                         <AgGridReact 
                             rowData={rowDataInv} 
                             columnDefs={colDefsInv}
-                            rowSelection='multiple'
+                            //rowSelection='multiple'
                             onCellValueChanged={cellValueChangeInv}
                             />
                     </div>
                 </Flex>
             </Center>
-            
-            
+            <div className="ag-theme-quartz" style={{ height: 700, width:600 }} >
+                <AgGridReact
+                    rowData={rowDatar}
+                    columnDefs={colDefser}
+                />
+            </div>
           </div>
 }
 
@@ -239,12 +256,12 @@ function Graph3(props){
     // const startdater = new Date(props.startdate.year,props.startdate.month, props.startdate.date);
     // const enddater = new Date(props.enddate.year, props.enddate.month, props.enddate.date);
     // var currentmonth = {current: "Current", notcurrent: "Not current"}
-    const formulas = useQuery(query('product_formulas'));
-    let month = props.title;
+    
+    let monther = props.title;
     return (
         <div>
             {/* {currentmonth[current({start: startdater, current:initdate, end:enddater})]} {` `} Month */}
-            <TableDB title={month} formulas={formulas} />
+            <TableDB title={monther} />
         </div>
     )
 }
