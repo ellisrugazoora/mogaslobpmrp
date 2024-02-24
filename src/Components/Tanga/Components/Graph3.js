@@ -200,7 +200,7 @@ function TableDB(props){
                             />
                     </div>
                     <Spacer />
-                    <div className="ag-theme-quartz" style={{ height: 700, width:695 }} >
+                    <div className="ag-theme-quartz" style={{ height: 700, width:750 }} >
                         <AgGridReact 
                             rowData={rowDataInv} 
                             columnDefs={colDefsInv}
