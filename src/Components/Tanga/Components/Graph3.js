@@ -126,7 +126,14 @@ function TableDB(props){
                 return parseFloat(sum.toFixed(2)) //+ formula[this.Raw_material] + test
             }, "In stock": raw_mat.instock, "In transit": raw_mat.intransit, 
             get "Avg daily consumption"(){return parseFloat((this['Quantity Required (MT)']/26).toFixed(2))}, 
-            get "Stock holding period"(){return ((this['In stock'] + this['In transit'])/this['Avg daily consumption']).toFixed(2)}, "Lead time": raw_mat.leadtime}
+            get "Stock holding period"(){
+                if(this['Avg daily consumption'] === 0){
+                    return 0
+                }
+                else {
+                    return ((this['In stock'] + this['In transit'])/this['Avg daily consumption']).toFixed(2)
+                }
+            }, "Lead time": raw_mat.leadtime}
         })
         colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
             if((col[0] === "In stock") || (col[0] === "In transit")){
