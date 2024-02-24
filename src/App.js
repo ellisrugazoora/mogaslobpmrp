@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-//import './App.css';
+import './App.css';
 import Tanga from './Components/Tanga/Tanga';
 import { Box, Button, ChakraBaseProvider, ChakraProvider, Input } from '@chakra-ui/react';
 import { createRecord, ensureIsUser, getCurrentUser, getCurrentUserId, initAuth, initThinBackend, logout, query } from 'thin-backend';
