@@ -197,8 +197,8 @@ function TableDB(props){
             <Button onClick={()=>{console.log(products)}}>Print products</Button>
             <Button onClick={()=>{console.log(raw_materials)}}>Print raw materials</Button> */}
             <Center >
-                <Flex width={1225} overflow={'auto'}>
-                    <div className="ag-theme-quartz" style={{ height: 700, width:450 }} >
+                <Flex width={'100%'} overflow={'auto'}>
+                    <div className="ag-theme-quartz" style={{ height: 700, width:'45%', minWidth:340 }} >
                         <AgGridReact 
                             rowData={rowData} 
                             columnDefs={colDefs}
@@ -207,8 +207,8 @@ function TableDB(props){
                             onCellValueChanged={cellValueChange}
                             />
                     </div>
-                    <Spacer />
-                    <div className="ag-theme-quartz" style={{ height: 700, width:750 }} >
+                    <Spacer minWidth={5} />
+                    <div className="ag-theme-quartz" style={{ height: 700, width:'53%', minWidth:500 }} >
                         <AgGridReact 
                             rowData={rowDataInv} 
                             columnDefs={colDefsInv}

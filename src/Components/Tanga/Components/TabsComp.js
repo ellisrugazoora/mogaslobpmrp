@@ -4,7 +4,7 @@ function TabsComp(props){
     return (
         // <div className="tabs" width='100%'>
             <Tabs isLazy isFitted width={'100%'} height={"100vh"}>
-                <TabList>
+                <TabList width={'100%'}>
                     {/* <Tab>{props.home.title}</Tab> */}
                     <Tab>{props.one.title}</Tab>
                     <Tab>{props.two.title}</Tab>
