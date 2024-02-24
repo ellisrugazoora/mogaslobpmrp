@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Center, Spacer, Flex } from "@chakra-ui/layout";
 import { Button } from '@chakra-ui/button';
-import { query, updateRecord } from 'thin-backend';
+import { getCurrentUser, query, updateRecord } from 'thin-backend';
 import { useQuery } from 'thin-backend-react';
 import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
@@ -12,6 +12,14 @@ function TableDB(props){
         const formulas = useQuery(query('product_formulas'));
         const products = useQuery(query(month + '_sales_projections'))
         const raw_materials = useQuery(query(month + '_requirements'))
+        const [access, SetAcess] = useState({product: false, inventory: false, transit: false, consumption: false})
+        useEffect(()=>{
+            const fetchData = async () => {
+                let id = await getCurrentUser();
+                SetAcess({product: id.product, inventory: id.inventory, transit: id.transit, consumption: id.consumption})
+            }
+            fetchData()
+        },[])
         
         if(month !== "january"){
             console.log("NON JANUARY MONTH TAB HAS BEEN EXECUTED")
@@ -32,7 +40,7 @@ function TableDB(props){
                 return {field: col[0], flex: 1 , filter: 'agTextColumnFilter'}
             }
             else {
-                return {field: col[0], editable: true, flex: 1,
+                return {field: col[0], editable: access.product, flex: 1,
                     cellEditor: 'agNumberCellEditor',
                     cellEditorParams: {
                         precision: 2,
@@ -137,7 +145,7 @@ function TableDB(props){
         })
         colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
             if((col[0] === "In stock") || (col[0] === "In transit")){
-                return {field: col[0], width: 175, editable: true, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+                return {field: col[0], width: 175, editable: access.inventory, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
             }
             else if(col[0] === "Quantity Required (MT)") {
                 return {field: col[0], width: 175, sort: 'desc', filter: 'agNumberColumnFilter'}
