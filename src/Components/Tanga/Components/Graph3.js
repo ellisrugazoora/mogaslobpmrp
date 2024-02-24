@@ -122,7 +122,7 @@ function TableDB(props){
             return {"Raw material": raw_mat.rawMaterial, get "Quantity Required (MT)"(){
                 let sum = 0; rowData.forEach((product,i)=>{                    
                     sum = sum + (product.Quantity * frmla[product.Product][uuidto[id]]) //UUIDTO is the INV id map
-                }); 
+                }); //this is to refresh
                 return parseFloat(sum.toFixed(2)) //+ formula[this.Raw_material] + test
             }, "In stock": raw_mat.instock, "In transit": raw_mat.intransit, 
             get "Avg daily consumption"(){return parseFloat((this['Quantity Required (MT)']/26).toFixed(2))}, 
