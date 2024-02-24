@@ -196,7 +196,7 @@ function TableDB(props){
             {/* <Button onClick={()=>{console.log(formulas)}}>Print formulas</Button>
             <Button onClick={()=>{console.log(products)}}>Print products</Button>
             <Button onClick={()=>{console.log(raw_materials)}}>Print raw materials</Button> */}
-            <Center >
+            <Center width={'100%'} >
                 <Flex width={'100%'} overflow={'auto'}>
                     <div className="ag-theme-quartz" style={{ height: 700, width:'45%', minWidth:340 }} >
                         <AgGridReact 
