@@ -17,14 +17,14 @@ function TabsComp(props){
                 </TabList>
                 <TabPanels width={'100%'} bg={''}>
                     {/* <TabPanel> {props.home.content} </TabPanel> */}
-                    <TabPanel overflow={'auto'}> {props.one.content} </TabPanel>
-                    <TabPanel overflow={'auto'}> {props.two.content} </TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'}> {props.one.content} </TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'}> {props.two.content} </TabPanel>
                     <TabPanel overflow={'auto'} width={'100%'}> {props.three.content} </TabPanel>
-                    <TabPanel >{props.four.content}</TabPanel>
-                    <TabPanel> {props.five.content} </TabPanel>
-                    <TabPanel > {props.six.content} </TabPanel>
-                    <TabPanel > {props.seven.content} </TabPanel>
-                    <TabPanel> {props.eight.content} </TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'}>{props.four.content}</TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'}> {props.five.content} </TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'}> {props.six.content} </TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'}> {props.seven.content} </TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'}> {props.eight.content} </TabPanel>
                 </TabPanels>
             </Tabs>
          </div>
