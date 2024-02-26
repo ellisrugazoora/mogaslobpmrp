@@ -7,7 +7,7 @@ import Formulas from "./Components/Formulas";
 
 function Tanga(){
     return (
-        <Box className="Tanga" width={"100%"}>
+        <Box className="Tanga" width={"100%"} >
 
             {/* <Box className="Tanga-body" width='100%'> */}
                 <TabsComp

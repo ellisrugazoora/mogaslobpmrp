@@ -263,10 +263,10 @@ function Graph3(props){
     
     let monther = props.title;
     return (
-        <div>
+        <Box width={'100%'} bg={''}>
             {/* {currentmonth[current({start: startdater, current:initdate, end:enddater})]} {` `} Month */}
             <TableDB title={monther} />
-        </div>
+        </Box>
     )
 }
 
