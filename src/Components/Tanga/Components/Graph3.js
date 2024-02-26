@@ -123,7 +123,25 @@ function TableDB(props){
             })
             return result
         }
-
+        var orderdate = (obj) => {
+            let current = new Date()
+            //let x = obj.mhs + obj.lt;
+            let transit_holding_stock_period = parseFloat(obj.transit)/obj.consrate; 
+            let mhs = parseFloat(obj.mhs);
+            let hs = parseFloat(obj.hs);
+            let lt = parseFloat(obj.lt);
+            //let days_until_order = obj.hs - (mhs + obj.lt) + transit_holding_stock_period; //OPTION B
+            let days_until_order = hs - (mhs + lt); //OPTION A
+            let newdate = new Date();
+    
+            if(days_until_order > 0){
+                newdate.setDate(current.getDate() + days_until_order) //if holding stock is greater than min holding stock plus lead time, then add the difference to the current date
+            }           //if I have stock in transit, just add it to new date, regardless
+            else {
+                newdate.setDate(current.getDate())
+            }
+            return `${String(newdate.getDate()).padStart(2,'0')}/${String(newdate.getMonth() + 1).padStart(2,'0')}/${newdate.getFullYear()}`; 
+        }
         rowDataInv = raw_materials.map((raw_mat, index)=>{
             let frmla = live_formulas(formulas);
             let id = raw_mat.id;
@@ -139,10 +157,22 @@ function TableDB(props){
                     return 0
                 }
                 else {
-                    return ((this['In stock'] + this['In transit'])/this['Avg daily consumption']).toFixed(2)
+                    return parseFloat(((this['In stock'] + this['In transit'])/this['Avg daily consumption']).toFixed(2))
                 }
+            }, get "Order date"(){
+                return orderdate({mhs: 0, hs: this['Stock holding period'], lt: this['Lead time']})
             }, "Lead time": raw_mat.leadtime}
         })
+        const cellStyle = (params) => {
+            const value = params.value;
+            if(value < 60){
+                return {backgroundColor: 'red'}
+            }
+            else {
+                return {backgroundColor: 'green'}
+            }
+            
+          };
         colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
             if((col[0] === "In stock") || (col[0] === "In transit")){
                 return {field: col[0], width: 175, editable: access.inventory, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
@@ -152,6 +182,12 @@ function TableDB(props){
             }
             else if(col[0] === "Raw material") {
                 return {field: col[0], width: 175, filter: 'agTextColumnFilter', pinned: 'left'}
+            }
+            else if(col[0] === "Stock holding period") {
+                return {field: col[0], width: 175, filter: 'agNumberColumnFilter', cellStyle: cellStyle}
+            }
+            else if(col[0] === "Order date"){
+                return {field: col[0], width: 175, filter: 'agNumberColumnFilter'}
             }
             else {
                 return {field: col[0], width: 175, filter: 'agNumberColumnFilter'}
