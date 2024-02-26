@@ -9,7 +9,6 @@ function Tanga(){
     return (
         <Box className="Tanga" width={"100%"} >
 
-            {/* <Box className="Tanga-body" width='100%'> */}
                 <TabsComp
                     one={{title: "Jan",content: <Graph3 title="january"  startdate={{year:2024, month:0,date:1}} enddate={{year:2024, month:0,date:31}}/>                  
                         }}                    

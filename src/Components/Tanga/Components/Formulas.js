@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react";
-import NumberInp from "./NumberInp";
-import { Center } from "@chakra-ui/layout";
+import { Center, Heading } from "@chakra-ui/layout";
 import { AgGridReact } from "ag-grid-react";
-import { Button, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from "@chakra-ui/react";
 import { deleteRecord, query, updateRecord } from "thin-backend";
 import { useQuery } from "thin-backend-react";
 
@@ -96,19 +93,13 @@ function Formulas(){
         let product = e.data.Product;
         let inventory = e.column.colId;
         let inv_index = String(keymap[inventory]);
-        
-        //console.log(keymap[inventory])
         console.log(`change ${keymap[inventory]} of ${product} to ${value}`);
-        //console.log(product);
-        //console.log(formulasToExport(rowData))
         updateRecord('product_formulas',idmap[product], {[inv_index]: value})
-        //updateRecord('productformulas',"4T", {sn500:919})
-        //localStorage.setItem('formula_for_graph3', JSON.stringify(formulasToExport(rowData)))
-        //updateRecord('product_formulas',)
     }
     
     return (
         <div>
+            <Heading>Formulas</Heading>
             <Center>
                 <div className="ag-theme-quartz" style={{ height: 700, width:1200 }} >
                     <AgGridReact

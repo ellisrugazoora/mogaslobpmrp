@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Center, Spacer, Flex } from "@chakra-ui/layout";
+import { Box, Center, Spacer, Flex, Heading } from "@chakra-ui/layout";
 import { Button } from '@chakra-ui/button';
 import { getCurrentUser, query, updateRecord } from 'thin-backend';
 import { useQuery } from 'thin-backend-react';
@@ -21,10 +21,6 @@ function TableDB(props){
             fetchData()
         },[])
         
-        if(month !== "january"){
-            console.log("NON JANUARY MONTH TAB HAS BEEN EXECUTED")
-        }
-        
         if((products === null) || (raw_materials === null) || (formulas === null)){
             return <div>Loading ...</div>;
         }
@@ -37,10 +33,10 @@ function TableDB(props){
         })
         colDefs = Object.entries(rowData[0]).map((col, index)=>{
             if(col[0] === "Product"){
-                return {field: col[0], flex: 1 , filter: 'agTextColumnFilter'}
+                return {field: col[0], flex: 5 , filter: 'agTextColumnFilter'}
             }
             else {
-                return {field: col[0], editable: access.product, flex: 1,
+                return {field: col[0], editable: access.product, flex: 4,
                     cellEditor: 'agNumberCellEditor',
                     cellEditorParams: {
                         precision: 2,
@@ -125,12 +121,9 @@ function TableDB(props){
         }
         var orderdate = (obj) => {
             let current = new Date()
-            //let x = obj.mhs + obj.lt;
-            let transit_holding_stock_period = parseFloat(obj.transit)/obj.consrate; 
             let mhs = parseFloat(obj.mhs);
             let hs = parseFloat(obj.hs);
             let lt = parseFloat(obj.lt);
-            //let days_until_order = obj.hs - (mhs + obj.lt) + transit_holding_stock_period; //OPTION B
             let days_until_order = hs - (mhs + lt); //OPTION A
             let newdate = new Date();
     
@@ -150,23 +143,26 @@ function TableDB(props){
                     sum = sum + (product.Quantity * frmla[product.Product][uuidto[id]]) //UUIDTO is the INV id map
                 }); //this is to refresh
                 return parseFloat(sum.toFixed(2)) //+ formula[this.Raw_material] + test
-            }, "In stock": raw_mat.instock, "In transit": raw_mat.intransit, 
-            get "Avg daily consumption"(){return parseFloat((this['Quantity Required (MT)']/26).toFixed(2))}, 
+            }, "In stock (MT)": raw_mat.instock, 
+            get "Avg daily consumption (MT)"(){return parseFloat((this['Quantity Required (MT)']/26).toFixed(2))}, 
             get "Stock holding period"(){
-                if(this['Avg daily consumption'] === 0){
+                if(this['Avg daily consumption (MT)'] === 0){
                     return 0
                 }
                 else {
-                    return parseFloat(((this['In stock'] + this['In transit'])/this['Avg daily consumption']).toFixed(2))
+                    return parseFloat(((this['In stock (MT)'] + this['In transit (MT)'])/this['Avg daily consumption (MT)']).toFixed(2))
                 }
-            }, get "Order date"(){
+            }, get "Re-order date"(){
                 return orderdate({mhs: 0, hs: this['Stock holding period'], lt: this['Lead time']})
-            }, "Lead time": raw_mat.leadtime}
+            }, "Lead time": raw_mat.leadtime, "In transit (MT)": raw_mat.intransit}
         })
         const cellStyle = (params) => {
             const value = params.value;
-            if(value < 60){
+            if(value < 90){
                 return {backgroundColor: 'red'}
+            }
+            else if(value < 120){
+                return {backgroundColor: 'yellow'}
             }
             else {
                 return {backgroundColor: 'green'}
@@ -174,23 +170,35 @@ function TableDB(props){
             
           };
         colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
-            if((col[0] === "In stock") || (col[0] === "In transit")){
+            if((col[0] === "In stock")){
                 return {field: col[0], width: 175, editable: access.inventory, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
             }
+            else if(col[0] === "In transit (MT)") {
+                return {field: col[0], width: 150, editable: access.inventory, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+            }
             else if(col[0] === "Quantity Required (MT)") {
-                return {field: col[0], width: 175, sort: 'desc', filter: 'agNumberColumnFilter'}
+                return {field: col[0], width: 195, sort: 'desc', filter: 'agNumberColumnFilter'}
             }
             else if(col[0] === "Raw material") {
-                return {field: col[0], width: 175, filter: 'agTextColumnFilter', pinned: 'left'}
+                return {field: col[0], width: 135, filter: 'agTextColumnFilter', pinned: 'left'}
             }
             else if(col[0] === "Stock holding period") {
                 return {field: col[0], width: 175, filter: 'agNumberColumnFilter', cellStyle: cellStyle}
             }
-            else if(col[0] === "Order date"){
-                return {field: col[0], width: 175, filter: 'agNumberColumnFilter'}
+            else if(col[0] === "Re-order date"){
+                return {field: col[0], width: 145, filter: 'agNumberColumnFilter'}
+            }
+            else if(col[0] === "Lead time"){
+                return {field: col[0], width: 125, filter: 'agNumberColumnFilter'}
+            }
+            else if(col[0] === "In stock (MT)"){
+                return {field: col[0], width: 145, filter: 'agNumberColumnFilter'}
+            }
+            else if(col[0] === "Avg daily consumption (MT)"){
+                return {field: col[0], width: 205, filter: 'agNumberColumnFilter'}
             }
             else {
-                return {field: col[0], width: 175, filter: 'agNumberColumnFilter'}
+                return {field: col[0], width: 105, filter: 'agNumberColumnFilter'}
             }
         })
 
@@ -229,12 +237,10 @@ function TableDB(props){
         }
         
         return <div>
-            {/* <Button onClick={()=>{console.log(formulas)}}>Print formulas</Button>
-            <Button onClick={()=>{console.log(products)}}>Print products</Button>
-            <Button onClick={()=>{console.log(raw_materials)}}>Print raw materials</Button> */}
-            <Center width={'100%'}  bg={''}>
+            <Center width={'100%'}>
                 <Flex width={'100%'} minWidth={'100%'}>
-                    <div className="ag-theme-quartz" style={{ height: 700, width:'25%', minWidth:390 }} >
+                    <div className="ag-theme-quartz" style={{ height: 700, width:'10%', minWidth:340 }} >
+                        <Heading fontSize={30}>Sales Projections</Heading>
                         <AgGridReact 
                             rowData={rowData} 
                             columnDefs={colDefs}
@@ -244,7 +250,8 @@ function TableDB(props){
                             />
                     </div>
                     <Spacer minWidth={5} />
-                    <div className="ag-theme-quartz" style={{ height: 700, width:'73%', minWidth:700 }} >
+                    <div className="ag-theme-quartz" style={{ height: 700, width:'73%', minWidth:1100 }} >
+                        <Heading fontSize={30}>Requirements</Heading>
                         <AgGridReact 
                             rowData={rowDataInv} 
                             columnDefs={colDefsInv}
@@ -259,48 +266,9 @@ function TableDB(props){
 }
 
 function Graph3(props){  
-    // var initdate = new Date();    
-    // function comparedates(dateone, datetwo){
-    //     var start = String(dateone.getFullYear()) + String(dateone.getMonth()).padStart(2,'0') + String(dateone.getDate()).padStart(2,'0');
-    //     var end = String(datetwo.getFullYear()) + String(datetwo.getMonth()).padStart(2,'0') + String(datetwo.getDate()).padStart(2,'0');
-    //     let concatdiff = parseInt(start - end,10)
-    //     let result;
-    //     if(concatdiff < 0){
-    //         result = "earlier";
-    //     }
-    //     else if(concatdiff === 0){
-    //         result = "equal";
-    //     }
-    //     else {
-    //         result = "later";
-    //     }
-    //     //console.log(result);
-    //     return result;
-    // }
-    
-    // var current = (dates) => {
-    //     let result;
-    //     if((comparedates(dates.current, dates.start) === "later") && (comparedates(dates.current, dates.end) === "earlier")){
-    //         //console.log("current")
-    //         result = "current"
-    //     }
-    //     else if((comparedates(dates.current, dates.start) === "equal") || (comparedates(dates.current, dates.end) === "equal")){
-    //         result = "current"
-    //     }
-    //     else {
-    //         //console.log("not current")
-    //         result = "notcurrent"
-    //     }
-    //     return result;
-    // }
-    // const startdater = new Date(props.startdate.year,props.startdate.month, props.startdate.date);
-    // const enddater = new Date(props.enddate.year, props.enddate.month, props.enddate.date);
-    // var currentmonth = {current: "Current", notcurrent: "Not current"}
-    
     let monther = props.title;
     return (
-        <Box width={'100%'} bg={''}>
-            {/* {currentmonth[current({start: startdater, current:initdate, end:enddater})]} {` `} Month */}
+        <Box width={'100%'}>
             <TableDB title={monther} />
         </Box>
     )
