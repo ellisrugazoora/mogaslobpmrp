@@ -4,7 +4,7 @@ function TabsComp(props){
     return (
          <div className="tabs" width='100%' >
             <Tabs isLazy isFitted width={'100%'}>
-                <TabList width={'100%'}>
+                <TabList width={'100%'} minWidth={520}>
                     <Tab>{props.one.title}</Tab>
                     <Tab>{props.two.title}</Tab>
                     <Tab>{props.three.title}</Tab>
@@ -16,7 +16,7 @@ function TabsComp(props){
                 </TabList>
                 <TabPanels width={'100%'}> 
                     <TabPanel overflow={'auto'} width={'100%'} height={800}> {props.one.content} </TabPanel>
-                    <TabPanel overflow={'auto'} width={'100%'} height={800}> {props.two.content} </TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'} height={974}> {props.two.content} </TabPanel>
                     <TabPanel overflow={'auto'} width={'100%'} height={800}> {props.three.content} </TabPanel>
                     <TabPanel overflow={'auto'} width={'100%'} height={800}>{props.four.content}</TabPanel>
                     <TabPanel overflow={'auto'} width={'100%'} height={800}> {props.five.content} </TabPanel>

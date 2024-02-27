@@ -3,6 +3,7 @@ import { Box } from "@chakra-ui/layout";
 import Graph3 from "./Components/Graph3";
 import TabsComp from "./Components/TabsComp";
 import Formulas from "./Components/Formulas";
+import TabInTab from "./Components/TabInTab";
 
 
 function Tanga(){
@@ -12,7 +13,11 @@ function Tanga(){
                 <TabsComp
                     one={{title: "Jan",content: <Graph3 title="january"  startdate={{year:2024, month:0,date:1}} enddate={{year:2024, month:0,date:31}}/>                  
                         }}                    
-                    two={{title: "Feb",content: <Graph3 title="february"  startdate={{year:2024, month:1,date:1}} enddate={{year:2024, month:1,date:29}}/>                
+                    two={{title: "Feb",content: <TabInTab 
+                        one={{title: "Baseoils/Additives", 
+                            content:<Graph3 title="february"  startdate={{year:2024, month:1,date:1}} enddate={{year:2024, month:1,date:29}}/>}} 
+                        two={{title: "Packaging", 
+                            content:"Pending ..."}} />
                     }} 
                     three={{title: "Mar",content: <Graph3 title="march"  startdate={{year:2024, month:2,date:1}} enddate={{year:2024, month:2,date:31}}/>                
                     }} 

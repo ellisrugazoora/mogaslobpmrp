@@ -143,7 +143,9 @@ function TableDB(props){
                     sum = sum + (product.Quantity * frmla[product.Product][uuidto[id]]) //UUIDTO is the INV id map
                 }); //this is to refresh
                 return parseFloat(sum.toFixed(2)) //+ formula[this.Raw_material] + test
-            }, "In stock (MT)": raw_mat.instock, 
+            }, "In stock (MT)": raw_mat.instock, get "As of"(){
+                return "Amos, dd/mm/yy"
+            },
             get "Avg daily consumption (MT)"(){return parseFloat((this['Quantity Required (MT)']/26).toFixed(2))}, 
             get "Stock holding period"(){
                 if(this['Avg daily consumption (MT)'] === 0){
@@ -174,7 +176,7 @@ function TableDB(props){
                 return {field: col[0], width: 175, editable: access.inventory, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
             }
             else if(col[0] === "In transit (MT)") {
-                return {field: col[0], width: 150, editable: access.inventory, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+                return {field: col[0], width: 150, editable: access.transit, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
             }
             else if(col[0] === "Quantity Required (MT)") {
                 return {field: col[0], width: 195, sort: 'desc', filter: 'agNumberColumnFilter'}
@@ -191,11 +193,11 @@ function TableDB(props){
             else if(col[0] === "Lead time"){
                 return {field: col[0], width: 125, filter: 'agNumberColumnFilter'}
             }
-            else if(col[0] === "In stock (MT)"){
-                return {field: col[0], width: 145, filter: 'agNumberColumnFilter'}
-            }
             else if(col[0] === "Avg daily consumption (MT)"){
                 return {field: col[0], width: 205, filter: 'agNumberColumnFilter'}
+            }
+            else if(col[0] === "As of"){
+                return {field: col[0], width: 90, filter: 'agTextColumnFilter', editable: access.inventory}
             }
             else {
                 return {field: col[0], width: 105, filter: 'agNumberColumnFilter'}
@@ -235,7 +237,7 @@ function TableDB(props){
             console.log(raw_mat, new_qty, column)
             updateRecord(month + '_requirements',backtouuid[raw_mat],{[convert[column]]: new_qty})
         }
-        
+        const rowHeight = 30;
         return <div>
             <Center width={'100%'}>
                 <Flex width={'100%'} minWidth={'100%'}>
@@ -247,6 +249,8 @@ function TableDB(props){
                             rowMultiSelectWithClick={true} 
                             rowSelection='multiple'
                             onCellValueChanged={cellValueChange}
+                            //rowHeight={rowHeight}
+                            //headerHeight={40}
                             />
                     </div>
                     <Spacer minWidth={5} />
