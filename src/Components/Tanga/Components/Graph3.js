@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Center, Spacer, Flex, Heading } from "@chakra-ui/layout";
-import { Button } from '@chakra-ui/button';
 import { getCurrentUser, query, updateRecord } from 'thin-backend';
 import { useQuery } from 'thin-backend-react';
 import { AgGridReact } from 'ag-grid-react';
