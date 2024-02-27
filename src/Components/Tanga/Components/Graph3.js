@@ -170,7 +170,7 @@ function TableDB(props){
             
           };
         colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
-            if((col[0] === "In stock")){
+            if((col[0] === "In stock (MT)")){
                 return {field: col[0], width: 175, editable: access.inventory, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
             }
             else if(col[0] === "In transit (MT)") {
