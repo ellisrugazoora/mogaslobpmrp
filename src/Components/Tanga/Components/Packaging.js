@@ -7,15 +7,15 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 
 function Packaging(){
     const packagingMaterials = useQuery(query('january_packaging_requirements'))
-    const rowData1 = packagingMaterials.map((value, index)=>{
-    return {Material: value.material, Quantity: value.quantity}
-    })
-    const colDefs1 = Object.entries(rowData1[0]).map((value, index)=>{
-    return {field: value[0], flex: 1}
-    })
     if(packagingMaterials === null){
         return <div>Loading ...</div>
     }
+    const rowData1 = packagingMaterials.map((value, index)=>{
+        return {Material: value.material, Quantity: value.quantity}
+        })
+        const colDefs1 = Object.entries(rowData1[0]).map((value, index)=>{
+        return {field: value[0], flex: 1}
+        })
     return <div>
         Packaging test
         <Button onClick={()=>{console.log(rowData1); console.log(colDefs1)}}>Print data</Button>
