@@ -248,12 +248,10 @@ function TableDB(props){
                             rowMultiSelectWithClick={true} 
                             rowSelection='multiple'
                             onCellValueChanged={cellValueChange}
-                            //rowHeight={rowHeight}
-                            //headerHeight={40}
                             />
                     </div>
                     <Spacer minWidth={5} />
-                    <div className="ag-theme-quartz" style={{ height: 700, width:'73%', minWidth:1100 }} >
+                    <div className="ag-theme-quartz" style={{ height: 700, width:'73%', minWidth:810 }} >
                         <Heading fontSize={30}>Requirements</Heading>
                         <AgGridReact 
                             rowData={rowDataInv} 

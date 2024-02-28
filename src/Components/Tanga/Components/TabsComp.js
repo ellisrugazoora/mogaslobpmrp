@@ -5,7 +5,7 @@ function TabsComp(props){
          <div className="tabs" width='100%' >
             <Tabs isLazy isFitted width={'100%'}>
                 <TabList width={'100%'} minWidth={520}>
-                    <Tab>{props.one.title}</Tab>
+                    <Tab fontSize={15}>{props.one.title}</Tab>
                     <Tab>{props.two.title}</Tab>
                     <Tab>{props.three.title}</Tab>
                     <Tab>{props.four.title}</Tab>

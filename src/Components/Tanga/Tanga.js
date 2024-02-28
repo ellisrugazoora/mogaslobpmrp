@@ -4,6 +4,7 @@ import Graph3 from "./Components/Graph3";
 import TabsComp from "./Components/TabsComp";
 import Formulas from "./Components/Formulas";
 import TabInTab from "./Components/TabInTab";
+import Packaging from "./Components/Packaging";
 
 
 function Tanga(){
@@ -11,23 +12,55 @@ function Tanga(){
         <Box className="Tanga" width={"100%"} >
 
                 <TabsComp
-                    one={{title: "Jan",content: <Graph3 title="january"  startdate={{year:2024, month:0,date:1}} enddate={{year:2024, month:0,date:31}}/>                  
-                        }}                    
+                    one={{title: "Jan",content: <TabInTab 
+                        one={{title: "Baseoils/Additives", 
+                            content:<Graph3 title="january"  startdate={{year:2024, month:0,date:1}} enddate={{year:2024, month:0,date:31}}/>}} 
+                        two={{title: "Packaging", 
+                            content:<Packaging />}} />
+                    }}
+
                     two={{title: "Feb",content: <TabInTab 
                         one={{title: "Baseoils/Additives", 
                             content:<Graph3 title="february"  startdate={{year:2024, month:1,date:1}} enddate={{year:2024, month:1,date:29}}/>}} 
                         two={{title: "Packaging", 
-                            content:"Pending ..."}} />
+                            content:<Packaging />}} />
                     }} 
-                    three={{title: "Mar",content: <Graph3 title="march"  startdate={{year:2024, month:2,date:1}} enddate={{year:2024, month:2,date:31}}/>                
+
+                    three={{title: "Mar",content: <TabInTab 
+                        one={{title: "Baseoils/Additives", 
+                            content:<Graph3 title="march"  startdate={{year:2024, month:2,date:1}} enddate={{year:2024, month:2,date:31}}/> }} 
+                        two={{title: "Packaging", 
+                            content:<Packaging />}} />
                     }} 
-                    four={{title: "Apr", content: <Graph3 title="april"  startdate={{year:2024, month:3,date:1}} enddate={{year:2024, month:3,date:30}}/>
+
+                    four={{title: "Apr",content: <TabInTab 
+                        one={{title: "Baseoils/Additives", 
+                            content:<Graph3 title="april"  startdate={{year:2024, month:3,date:1}} enddate={{year:2024, month:3,date:30}}/> }} 
+                        two={{title: "Packaging", 
+                            content:<Packaging />}} />
+                    }} 
+
+                    five={{title: "May",content: <TabInTab 
+                        one={{title: "Baseoils/Additives", 
+                            content: <Graph3 title="may"  startdate={{year:2024, month:4,date:1}} enddate={{year:2024, month:4,date:31}}/> }} 
+                        two={{title: "Packaging", 
+                            content:<Packaging />}} />
                     }}
-                    five={{title: "May", content: <Graph3 title="may"  startdate={{year:2024, month:4,date:1}} enddate={{year:2024, month:4,date:31}}/>
-                    }}                    
-                    six={{title: "Jun", content: <Graph3 title="june"  startdate={{year:2024, month:5,date:1}} enddate={{year:2024, month:5,date:30}}/>
-                        }}                    
-                    seven={{title: "July", content: <Graph3 title="july"  startdate={{year:2024, month:6,date:1}} enddate={{year:2024, month:6,date:31}}/>}} 
+
+                    six={{title: "Jun",content: <TabInTab 
+                        one={{title: "Baseoils/Additives", 
+                            content: <Graph3 title="june"  startdate={{year:2024, month:5,date:1}} enddate={{year:2024, month:5,date:30}}/> }} 
+                        two={{title: "Packaging", 
+                            content:<Packaging />}} />
+                    }}
+                    
+                    seven={{title: "July",content: <TabInTab 
+                        one={{title: "Baseoils/Additives", 
+                            content: <Graph3 title="july"  startdate={{year:2024, month:6,date:1}} enddate={{year:2024, month:6,date:31}}/> }} 
+                        two={{title: "Packaging", 
+                            content:<Packaging />}} />
+                    }}
+                    
                     eight={{title: "Formulas", content: <Formulas />}}
                             
                             />
