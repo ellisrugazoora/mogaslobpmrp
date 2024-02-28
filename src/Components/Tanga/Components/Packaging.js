@@ -6,8 +6,9 @@ import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the 
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { useEffect, useState } from "react";
 
-function Packaging(){
-    const packagingMaterials = useQuery(query('january_packaging_requirements'))
+function Packaging(props){
+    const month = props.month;
+    const packagingMaterials = useQuery(query(month + '_packaging_requirements'))
     const [access, SetAcess] = useState({product: false, inventory: false, transit: false, consumption: false})
     useEffect(()=>{
         const fetchData = async () => {
@@ -51,7 +52,7 @@ function Packaging(){
         let prop = e.column.colId
         let new_val = e.newValue;
         console.log(`Material: ${material}; id: ${idMap[material]} prop: ${prop}; new_val: ${new_val}`)
-        updateRecord('january_packaging_requirements',idMap[material],{asof: new_val})
+        updateRecord(month + '_packaging_requirements',idMap[material],{asof: new_val})
     }
     
     return <div>
@@ -63,7 +64,7 @@ function Packaging(){
                 <AgGridReact 
                     rowData={rowData1} 
                     columnDefs={colDefs1}
-                    onCellValueChanged={saveChangedValue}
+                    //onCellValueChanged={saveChangedValue}
                     />
             </div>
         </Center>

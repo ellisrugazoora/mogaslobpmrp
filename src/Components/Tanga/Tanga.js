@@ -16,49 +16,49 @@ function Tanga(){
                         one={{title: "Baseoils/Additives", 
                             content:<Graph3 title="january"  startdate={{year:2024, month:0,date:1}} enddate={{year:2024, month:0,date:31}}/>}} 
                         two={{title: "Packaging", 
-                            content:<Packaging />}} />
+                            content:<Packaging month="january" />}} />
                     }}
 
                     two={{title: "Feb",content: <TabInTab 
                         one={{title: "Baseoils/Additives", 
                             content:<Graph3 title="february"  startdate={{year:2024, month:1,date:1}} enddate={{year:2024, month:1,date:29}}/>}} 
                         two={{title: "Packaging", 
-                            content:<Packaging />}} />
+                            content:<Packaging month="february"/>}} />
                     }} 
 
                     three={{title: "Mar",content: <TabInTab 
                         one={{title: "Baseoils/Additives", 
                             content:<Graph3 title="march"  startdate={{year:2024, month:2,date:1}} enddate={{year:2024, month:2,date:31}}/> }} 
                         two={{title: "Packaging", 
-                            content:<Packaging />}} />
+                            content:<Packaging month="march" />}} />
                     }} 
 
                     four={{title: "Apr",content: <TabInTab 
                         one={{title: "Baseoils/Additives", 
                             content:<Graph3 title="april"  startdate={{year:2024, month:3,date:1}} enddate={{year:2024, month:3,date:30}}/> }} 
                         two={{title: "Packaging", 
-                            content:<Packaging />}} />
+                            content:<Packaging month="april" />}} />
                     }} 
 
                     five={{title: "May",content: <TabInTab 
                         one={{title: "Baseoils/Additives", 
                             content: <Graph3 title="may"  startdate={{year:2024, month:4,date:1}} enddate={{year:2024, month:4,date:31}}/> }} 
                         two={{title: "Packaging", 
-                            content:<Packaging />}} />
+                            content:<Packaging month="may" />}} />
                     }}
 
                     six={{title: "Jun",content: <TabInTab 
                         one={{title: "Baseoils/Additives", 
                             content: <Graph3 title="june"  startdate={{year:2024, month:5,date:1}} enddate={{year:2024, month:5,date:30}}/> }} 
                         two={{title: "Packaging", 
-                            content:<Packaging />}} />
+                            content:<Packaging month="june" />}} />
                     }}
                     
                     seven={{title: "July",content: <TabInTab 
                         one={{title: "Baseoils/Additives", 
                             content: <Graph3 title="july"  startdate={{year:2024, month:6,date:1}} enddate={{year:2024, month:6,date:31}}/> }} 
                         two={{title: "Packaging", 
-                            content:<Packaging />}} />
+                            content:<Packaging month="july" />}} />
                     }}
                     
                     eight={{title: "Formulas", content: <Formulas />}}
