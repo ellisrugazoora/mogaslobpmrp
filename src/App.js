@@ -17,7 +17,6 @@ function UserStatus() {
   // Use the `useCurrentUser()` react hook to access the current logged in user
   // Returns `null` while the user is being fetched
   const user = useCurrentUser();
-  const id = getCurrentUser();
   //id.then((value)=>{console.log(`UserStatus: ${value.email}`)})
   return <div>
       <Button colorScheme='twitter' onClick={logout}>Logout</Button>

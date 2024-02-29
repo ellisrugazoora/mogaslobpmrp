@@ -15,14 +15,14 @@ function TabsComp(props){
                     <Tab>{props.eight.title}</Tab>
                 </TabList>
                 <TabPanels width={'100%'} minWidth={520}> 
-                    <TabPanel overflow={'auto'} width={'100%'} height={800}> {props.one.content} </TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'} height={974}> {props.one.content} </TabPanel>
                     <TabPanel overflow={'auto'} width={'100%'} height={974}> {props.two.content} </TabPanel>
-                    <TabPanel overflow={'auto'} width={'100%'} height={800}> {props.three.content} </TabPanel>
-                    <TabPanel overflow={'auto'} width={'100%'} height={800}>{props.four.content}</TabPanel>
-                    <TabPanel overflow={'auto'} width={'100%'} height={800}> {props.five.content} </TabPanel>
-                    <TabPanel overflow={'auto'} width={'100%'} height={800}> {props.six.content} </TabPanel>
-                    <TabPanel overflow={'auto'} width={'100%'} height={800}> {props.seven.content} </TabPanel>
-                    <TabPanel overflow={'auto'} width={'100%'} height={800}> {props.eight.content} </TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'} height={974}> {props.three.content} </TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'} height={974}>{props.four.content}</TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'} height={974}> {props.five.content} </TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'} height={974}> {props.six.content} </TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'} height={974}> {props.seven.content} </TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'} height={974}> {props.eight.content} </TabPanel>
                 </TabPanels>
             </Tabs>
          </div>

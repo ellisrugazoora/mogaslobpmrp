@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 function Packaging(props){
     const month = props.month;
     const packagingMaterials = useQuery(query(month + '_packaging_requirements'))
+   
     const [access, SetAcess] = useState({product: false, inventory: false, transit: false, consumption: false})
     useEffect(()=>{
         const fetchData = async () => {
@@ -47,24 +48,25 @@ function Packaging(props){
         }
     })
     function saveChangedValue(e){
+        let propMap = {"As of": "asof", "In stock": "instock"}
         console.log(e, e.data)
         let material = e.data.Material
         let prop = e.column.colId
         let new_val = e.newValue;
-        console.log(`Material: ${material}; id: ${idMap[material]} prop: ${prop}; new_val: ${new_val}`)
-        updateRecord(month + '_packaging_requirements',idMap[material],{asof: new_val})
+        //console.log(`Material: ${material}; id: ${idMap[material]} prop: ${propMap[prop]}; new_val: ${new_val}`)
+        updateRecord(month + '_packaging_requirements',idMap[material],{[propMap[prop]]: new_val})
     }
     
     return <div>
-        Packaging test
-        <Button onClick={()=>{console.log(rowData1); console.log(colDefs1); console.log(idMap)}}>Print data</Button>
+        {/* Packaging test */}
+        {/* <Button onClick={()=>{console.log(packagingMaterials)}}>Print data</Button> */}
         <Center>
-            <div className="ag-theme-quartz" style={{ height: 300, width:'80%', minWidth:340 }} >
+            <div className="ag-theme-quartz" style={{ height: 700, width:'80%', minWidth:340 }} >
                 <Heading fontSize={30}>Packaging inventory</Heading>
                 <AgGridReact 
                     rowData={rowData1} 
                     columnDefs={colDefs1}
-                    //onCellValueChanged={saveChangedValue}
+                    onCellValueChanged={saveChangedValue}
                     />
             </div>
         </Center>
