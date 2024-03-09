@@ -5,6 +5,7 @@ import { useQuery } from 'thin-backend-react';
 import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
+import NumberInp from './NumberInp';
 
 function TableDB(props){
         var month = props.title;
@@ -12,6 +13,8 @@ function TableDB(props){
         const products = useQuery(query(month + '_sales_projections'))
         const raw_materials = useQuery(query(month + '_requirements'))
         const [access, SetAcess] = useState({product: false, inventory: false, transit: false, consumption: false})
+        const [buffer, SetBuffer] = useState(30);
+        const [reorderqty, SetReorderqty] = useState(30)
         useEffect(()=>{
             const fetchData = async () => {
                 let id = await getCurrentUser();
@@ -27,6 +30,79 @@ function TableDB(props){
         var colDefs = [];
         var rowDataInv = [];
         var colDefsInv = [];
+        // if(month === "january"){
+        //     rowData = products.map((product, index)=>{
+        //         return {Product: product.productName, 
+        //             Quantity: product.quantity, One:1, 
+        //             Projection: 10, 
+        //             MTD: 19, 
+        //             Two:2, 
+        //             "Projection ": 20, 
+        //             "MTD ": 29}
+        //     })
+        //     colDefs = Object.entries(rowData[0]).map((col, index)=>{
+        //         if(col[0] === "Product"){
+        //             return {field: col[0], width: 167, filter: 'agTextColumnFilter'}
+        //         }
+        //         else if(col[0] === "Quantity"){
+        //             return {field: col[0], width: 167}
+        //         }
+        //         else if(col[0] === "One"){
+        //             return {
+        //                 headerName: 'T0.5',
+        //                 children: [
+        //                     {field: 'Projection', width: 100}, //kukubali = to agree, michelewa pesa = ?, kuta=to meet;
+        //                     {field: 'MTD', width: 100}
+        //                 ]
+        //             }
+        //         }
+        //         else if(col[0] === "Two"){
+        //             return {
+        //                 headerName: 'T1',
+        //                 children: [
+        //                     {field: 'Projection ', width: 100},
+        //                     {field: 'MTD ', width: 100}, 
+        //                 ]
+        //             }
+        //         }
+        //         else if((col[0] === "Projection") || (col[0] === "MTD") || (col[0] === "Projection ") || (col[0] === "MTD ")){
+        //             return {field: 'Projection', width: 100, hide:true}
+        //         }
+        //         else {
+        //             return {
+        //                 field: col[0], editable: access.product, width: 100,
+        //                 cellEditor: 'agNumberCellEditor',
+        //                 cellEditorParams: {
+        //                     precision: 2,
+        //                     step: 0.25,
+        //                     showStepperButtons: true,
+        //                 }, sort: 'desc',
+        //                 filter: 'agNumberColumnFilter'
+        //             }
+        //         }
+        //     })
+        // }
+        // else {
+        //     rowData = products.map((product, index)=>{
+        //         return {Product: product.productName, Quantity: product.quantity}
+        //     })
+        //     colDefs = Object.entries(rowData[0]).map((col, index)=>{
+        //         if(col[0] === "Product"){
+        //             return {field: col[0], flex: 5 , filter: 'agTextColumnFilter'}
+        //         }
+        //         else if(col[0] === "Quantity") {
+        //             return {field: col[0], editable: access.product, flex: 5,
+        //                 cellEditor: 'agNumberCellEditor',
+        //                 cellEditorParams: {
+        //                     precision: 2,
+        //                     step: 0.25,
+        //                     showStepperButtons: true,
+        //                 }, sort: 'desc',
+        //                 filter: 'agNumberColumnFilter'
+        //             }
+        //         }
+        //     })
+        // }
         rowData = products.map((product, index)=>{
             return {Product: product.productName, Quantity: product.quantity}
         })
@@ -34,8 +110,8 @@ function TableDB(props){
             if(col[0] === "Product"){
                 return {field: col[0], flex: 5 , filter: 'agTextColumnFilter'}
             }
-            else {
-                return {field: col[0], editable: access.product, flex: 4,
+            else if(col[0] === "Quantity") {
+                return {field: col[0], editable: access.product, flex: 5,
                     cellEditor: 'agNumberCellEditor',
                     cellEditorParams: {
                         precision: 2,
@@ -123,9 +199,11 @@ function TableDB(props){
             let mhs = parseFloat(obj.mhs);
             let hs = parseFloat(obj.hs);
             let lt = parseFloat(obj.lt);
-            let days_until_order = hs - (mhs + lt); //OPTION A
+            let transit = parseFloat(obj.transit) / parseFloat(obj.consrate);
+            let days_until_order = hs - (mhs + lt) + transit; //OPTION A
             let newdate = new Date();
-    
+            
+
             if(days_until_order > 0){
                 newdate.setDate(current.getDate() + days_until_order) //if holding stock is greater than min holding stock plus lead time, then add the difference to the current date
             }           //if I have stock in transit, just add it to new date, regardless
@@ -138,44 +216,73 @@ function TableDB(props){
             let frmla = live_formulas(formulas);
             let id = raw_mat.id;
             return {"Raw material": raw_mat.rawMaterial, get "Quantity Required (MT)"(){
-                let sum = 0; rowData.forEach((product,i)=>{                    
+                let sum = 0; rowData.forEach((product,i)=>{
                     sum = sum + (product.Quantity * frmla[product.Product][uuidto[id]]) //UUIDTO is the INV id map
                 }); //this is to refresh
                 return parseFloat(sum.toFixed(2)) //+ formula[this.Raw_material] + test
-            }, "In stock (MT)": raw_mat.instock, get "As of"(){
-                return "Amos, dd/mm/yy"
-            },
+            }, "In stock (MT)": raw_mat.instock, "As of": raw_mat.asof,
             get "Avg daily consumption (MT)"(){return parseFloat((this['Quantity Required (MT)']/26).toFixed(2))}, 
+            
             get "Stock holding period"(){
                 if(this['Avg daily consumption (MT)'] === 0){
                     return 0
                 }
                 else {
-                    return parseFloat(((this['In stock (MT)'] + this['In transit (MT)'])/this['Avg daily consumption (MT)']).toFixed(2))
+                    return parseFloat(((this['In stock (MT)'])/this['Avg daily consumption (MT)']).toFixed(2))
                 }
             }, get "Re-order date"(){
-                return orderdate({mhs: 0, hs: this['Stock holding period'], lt: this['Lead time']})
-            }, "Lead time": raw_mat.leadtime, "In transit (MT)": raw_mat.intransit}
+                return orderdate({mhs: buffer, hs: this['Stock holding period'], lt: this['Lead time'], transit: this['In transit (MT)'], consrate: this['Avg daily consumption (MT)'], instock: this['In stock (MT)']})
+            },
+            get "Re-order amount"(){
+                return (this['Avg daily consumption (MT)'] * reorderqty).toFixed(2);
+            },
+            "Lead time": raw_mat.leadtime, "In transit (MT)": raw_mat.intransit,
+            get "SHP w/ transit"(){
+                if(this['Avg daily consumption (MT)'] === 0){
+                    return 0
+                }
+                else {
+                    return parseFloat(((this['In transit (MT)']/this['Avg daily consumption (MT)']) + this['Stock holding period']).toFixed(2))
+                }
+            }
+        }
         })
         const cellStyle = (params) => {
             const value = params.value;
-            if(value < 90){
-                return {backgroundColor: 'red'}
+            if(value > 97){
+                return {backgroundColor: 'green'}
             }
-            else if(value < 120){
+            else if(value > 90){
                 return {backgroundColor: 'yellow'}
             }
             else {
-                return {backgroundColor: 'green'}
+                return {backgroundColor: 'red'}
             }
             
-          };
+        };
+        const reorderStyle = (params) => {
+            const value = params.data["SHP w/ transit"];
+            var lead_time = parseInt(params.data["Lead time"], 10);
+            //console.log(params.data["Lead time"])
+            var bufferStock = parseInt(buffer, 10);
+            var greenThreshold = lead_time + parseInt(buffer, 10);
+            var yellowThreshold = lead_time + buffer;
+            if(value > greenThreshold){
+                return {backgroundColor: 'green'}
+            }
+            // else if(value > (buffer){
+            //     return {backgroundColor: 'yellow'}
+            // }
+            else {
+                return {backgroundColor: 'red'}
+            }
+        }
         colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
             if((col[0] === "In stock (MT)")){
-                return {field: col[0], width: 175, editable: access.inventory, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+                return {field: col[0], width: 145, editable: access.inventory, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
             }
             else if(col[0] === "In transit (MT)") {
-                return {field: col[0], width: 150, editable: access.transit, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+                return {field: col[0], width: 145, editable: access.transit, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
             }
             else if(col[0] === "Quantity Required (MT)") {
                 return {field: col[0], width: 195, sort: 'desc', filter: 'agNumberColumnFilter'}
@@ -184,19 +291,22 @@ function TableDB(props){
                 return {field: col[0], width: 135, filter: 'agTextColumnFilter', pinned: 'left'}
             }
             else if(col[0] === "Stock holding period") {
-                return {field: col[0], width: 175, filter: 'agNumberColumnFilter', cellStyle: cellStyle}
+                return {field: col[0], width: 175, filter: 'agNumberColumnFilter'/*, cellStyle: cellStyle*/}
             }
             else if(col[0] === "Re-order date"){
-                return {field: col[0], width: 145, filter: 'agNumberColumnFilter'}
+                return {field: col[0], width: 145, filter: 'agNumberColumnFilter', cellStyle: reorderStyle}
             }
             else if(col[0] === "Lead time"){
-                return {field: col[0], width: 125, filter: 'agNumberColumnFilter'}
+                return {field: col[0], width: 120, filter: 'agNumberColumnFilter'}
             }
             else if(col[0] === "Avg daily consumption (MT)"){
                 return {field: col[0], width: 205, filter: 'agNumberColumnFilter'}
             }
             else if(col[0] === "As of"){
-                return {field: col[0], width: 90, filter: 'agTextColumnFilter', editable: access.inventory}
+                return {field: col[0], width: 140, filter: 'agTextColumnFilter', editable: access.inventory, cellEditor: 'agDateStringCellEditor',}
+            }
+            else if(col[0] === "SHP w/ transit"){
+                return {field: col[0], hide:false}
             }
             else {
                 return {field: col[0], width: 105, filter: 'agNumberColumnFilter'}
@@ -229,15 +339,18 @@ function TableDB(props){
             updateRecord(month + '_sales_projections',RowIds[prod],{quantity: new_qty}) //
         }
         function cellValueChangeInv(value){
-            let convert = {"In stock": "instock", "In transit": "intransit"}
+            let convert = {"In stock (MT)": "instock", "In transit (MT)": "intransit", "As of": "asof"}
             var new_qty = value.value;
             var column = value.column.colId;
             var raw_mat = value.data["Raw material"];
             console.log(raw_mat, new_qty, column)
             updateRecord(month + '_requirements',backtouuid[raw_mat],{[convert[column]]: new_qty})
         }
-        const rowHeight = 30;
         return <div>
+            <Center>
+                Buffer stock (days): <NumberInp init={30} access={false} value={buffer} onChange={(e)=>{console.log(`Buffer: ${e}`);SetBuffer(e)}}/>
+                Re-order amount (days): <NumberInp init={reorderqty} access={false} value={reorderqty} onChange={(e)=>{console.log(`Re-order qty: ${e}`);SetReorderqty(e)}}/>
+            </Center>
             <Center width={'100%'}>
                 <Flex width={'100%'} minWidth={'100%'}>
                     <div className="ag-theme-quartz" style={{ height: 700, width:'10%', minWidth:340 }} >
