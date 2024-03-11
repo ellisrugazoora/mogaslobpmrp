@@ -33,40 +33,45 @@ function TableDB(props){
         if(month === "january"){
             rowData = products.map((product, index)=>{
                 return {Product: product.productName, 
-                    Quantity: product.quantity, 
+                    get Quantity(){return this.Projection + this["Projection "] + this["Projection  "] + this["Projection   "] + this["Projection    "] + this["Projection     "]}, 
                     One:1, 
-                        Projection: 10, 
+                        Projection: product.t05, 
                         MTD: 19, 
                     Two:2, 
-                        "Projection ": 20, 
+                        "Projection ": product.t1, 
                         "MTD ": 29,
                     Four:4, 
-                        "Projection  ": 40, 
+                        "Projection  ": product.t4, 
                         "MTD  ": 49,
                     Five:5, 
-                        "Projection   ": 50, 
+                        "Projection   ": product.t5, 
                         "MTD   ": 59,
                     Twenty:20, 
-                        "Projection    ": 90, 
+                        "Projection    ": product.t20, 
                         "MTD    ": 99,
                     TwoTen:210, 
-                        "Projection     ": 21, 
+                        "Projection     ": product.t210, 
                         "MTD     ": 91
                 
                 }
             })
             colDefs = Object.entries(rowData[0]).map((col, index)=>{
                 if(col[0] === "Product"){
-                    return {field: col[0], width: 170, filter: 'agTextColumnFilter'}
+                    return {field: col[0], width: 170, colId:'Product', filter: 'agTextColumnFilter'}
                 }
                 else if(col[0] === "Quantity"){
-                    return {field: col[0], width: 170}
+                    //return {field: col[0], width: 170, editable: true}
+                    return {field: col[0], editable: false, width:170, colId:'Quantity',
+                        cellEditor: 'agNumberCellEditor',
+                        sort: 'desc',
+                        filter: 'agNumberColumnFilter'
+                    }
                 }
                 else if(col[0] === "One"){
                     return {
                         headerName: 'T0.5',
                         children: [
-                            {field: 'Projection', width: 100}, //kukubali = to agree, michelewa pesa = ?, kuta=to meet;
+                            {field: 'Projection', colId:'t05', width: 100, editable: access.product}, //kukubali = to agree, michelewa pesa = ?, kuta=to meet;
                             {field: 'MTD', width: 100}
                         ]
                     }
@@ -75,7 +80,7 @@ function TableDB(props){
                     return {
                         headerName: 'T1',
                         children: [
-                            {field: 'Projection ', width: 100},
+                            {field: 'Projection ', colId:'t1', width: 100, editable: access.product},
                             {field: 'MTD ', width: 100}, 
                         ]
                     }
@@ -84,7 +89,7 @@ function TableDB(props){
                     return {
                         headerName: 'T4',
                         children: [
-                            {field: 'Projection  ', width: 100},
+                            {field: 'Projection  ', colId:'t4', width: 100, editable: access.product},
                             {field: 'MTD  ', width: 100}, 
                         ]
                     }
@@ -93,7 +98,7 @@ function TableDB(props){
                     return {
                         headerName: 'T5',
                         children: [
-                            {field: 'Projection   ', width: 100},
+                            {field: 'Projection   ', colId:'t5', width: 100, editable: access.product},
                             {field: 'MTD   ', width: 100}, 
                         ]
                     }
@@ -102,7 +107,7 @@ function TableDB(props){
                     return {
                         headerName: 'T20',
                         children: [
-                            {field: 'Projection    ', width: 100},
+                            {field: 'Projection    ', colId:'t20', width: 100, editable: access.product},
                             {field: 'MTD    ', width: 100}, 
                         ]
                     }
@@ -111,26 +116,13 @@ function TableDB(props){
                     return {
                         headerName: 'T210',
                         children: [
-                            {field: 'Projection     ', width: 100},
+                            {field: 'Projection     ', colId:'t210', width: 100, editable: access.product},
                             {field: 'MTD     ', width: 100}, 
                         ]
                     }
                 }
-                // else if((col[0] === "Projection") || (col[0] === "MTD") || (col[0] === "Projection ") || (col[0] === "MTD ")){
-                //     return {field: 'Projection', width: 100, hide:true}
-                // }
                 else {
                     return {field: 'Projection', width: 100, hide:true}
-                    // return {
-                    //     field: col[0], editable: access.product, width: 100,
-                    //     cellEditor: 'agNumberCellEditor',
-                    //     cellEditorParams: {
-                    //         precision: 2,
-                    //         step: 0.25,
-                    //         showStepperButtons: true,
-                    //     }, sort: 'desc',
-                    //     filter: 'agNumberColumnFilter'
-                    // }
                 }
             })
         }
@@ -388,11 +380,13 @@ function TableDB(props){
             "Sentry HD40": "0077b6e0-cd44-442a-82ff-5653390b2b8e",
             "Turbofleet 15W/40": "a19a3195-bf97-4d41-bfb0-ef36f761fb3d"}
         function cellValueChange(value){
+            var columnMap = {"Quantity": "quantity", "T0.5": "t05", "T1": "t1", "T4":"t4", "T5":"t5", "T20":"t20", "T210":"t210"};
+            console.log(`Column: ${value.column.colId}`);//find what object and key corresponds to the column
             var new_qty = value.data.Quantity;
             var prod = value.data.Product;
             console.log(value)
-            console.log(`New Qty: ${new_qty}`)
-            updateRecord(month + '_sales_projections',RowIds[prod],{quantity: new_qty}) //
+            console.log(`New Qty: ${value.value}`)
+            updateRecord(month + '_sales_projections',RowIds[prod],{[value.column.colId]: value.value}) //
         }
         function cellValueChangeInv(value){
             let convert = {"In stock (MT)": "instock", "In transit (MT)": "intransit", "As of": "asof", "Pending (MT)":"pending"}
