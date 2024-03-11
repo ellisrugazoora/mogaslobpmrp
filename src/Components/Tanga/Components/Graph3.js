@@ -30,98 +30,150 @@ function TableDB(props){
         var colDefs = [];
         var rowDataInv = [];
         var colDefsInv = [];
-        // if(month === "january"){
-        //     rowData = products.map((product, index)=>{
-        //         return {Product: product.productName, 
-        //             Quantity: product.quantity, One:1, 
-        //             Projection: 10, 
-        //             MTD: 19, 
-        //             Two:2, 
-        //             "Projection ": 20, 
-        //             "MTD ": 29}
-        //     })
-        //     colDefs = Object.entries(rowData[0]).map((col, index)=>{
-        //         if(col[0] === "Product"){
-        //             return {field: col[0], width: 167, filter: 'agTextColumnFilter'}
-        //         }
-        //         else if(col[0] === "Quantity"){
-        //             return {field: col[0], width: 167}
-        //         }
-        //         else if(col[0] === "One"){
-        //             return {
-        //                 headerName: 'T0.5',
-        //                 children: [
-        //                     {field: 'Projection', width: 100}, //kukubali = to agree, michelewa pesa = ?, kuta=to meet;
-        //                     {field: 'MTD', width: 100}
-        //                 ]
-        //             }
-        //         }
-        //         else if(col[0] === "Two"){
-        //             return {
-        //                 headerName: 'T1',
-        //                 children: [
-        //                     {field: 'Projection ', width: 100},
-        //                     {field: 'MTD ', width: 100}, 
-        //                 ]
-        //             }
-        //         }
-        //         else if((col[0] === "Projection") || (col[0] === "MTD") || (col[0] === "Projection ") || (col[0] === "MTD ")){
-        //             return {field: 'Projection', width: 100, hide:true}
-        //         }
-        //         else {
-        //             return {
-        //                 field: col[0], editable: access.product, width: 100,
-        //                 cellEditor: 'agNumberCellEditor',
-        //                 cellEditorParams: {
-        //                     precision: 2,
-        //                     step: 0.25,
-        //                     showStepperButtons: true,
-        //                 }, sort: 'desc',
-        //                 filter: 'agNumberColumnFilter'
-        //             }
-        //         }
-        //     })
-        // }
-        // else {
-        //     rowData = products.map((product, index)=>{
-        //         return {Product: product.productName, Quantity: product.quantity}
-        //     })
-        //     colDefs = Object.entries(rowData[0]).map((col, index)=>{
-        //         if(col[0] === "Product"){
-        //             return {field: col[0], flex: 5 , filter: 'agTextColumnFilter'}
-        //         }
-        //         else if(col[0] === "Quantity") {
-        //             return {field: col[0], editable: access.product, flex: 5,
-        //                 cellEditor: 'agNumberCellEditor',
-        //                 cellEditorParams: {
-        //                     precision: 2,
-        //                     step: 0.25,
-        //                     showStepperButtons: true,
-        //                 }, sort: 'desc',
-        //                 filter: 'agNumberColumnFilter'
-        //             }
-        //         }
-        //     })
-        // }
-        rowData = products.map((product, index)=>{
-            return {Product: product.productName, Quantity: product.quantity}
-        })
-        colDefs = Object.entries(rowData[0]).map((col, index)=>{
-            if(col[0] === "Product"){
-                return {field: col[0], flex: 5 , filter: 'agTextColumnFilter'}
-            }
-            else if(col[0] === "Quantity") {
-                return {field: col[0], editable: access.product, flex: 5,
-                    cellEditor: 'agNumberCellEditor',
-                    cellEditorParams: {
-                        precision: 2,
-                        step: 0.25,
-                        showStepperButtons: true,
-                    }, sort: 'desc',
-                    filter: 'agNumberColumnFilter'
+        if(month === "january"){
+            rowData = products.map((product, index)=>{
+                return {Product: product.productName, 
+                    Quantity: product.quantity, 
+                    One:1, 
+                        Projection: 10, 
+                        MTD: 19, 
+                    Two:2, 
+                        "Projection ": 20, 
+                        "MTD ": 29,
+                    Four:4, 
+                        "Projection  ": 40, 
+                        "MTD  ": 49,
+                    Five:5, 
+                        "Projection   ": 50, 
+                        "MTD   ": 59,
+                    Twenty:20, 
+                        "Projection    ": 90, 
+                        "MTD    ": 99,
+                    TwoTen:210, 
+                        "Projection     ": 21, 
+                        "MTD     ": 91
+                
                 }
-            }
-        })
+            })
+            colDefs = Object.entries(rowData[0]).map((col, index)=>{
+                if(col[0] === "Product"){
+                    return {field: col[0], width: 170, filter: 'agTextColumnFilter'}
+                }
+                else if(col[0] === "Quantity"){
+                    return {field: col[0], width: 170}
+                }
+                else if(col[0] === "One"){
+                    return {
+                        headerName: 'T0.5',
+                        children: [
+                            {field: 'Projection', width: 100}, //kukubali = to agree, michelewa pesa = ?, kuta=to meet;
+                            {field: 'MTD', width: 100}
+                        ]
+                    }
+                }
+                else if(col[0] === "Two"){
+                    return {
+                        headerName: 'T1',
+                        children: [
+                            {field: 'Projection ', width: 100},
+                            {field: 'MTD ', width: 100}, 
+                        ]
+                    }
+                }
+                else if(col[0] === "Four"){
+                    return {
+                        headerName: 'T4',
+                        children: [
+                            {field: 'Projection  ', width: 100},
+                            {field: 'MTD  ', width: 100}, 
+                        ]
+                    }
+                }
+                else if(col[0] === "Five"){
+                    return {
+                        headerName: 'T5',
+                        children: [
+                            {field: 'Projection   ', width: 100},
+                            {field: 'MTD   ', width: 100}, 
+                        ]
+                    }
+                }
+                else if(col[0] === "Twenty"){
+                    return {
+                        headerName: 'T20',
+                        children: [
+                            {field: 'Projection    ', width: 100},
+                            {field: 'MTD    ', width: 100}, 
+                        ]
+                    }
+                }
+                else if(col[0] === "TwoTen"){
+                    return {
+                        headerName: 'T210',
+                        children: [
+                            {field: 'Projection     ', width: 100},
+                            {field: 'MTD     ', width: 100}, 
+                        ]
+                    }
+                }
+                // else if((col[0] === "Projection") || (col[0] === "MTD") || (col[0] === "Projection ") || (col[0] === "MTD ")){
+                //     return {field: 'Projection', width: 100, hide:true}
+                // }
+                else {
+                    return {field: 'Projection', width: 100, hide:true}
+                    // return {
+                    //     field: col[0], editable: access.product, width: 100,
+                    //     cellEditor: 'agNumberCellEditor',
+                    //     cellEditorParams: {
+                    //         precision: 2,
+                    //         step: 0.25,
+                    //         showStepperButtons: true,
+                    //     }, sort: 'desc',
+                    //     filter: 'agNumberColumnFilter'
+                    // }
+                }
+            })
+        }
+        else {
+            rowData = products.map((product, index)=>{
+                return {Product: product.productName, Quantity: product.quantity}
+            })
+            colDefs = Object.entries(rowData[0]).map((col, index)=>{
+                if(col[0] === "Product"){
+                    return {field: col[0], flex: 5 , filter: 'agTextColumnFilter'}
+                }
+                else if(col[0] === "Quantity") {
+                    return {field: col[0], editable: access.product, flex: 5,
+                        cellEditor: 'agNumberCellEditor',
+                        cellEditorParams: {
+                            precision: 2,
+                            step: 0.25,
+                            showStepperButtons: true,
+                        }, sort: 'desc',
+                        filter: 'agNumberColumnFilter'
+                    }
+                }
+            })
+        }
+        // rowData = products.map((product, index)=>{
+        //     return {Product: product.productName, Quantity: product.quantity}
+        // })
+        // colDefs = Object.entries(rowData[0]).map((col, index)=>{
+        //     if(col[0] === "Product"){
+        //         return {field: col[0], flex: 5 , filter: 'agTextColumnFilter'}
+        //     }
+        //     else if(col[0] === "Quantity") {
+        //         return {field: col[0], editable: access.product, flex: 5,
+        //             cellEditor: 'agNumberCellEditor',
+        //             cellEditorParams: {
+        //                 precision: 2,
+        //                 step: 0.25,
+        //                 showStepperButtons: true,
+        //             }, sort: 'desc',
+        //             filter: 'agNumberColumnFilter'
+        //         }
+        //     }
+        // })
 
         const idmap_reverse = { ///THIS IS THE PRODUCT ID MAP
             "f2f9942a-c350-43c9-b6b9-a3a393dafc5a": "Sentry 4T",
@@ -237,6 +289,7 @@ function TableDB(props){
                 return (this['Avg daily consumption (MT)'] * reorderqty).toFixed(2);
             },
             "Lead time": raw_mat.leadtime, "In transit (MT)": raw_mat.intransit,
+            "Pending (MT)": raw_mat.pending,
             get "SHP w/ transit"(){
                 if(this['Avg daily consumption (MT)'] === 0){
                     return 0
@@ -265,14 +318,14 @@ function TableDB(props){
             var lead_time = parseInt(params.data["Lead time"], 10);
             //console.log(params.data["Lead time"])
             var bufferStock = parseInt(buffer, 10);
-            var greenThreshold = lead_time + parseInt(buffer, 10);
-            var yellowThreshold = lead_time + buffer;
+            var greenThreshold = lead_time + parseInt(buffer, 10) + 7;
+            var yellowThreshold = lead_time + parseInt(buffer, 10);
             if(value > greenThreshold){
                 return {backgroundColor: 'green'}
             }
-            // else if(value > (buffer){
-            //     return {backgroundColor: 'yellow'}
-            // }
+            else if(value > yellowThreshold){
+                return {backgroundColor: 'yellow'}
+            }
             else {
                 return {backgroundColor: 'red'}
             }
@@ -308,6 +361,9 @@ function TableDB(props){
             else if(col[0] === "SHP w/ transit"){
                 return {field: col[0], hide:false}
             }
+            else if(col[0] === "Pending (MT)"){
+                return {field: col[0], width: 145, editable: access.transit, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+            }
             else {
                 return {field: col[0], width: 105, filter: 'agNumberColumnFilter'}
             }
@@ -339,7 +395,7 @@ function TableDB(props){
             updateRecord(month + '_sales_projections',RowIds[prod],{quantity: new_qty}) //
         }
         function cellValueChangeInv(value){
-            let convert = {"In stock (MT)": "instock", "In transit (MT)": "intransit", "As of": "asof"}
+            let convert = {"In stock (MT)": "instock", "In transit (MT)": "intransit", "As of": "asof", "Pending (MT)":"pending"}
             var new_qty = value.value;
             var column = value.column.colId;
             var raw_mat = value.data["Raw material"];
