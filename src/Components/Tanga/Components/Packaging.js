@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 function Packaging(props){
     const month = props.month;
     const packagingMaterials = useQuery(query(month + '_packaging_requirements'))
-    
+    const products = useQuery(query(month + '_sales_projections'))
     const [access, SetAcess] = useState({product: false, inventory: false, transit: false, consumption: false})
     useEffect(()=>{
         const fetchData = async () => {
@@ -19,7 +19,7 @@ function Packaging(props){
         fetchData()
     },[])
     
-    if(packagingMaterials === null){
+    if((packagingMaterials === null) || (products === null)){
         return <div>Loading ...</div>
     }
     const rowData1 = packagingMaterials.map((value, index)=>{
