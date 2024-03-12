@@ -30,142 +30,101 @@ function TableDB(props){
         var colDefs = [];
         var rowDataInv = [];
         var colDefsInv = [];
-        if(month === "january"){
-            rowData = products.map((product, index)=>{
-                return {Product: product.productName, 
-                    get Quantity(){return this.Projection + this["Projection "] + this["Projection  "] + this["Projection   "] + this["Projection    "] + this["Projection     "]}, 
-                    One:1, 
-                        Projection: product.t05, 
-                        MTD: 19, 
-                    Two:2, 
-                        "Projection ": product.t1, 
-                        "MTD ": 29,
-                    Four:4, 
-                        "Projection  ": product.t4, 
-                        "MTD  ": 49,
-                    Five:5, 
-                        "Projection   ": product.t5, 
-                        "MTD   ": 59,
-                    Twenty:20, 
-                        "Projection    ": product.t20, 
-                        "MTD    ": 99,
-                    TwoTen:210, 
-                        "Projection     ": product.t210, 
-                        "MTD     ": 91
-                
+      
+        rowData = products.map((product, index)=>{
+            return {Product: product.productName, 
+                get Quantity(){return this.Projection + this["Projection "] + this["Projection  "] + this["Projection   "] + this["Projection    "] + this["Projection     "]}, 
+                One:1, 
+                    Projection: product.t05, 
+                    MTD: '-', 
+                Two:2, 
+                    "Projection ": product.t1,
+                    "MTD ": '-',
+                Four:4, 
+                    "Projection  ": product.t4, 
+                    "MTD  ": '-',
+                Five:5, 
+                    "Projection   ": product.t5, 
+                    "MTD   ": '-',
+                Twenty:20, 
+                    "Projection    ": product.t20, 
+                    "MTD    ": '-',
+                TwoTen:210, 
+                    "Projection     ": product.t210, 
+                    "MTD     ": '-'
+            
+            }
+        })
+        colDefs = Object.entries(rowData[0]).map((col, index)=>{
+            if(col[0] === "Product"){
+                return {field: col[0], width: 170, colId:'Product', filter: 'agTextColumnFilter'}
+            }
+            else if(col[0] === "Quantity"){
+                //return {field: col[0], width: 170, editable: true}
+                return {field: col[0], editable: false, width:170, colId:'Quantity',
+                    cellEditor: 'agNumberCellEditor',
+                    sort: 'desc',
+                    filter: 'agNumberColumnFilter'
                 }
-            })
-            colDefs = Object.entries(rowData[0]).map((col, index)=>{
-                if(col[0] === "Product"){
-                    return {field: col[0], width: 170, colId:'Product', filter: 'agTextColumnFilter'}
+            }
+            else if(col[0] === "One"){
+                return {
+                    headerName: 'T0.5',
+                    children: [
+                        {field: 'Projection', colId:'t05', width: 100, editable: access.product}, //kukubali = to agree, michelewa pesa = ?, kuta=to meet;
+                        {field: 'MTD', width: 100}
+                    ]
                 }
-                else if(col[0] === "Quantity"){
-                    //return {field: col[0], width: 170, editable: true}
-                    return {field: col[0], editable: false, width:170, colId:'Quantity',
-                        cellEditor: 'agNumberCellEditor',
-                        sort: 'desc',
-                        filter: 'agNumberColumnFilter'
-                    }
+            }
+            else if(col[0] === "Two"){
+                return {
+                    headerName: 'T1',
+                    children: [
+                        {field: 'Projection ', colId:'t1', width: 100, editable: access.product},
+                        {field: 'MTD ', width: 100}, 
+                    ]
                 }
-                else if(col[0] === "One"){
-                    return {
-                        headerName: 'T0.5',
-                        children: [
-                            {field: 'Projection', colId:'t05', width: 100, editable: access.product}, //kukubali = to agree, michelewa pesa = ?, kuta=to meet;
-                            {field: 'MTD', width: 100}
-                        ]
-                    }
+            }
+            else if(col[0] === "Four"){
+                return {
+                    headerName: 'T4',
+                    children: [
+                        {field: 'Projection  ', colId:'t4', width: 100, editable: access.product},
+                        {field: 'MTD  ', width: 100}, 
+                    ]
                 }
-                else if(col[0] === "Two"){
-                    return {
-                        headerName: 'T1',
-                        children: [
-                            {field: 'Projection ', colId:'t1', width: 100, editable: access.product},
-                            {field: 'MTD ', width: 100}, 
-                        ]
-                    }
+            }
+            else if(col[0] === "Five"){
+                return {
+                    headerName: 'T5',
+                    children: [
+                        {field: 'Projection   ', colId:'t5', width: 100, editable: access.product},
+                        {field: 'MTD   ', width: 100}, 
+                    ]
                 }
-                else if(col[0] === "Four"){
-                    return {
-                        headerName: 'T4',
-                        children: [
-                            {field: 'Projection  ', colId:'t4', width: 100, editable: access.product},
-                            {field: 'MTD  ', width: 100}, 
-                        ]
-                    }
+            }
+            else if(col[0] === "Twenty"){
+                return {
+                    headerName: 'T20',
+                    children: [
+                        {field: 'Projection    ', colId:'t20', width: 100, editable: access.product},
+                        {field: 'MTD    ', width: 100}, 
+                    ]
                 }
-                else if(col[0] === "Five"){
-                    return {
-                        headerName: 'T5',
-                        children: [
-                            {field: 'Projection   ', colId:'t5', width: 100, editable: access.product},
-                            {field: 'MTD   ', width: 100}, 
-                        ]
-                    }
+            }
+            else if(col[0] === "TwoTen"){
+                return {
+                    headerName: 'T210',
+                    children: [
+                        {field: 'Projection     ', colId:'t210', width: 100, editable: access.product},
+                        {field: 'MTD     ', width: 100}, 
+                    ]
                 }
-                else if(col[0] === "Twenty"){
-                    return {
-                        headerName: 'T20',
-                        children: [
-                            {field: 'Projection    ', colId:'t20', width: 100, editable: access.product},
-                            {field: 'MTD    ', width: 100}, 
-                        ]
-                    }
-                }
-                else if(col[0] === "TwoTen"){
-                    return {
-                        headerName: 'T210',
-                        children: [
-                            {field: 'Projection     ', colId:'t210', width: 100, editable: access.product},
-                            {field: 'MTD     ', width: 100}, 
-                        ]
-                    }
-                }
-                else {
-                    return {field: 'Projection', width: 100, hide:true}
-                }
-            })
-        }
-        else {
-            rowData = products.map((product, index)=>{
-                return {Product: product.productName, Quantity: product.quantity}
-            })
-            colDefs = Object.entries(rowData[0]).map((col, index)=>{
-                if(col[0] === "Product"){
-                    return {field: col[0], flex: 5 , filter: 'agTextColumnFilter'}
-                }
-                else if(col[0] === "Quantity") {
-                    return {field: col[0], editable: access.product, flex: 5,
-                        cellEditor: 'agNumberCellEditor',
-                        cellEditorParams: {
-                            precision: 2,
-                            step: 0.25,
-                            showStepperButtons: true,
-                        }, sort: 'desc',
-                        filter: 'agNumberColumnFilter'
-                    }
-                }
-            })
-        }
-        // rowData = products.map((product, index)=>{
-        //     return {Product: product.productName, Quantity: product.quantity}
-        // })
-        // colDefs = Object.entries(rowData[0]).map((col, index)=>{
-        //     if(col[0] === "Product"){
-        //         return {field: col[0], flex: 5 , filter: 'agTextColumnFilter'}
-        //     }
-        //     else if(col[0] === "Quantity") {
-        //         return {field: col[0], editable: access.product, flex: 5,
-        //             cellEditor: 'agNumberCellEditor',
-        //             cellEditorParams: {
-        //                 precision: 2,
-        //                 step: 0.25,
-        //                 showStepperButtons: true,
-        //             }, sort: 'desc',
-        //             filter: 'agNumberColumnFilter'
-        //         }
-        //     }
-        // })
+            }
+            else {
+                return {field: 'Projection', width: 100, hide:true}
+            }
+        })
 
         const idmap_reverse = { ///THIS IS THE PRODUCT ID MAP
             "f2f9942a-c350-43c9-b6b9-a3a393dafc5a": "Sentry 4T",

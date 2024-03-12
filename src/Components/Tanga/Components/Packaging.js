@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 function Packaging(props){
     const month = props.month;
     const packagingMaterials = useQuery(query(month + '_packaging_requirements'))
-   
+    
     const [access, SetAcess] = useState({product: false, inventory: false, transit: false, consumption: false})
     useEffect(()=>{
         const fetchData = async () => {
