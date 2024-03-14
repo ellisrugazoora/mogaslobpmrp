@@ -355,7 +355,7 @@ function TableDB(props){
             console.log(raw_mat, new_qty, column)
             updateRecord(month + '_requirements',backtouuid[raw_mat],{[convert[column]]: new_qty})
         }
-        return <div>
+        return <Box>
             <Center>
                 Buffer stock (days): <NumberInp init={30} access={false} value={buffer} onChange={(e)=>{console.log(`Buffer: ${e}`);SetBuffer(e)}}/>
                 Re-order amount (days): <NumberInp init={reorderqty} access={false} value={reorderqty} onChange={(e)=>{console.log(`Re-order qty: ${e}`);SetReorderqty(e)}}/>
@@ -370,7 +370,7 @@ function TableDB(props){
                             rowMultiSelectWithClick={true} 
                             rowSelection='multiple'
                             onCellValueChanged={cellValueChange}
-                            />
+                        />
                     </div>
                     <Spacer minWidth={5} />
                     <div className="ag-theme-quartz" style={{ height: 700, width:'73%', minWidth:810 }} >
@@ -385,7 +385,7 @@ function TableDB(props){
                     </div>
                 </Flex>
             </Center>
-          </div>
+          </Box>
 }
 
 function Graph3(props){  
