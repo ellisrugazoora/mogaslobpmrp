@@ -9,8 +9,8 @@ function TabInTab(props){
                     <Tab>{props.two.title}</Tab>
                 </TabList>
                 <TabPanels width={'100%'}>
-                    <TabPanel overflow={'auto'} width={'100%'} height={'900'}>{props.one.content}</TabPanel>
-                    <TabPanel overflow={'auto'} width={'100%'} height={'1900'}>{props.two.content}</TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'} height={800}>{props.one.content}</TabPanel>
+                    <TabPanel overflow={'auto'} width={'100%'} height={800}>{props.two.content}</TabPanel>
                 </TabPanels>
             </Tabs>
         </div>

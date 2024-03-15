@@ -213,7 +213,8 @@ function TableDB(props){
             else {
                 newdate.setDate(current.getDate())
             }
-            return `${String(newdate.getDate()).padStart(2,'0')}/${String(newdate.getMonth() + 1).padStart(2,'0')}/${newdate.getFullYear()}`; 
+            //return `${String(newdate.getDate()).padStart(2,'0')}/${String(newdate.getMonth() + 1).padStart(2,'0')}/${newdate.getFullYear()}`; 
+            return newdate
         }
         rowDataInv = raw_materials.map((raw_mat, index)=>{
             let frmla = live_formulas(formulas);
@@ -224,6 +225,9 @@ function TableDB(props){
                 }); //this is to refresh
                 return parseFloat(sum.toFixed(2)) //+ formula[this.Raw_material] + test
             }, "In stock (MT)": raw_mat.instock, "As of": raw_mat.asof,
+            get "Re-order date"(){
+                return orderdate({mhs: buffer, hs: this['Stock holding period'], lt: this['Lead time'], transit: this['In transit (MT)'], consrate: this['Avg daily consumption (MT)'], instock: this['In stock (MT)']})
+            },
             get "Avg daily consumption (MT)"(){return parseFloat((this['Quantity Required (MT)']/26).toFixed(2))}, 
             
             get "Stock holding period"(){
@@ -233,9 +237,7 @@ function TableDB(props){
                 else {
                     return parseFloat(((this['In stock (MT)'])/this['Avg daily consumption (MT)']).toFixed(2))
                 }
-            }, get "Re-order date"(){
-                return orderdate({mhs: buffer, hs: this['Stock holding period'], lt: this['Lead time'], transit: this['In transit (MT)'], consrate: this['Avg daily consumption (MT)'], instock: this['In stock (MT)']})
-            },
+            }, 
             get "Re-order amount"(){
                 return (this['Avg daily consumption (MT)'] * reorderqty).toFixed(2);
             },
@@ -298,7 +300,7 @@ function TableDB(props){
                 return {field: col[0], width: 175, filter: 'agNumberColumnFilter'/*, cellStyle: cellStyle*/}
             }
             else if(col[0] === "Re-order date"){
-                return {field: col[0], width: 145, filter: 'agNumberColumnFilter', cellStyle: reorderStyle}
+                return {field: col[0], width: 145, cellStyle: reorderStyle, filter: 'agDateColumnFilter'}
             }
             else if(col[0] === "Lead time"){
                 return {field: col[0], width: 120, filter: 'agNumberColumnFilter'}
@@ -307,7 +309,7 @@ function TableDB(props){
                 return {field: col[0], width: 205, filter: 'agNumberColumnFilter'}
             }
             else if(col[0] === "As of"){
-                return {field: col[0], width: 140, filter: 'agTextColumnFilter', editable: access.inventory, cellEditor: 'agDateStringCellEditor',}
+                return {field: col[0], width: 140, filter: 'agDateColumnFilter', editable: access.inventory, cellEditor: 'agDateStringCellEditor'}
             }
             else if(col[0] === "SHP w/ transit"){
                 return {field: col[0], hide:false}
