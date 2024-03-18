@@ -67,10 +67,13 @@ function Packaging(props){
         let mhs = parseFloat(obj.mhs);
         let hs = parseFloat(obj.hs);
         let lt = parseFloat(obj.lt);
-        let transit = parseFloat(obj.transit) / parseFloat(obj.consrate);
+        let transit = (parseFloat(obj.consrate) > 0 ? (parseFloat(obj.transit) / parseFloat(obj.consrate)) : 0);
         let days_until_order = hs - (mhs + lt) + transit; //OPTION A
         let newdate = new Date();
-        
+        let reqrd = obj.required;
+        // if(reqrd === 0){
+        //     days_until_order = 365;
+        // }
 
         if(days_until_order > 0){
             newdate.setDate(current.getDate() + days_until_order) //if holding stock is greater than min holding stock plus lead time, then add the difference to the current date
@@ -85,7 +88,7 @@ function Packaging(props){
         //t1grey and t1orange; t5grey and t5oragn
         var mapsize = {"t0.5": "t05", "t1":"t1", "t4":"t4", "t5":"t5", "t20":"t20", "t210":"t210"}
         var ratio = {"t0.5": 0.5, "t1":1, "t4":4, "t5":5, "t20":20, "t210":210}
-        var density = 1; //must be a function of product
+        var density = 0.9; //must be a function of product
         if(material.ifexists){
             rowData3.push({Packtype: material.packtype, 
                 Product: material.product, 
@@ -96,7 +99,7 @@ function Packaging(props){
                 "In stock": material.instock,
                 "As of": material.asof,
                 get "Re-order date"(){
-                    return orderdate({mhs: buffer, hs: this['Stock holding period'], lt: this['Lead time'], transit: this['In Transit'], consrate: this['Daily consumption rate'], instock: this['In stock']})
+                    return orderdate({mhs: buffer, hs: this['Stock holding period'], lt: this['Lead time'], transit: this['In Transit'], consrate: this['Daily consumption rate'], required: this['Required']})
                 },
                 get "Re-order amount"(){
                     return Math.ceil(this['Daily consumption rate'] * reorderqty);
@@ -107,7 +110,7 @@ function Packaging(props){
                 Exists: material.ifexists,
                 id: material.id,
                 get "Stock holding period"(){
-                    return (this["Daily consumption rate"] > 0 ? parseFloat((this["In stock"] / this["Daily consumption rate"]).toFixed(2)) : 0)
+                    return (this["Daily consumption rate"] > 0 ? parseFloat((this["In stock"] / this["Daily consumption rate"]).toFixed(2)) : 365)
                 },
                 "Lead time": material.leadtime,
                 "In Transit": material.intransit,
@@ -121,7 +124,6 @@ function Packaging(props){
     const reorderStyle = (params) => {
         const value = params.data["Stock holding period"];
         var lead_time = parseInt(params.data["Lead time"], 10);
-        //console.log(params.data["Lead time"])
         var bufferStock = parseInt(buffer, 10);
         var greenThreshold = lead_time + parseInt(buffer, 10) + 7;
         var yellowThreshold = lead_time + parseInt(buffer, 10);
@@ -231,7 +233,7 @@ function Packaging(props){
     return <div>
         <Center hidden>
             <div className="ag-theme-quartz" style={{ height: 1700, width:'80%', minWidth:340 }} >
-                <Heading fontSize={30}>Test Packaging inventory evaluation of existence</Heading>
+                <Heading fontSize={30}>Evaluation of existence</Heading>
                 <Button onClick={()=>{console.log(rowData2)}}>Print rowData2</Button>
                 <Button onClick={()=>{console.log(rowData3)}}>Print rowData3</Button>
                 <AgGridReact
@@ -261,6 +263,7 @@ function Packaging(props){
                     rowData={rowData3} 
                     columnDefs={colDefs3}
                     onCellValueChanged={updateStock}
+                    onCellClicked={(e)=>{console.log(e.data)}}
                     />
             </div>
         </Center>
