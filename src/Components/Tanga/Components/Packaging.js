@@ -146,7 +146,7 @@ function Packaging(props){
             return {field: value[0], width: widith * 0.8, filter: 'agSetColumnFilter'}
         }
         else if(value[0] === "Product"){
-            return {field: value[0], width: widith, filter: 'agSetColumnFilter' }
+            return {field: value[0], width: widith * 1.6, filter: 'agSetColumnFilter' }
         }
         else if(value[0] === "Required"){
             return {field: value[0], width: widith * 1.4, filter: 'agSetColumnFilter', sort: 'desc'}
@@ -158,7 +158,7 @@ function Packaging(props){
             return {field: value[0], width: widith, editable: access.transit, filter: 'agSetColumnFilter'}
         }
         else if(value[0] === "As of"){
-            return {field: value[0], width: widith * 1.2, editable: access.inventory, cellEditor: 'agDateStringCellEditor'}
+            return {field: value[0], width: widith * 1.2, editable: access.inventory, cellEditor: 'agDateStringCellEditor', filter: 'agDateColumnFilter'}
         }
         else if(value[0] === "Re-order date"){
             return {field: value[0], width: widith * 1.5, cellStyle: reorderStyle, filter: 'agDateColumnFilter'}
