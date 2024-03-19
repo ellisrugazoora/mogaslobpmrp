@@ -1,13 +1,17 @@
+import { Button } from "@chakra-ui/react";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/tabs"
 
 function TabsComp(props){
+    var date = new Date();
+    var month = date.getMonth()
     return (
          <div className="tabs" width='100%' >
-            <Tabs isLazy isFitted width={'100%'}>
+            <Button onClick={()=>{console.log(`Month: ${month}`)}} hidden>month</Button>
+            <Tabs isLazy isFitted width={'100%'} defaultIndex={month}>
                 <TabList width={'100%'} minWidth={520}>
                     <Tab fontSize={15}>{props.one.title}</Tab>
                     <Tab>{props.two.title}</Tab>
-                    <Tab>{props.three.title}</Tab>
+                    <Tab is>{props.three.title}</Tab>
                     <Tab>{props.four.title}</Tab>
                     <Tab>{props.five.title}</Tab>
                     <Tab>{props.six.title}</Tab>

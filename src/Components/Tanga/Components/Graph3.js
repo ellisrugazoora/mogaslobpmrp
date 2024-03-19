@@ -283,44 +283,104 @@ function TableDB(props){
                 return {backgroundColor: 'red'}
             }
         }
-        colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
-            if((col[0] === "In stock (MT)")){
-                return {field: col[0], width: 145, editable: access.inventory, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+        const months = {"january":0, "february":1, "march":2, "april":3, "may":4, "june":5, "july":6, "august":7, "september":8, "october":9, "november":10, "december":11}
+        const current_month = new Date().getMonth();
+        var show = () => {
+            if(months[month] !== current_month){
+                return true
             }
-            else if(col[0] === "In transit (MT)") {
-                return {field: col[0], width: 145, editable: access.transit, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
-            }
-            else if(col[0] === "Quantity Required (MT)") {
-                return {field: col[0], width: 195, sort: 'desc', filter: 'agNumberColumnFilter'}
-            }
-            else if(col[0] === "Raw material") {
-                return {field: col[0], width: 135, filter: 'agTextColumnFilter', pinned: 'left'}
-            }
-            else if(col[0] === "Stock holding period") {
-                return {field: col[0], width: 175, filter: 'agNumberColumnFilter'/*, cellStyle: cellStyle*/}
-            }
-            else if(col[0] === "Re-order date"){
-                return {field: col[0], width: 145, cellStyle: reorderStyle, filter: 'agDateColumnFilter'}
-            }
-            else if(col[0] === "Lead time"){
-                return {field: col[0], width: 120, filter: 'agNumberColumnFilter'}
-            }
-            else if(col[0] === "Avg daily consumption (MT)"){
-                return {field: col[0], width: 205, filter: 'agNumberColumnFilter'}
-            }
-            else if(col[0] === "As of"){
-                return {field: col[0], width: 140, filter: 'agDateColumnFilter', editable: access.inventory, cellEditor: 'agDateStringCellEditor'}
-            }
-            else if(col[0] === "SHP w/ transit"){
-                return {field: col[0], hide:false}
-            }
-            else if(col[0] === "Pending (MT)"){
-                return {field: col[0], width: 145, editable: access.transit, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+            else {return false}
+        }
+        var test = () => {
+            if(true){
+                return {width: 900}
             }
             else {
-                return {field: col[0], width: 105, filter: 'agNumberColumnFilter'}
+                return {flex: 1}
             }
-        })
+            
+        }
+        if(!show(month)){
+            colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
+                if((col[0] === "In stock (MT)")) {
+                    return {field: col[0], width:145, hide: show(month), editable: access.inventory, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+                }
+                else if(col[0] === "In transit (MT)") {
+                    return {field: col[0], width: 145,hide: show(month), editable: access.transit, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+                }
+                else if(col[0] === "Quantity Required (MT)") {
+                    return {field: col[0], test, sort: 'desc', filter: 'agNumberColumnFilter'}
+                }
+                else if(col[0] === "Raw material") {
+                    return {field: col[0], width: 135, filter: 'agTextColumnFilter', pinned: 'left'}
+                }
+                else if(col[0] === "Stock holding period") {
+                    return {field: col[0],hide: show(month), width: 175, filter: 'agNumberColumnFilter'/*, cellStyle: cellStyle*/}
+                }
+                else if(col[0] === "Re-order date") {
+                    return {field: col[0],hide: show(month), width: 145, cellStyle: reorderStyle, filter: 'agDateColumnFilter'}
+                }
+                else if(col[0] === "Lead time") {
+                    return {field: col[0], width: 120, filter: 'agNumberColumnFilter'}
+                }
+                else if(col[0] === "Avg daily consumption (MT)"){
+                    return {field: col[0], width: 205, filter: 'agNumberColumnFilter'}
+                }
+                else if(col[0] === "As of"){
+                    return {field: col[0],hide: show(month), width: 140, filter: 'agDateColumnFilter', editable: access.inventory, cellEditor: 'agDateStringCellEditor'}
+                }
+                else if(col[0] === "SHP w/ transit"){
+                    return {field: col[0],hide: show(month), }
+                }
+                else if(col[0] === "Pending (MT)"){
+                    return {field: col[0],hide: show(month), width: 145, editable: access.transit, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+                }
+                else {
+                    return {field: col[0], width: 105, filter: 'agNumberColumnFilter'}
+                }
+            })
+        }
+        else {
+            colDefsInv = Object.entries(rowDataInv[0]).map((col, index)=>{  
+                if((col[0] === "In stock (MT)")) {
+                    return {field: col[0], flex: 1, hide: show(month), editable: access.inventory, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+                }
+                else if(col[0] === "In transit (MT)") {
+                    return {field: col[0], flex: 1,hide: show(month), editable: access.transit, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+                }
+                else if(col[0] === "Quantity Required (MT)") {
+                    return {field: col[0], flex: 1, sort: 'desc', filter: 'agNumberColumnFilter'}
+                }
+                else if(col[0] === "Raw material") {
+                    return {field: col[0], flex: 1, filter: 'agTextColumnFilter', pinned: 'left'}
+                }
+                else if(col[0] === "Stock holding period") {
+                    return {field: col[0], flex: 1, hide: show(month), filter: 'agNumberColumnFilter'/*, cellStyle: cellStyle*/}
+                }
+                else if(col[0] === "Re-order date") {
+                    return {field: col[0], flex: 1, hide: show(month), cellStyle: reorderStyle, filter: 'agDateColumnFilter'}
+                }
+                else if(col[0] === "Lead time") {
+                    return {field: col[0], flex: 1, filter: 'agNumberColumnFilter'}
+                }
+                else if(col[0] === "Avg daily consumption (MT)"){
+                    return {field: col[0], flex: 1, filter: 'agNumberColumnFilter'}
+                }
+                else if(col[0] === "As of"){
+                    return {field: col[0], flex: 1, hide: show(month), filter: 'agDateColumnFilter', editable: access.inventory, cellEditor: 'agDateStringCellEditor'}
+                }
+                else if(col[0] === "SHP w/ transit"){
+                    return {field: col[0], flex: 1, hide: show(month), }
+                }
+                else if(col[0] === "Pending (MT)"){
+                    return {field: col[0], flex: 1, hide: show(month), editable: access.transit, cellEditor: 'numberEditor', filter: 'agNumberColumnFilter'}
+                }
+                else {
+                    return {field: col[0], flex: 1, filter: 'agNumberColumnFilter'}
+                }
+            })
+        }
+        
 
         var RowIds = {
             "Duramax Extra 25W/50": "fbe6e413-45fb-42d2-a969-e3c0380bb968",
