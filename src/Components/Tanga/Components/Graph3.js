@@ -253,19 +253,7 @@ function TableDB(props){
             }
         }
         })
-        const cellStyle = (params) => {
-            const value = params.value;
-            if(value > 97){
-                return {backgroundColor: 'green'}
-            }
-            else if(value > 90){
-                return {backgroundColor: 'yellow'}
-            }
-            else {
-                return {backgroundColor: 'red'}
-            }
-            
-        };
+    
         const reorderStyle = (params) => {
             const value = params.data["SHP w/ transit"];
             var lead_time = parseInt(params.data["Lead time"], 10);
@@ -315,7 +303,7 @@ function TableDB(props){
                     return {field: col[0], width: 135, filter: 'agTextColumnFilter', pinned: 'left'}
                 }
                 else if(col[0] === "Stock holding period") {
-                    return {field: col[0],hide: show(month), width: 175, filter: 'agNumberColumnFilter'/*, cellStyle: cellStyle*/}
+                    return {field: col[0],hide: show(month), width: 175, filter: 'agNumberColumnFilter'}
                 }
                 else if(col[0] === "Re-order date") {
                     return {field: col[0],hide: show(month), width: 145, cellStyle: reorderStyle, filter: 'agDateColumnFilter'}
