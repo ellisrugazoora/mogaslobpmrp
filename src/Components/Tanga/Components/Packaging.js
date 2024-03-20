@@ -42,26 +42,7 @@ function Packaging(props){
             get "t05bottle"(){return this.t05 / 0.5}
             }
     })
-    var a = [];
-    var b = {};
-    packages.forEach((packtype, index) => {
-        products.forEach((product, index) => {
-            
-            a.push(`${packtype} | ${product.productName}`)
-            b[`${packtype} | ${product.productName}`] = 0;
-        })
-        //a.push(products.)
-    })
-    var aggregatedPacks = {};
-    const sizes = ["t05", "t1", "t4", "t5", "t20", "t210"];
-    sizes.forEach((packsize, index) => {
-        let obj = {};
-        Object.entries(productQuantities).forEach((product, index) => {
-            obj[product[0]] = product[1][packsize]
-        })
-        //aggregatedPacks.push({[packsize]: obj});
-        aggregatedPacks[packsize] = obj;
-    })
+    
     var orderdate = (obj) => {
         let current = new Date()
         let mhs = parseFloat(obj.mhs);
@@ -84,17 +65,35 @@ function Packaging(props){
         //return `${String(newdate.getDate()).padStart(2,'0')}/${String(newdate.getMonth() + 1).padStart(2,'0')}/${newdate.getFullYear()}`;
         return newdate;
     }
+
     var saved = allPackagingMaterials.map((material, index) => {
         //t1grey and t1orange; t5grey and t5oragn
         var mapsize = {"t0.5": "t05", "t1":"t1", "t4":"t4", "t5":"t5", "t20":"t20", "t210":"t210"}
         var ratio = {"t0.5": 0.5, "t1":1, "t4":4, "t5":5, "t20":20, "t210":210}
+        var ratio_to_pack = {"bottle":1, "pail":1, "drum":1, "box": 20}
         var density = 0.9; //must be a function of product
         if(material.ifexists){
             rowData3.push({Packtype: material.packtype, 
                 Product: material.product, 
                 Size: material.size, 
                 get "Required"(){
-                    return Math.ceil((productQuantities[material.product][mapsize[material.size]] * 1000 / density) / ratio[material.size])
+                    let result;
+                    if((material.packtype === "box") && (material.size === "t0.5")){
+                        result = Math.ceil(((productQuantities[material.product][mapsize[material.size]] * 1000 / density) / ratio[material.size]) / 24)                 
+                    }
+                    else if((material.packtype === "box") && (material.size === "t1")){
+                        result = Math.ceil(((productQuantities[material.product][mapsize[material.size]] * 1000 / density) / ratio[material.size]) / 20)                 
+                    }
+                    else if((material.packtype === "box") && (material.size === "t4")){
+                        result = Math.ceil(((productQuantities[material.product][mapsize[material.size]] * 1000 / density) / ratio[material.size]) / 4)                 
+                    }
+                    else if((material.packtype === "box") && (material.size === "t5")){
+                        result = Math.ceil(((productQuantities[material.product][mapsize[material.size]] * 1000 / density) / ratio[material.size]) / 4)                 
+                    }
+                    else {
+                        result = Math.ceil((productQuantities[material.product][mapsize[material.size]] * 1000 / density) / ratio[material.size])
+                    }
+                    return result
                 },
                 "In stock": material.instock,
                 "As of": material.asof,
@@ -137,6 +136,15 @@ function Packaging(props){
             return {backgroundColor: 'red'}
         }
     }
+    const updated = (params) => {
+        let asof = new Date(params.value);
+        //console.log(asof);
+        let todaydate = new Date();
+        //console.log(todaydate)
+        if(asof === todaydate){
+            return {backgroundColor: 'green'}
+        }
+    }
     var widith = 100;
     const colDefs3 = Object.entries(rowData3[0]).map((value, index) => {
         if(value[0] === "Packtype"){
@@ -158,7 +166,7 @@ function Packaging(props){
             return {field: value[0], width: widith, editable: access.transit, filter: 'agSetColumnFilter'}
         }
         else if(value[0] === "As of"){
-            return {field: value[0], width: widith * 1.2, editable: access.inventory, cellEditor: 'agDateStringCellEditor', filter: 'agDateColumnFilter'}
+            return {field: value[0], width: widith * 1.2, cellStyle: updated, editable: access.inventory, cellEditor: 'agDateStringCellEditor', filter: 'agDateColumnFilter'}
         }
         else if(value[0] === "Re-order date"){
             return {field: value[0], width: widith * 1.5, cellStyle: reorderStyle, filter: 'agDateColumnFilter'}
@@ -174,30 +182,6 @@ function Packaging(props){
         else {
             return {field: value[0], width: widith}
         }
-    })
-    
-    var packageMatrix = {};
-    var packageList = [];
-    packages.forEach((packtype, index) => {
-        packageMatrix[packtype] = {};
-        products.forEach((product, index) => {
-        //[{productName: "grey"}, {productName: "orange"}].forEach((product, index) => {
-            //packageMatrix[packtype][product.productName] ={t05: product.t05, t1: product.t1, t4: product.t4, t5: product.t5, t20: product.t20, t210: product.t210}
-            packageSizes.forEach((size, index) => {
-                if((size !== "t20") && (size !== "t210")){
-                    if(product.productName !== "Turbofleet 15W/40"){
-                        packageList.push({Packtype: packtype, Product: "grey", Size: size, ifexists: true}) 
-                    }
-                    else {
-                        packageList.push({Packtype: packtype, Product: "orange", Size: size, ifexists: true}) 
-                    }
-                }
-                else {
-                    packageList.push({Packtype: packtype, Product: product.productName, Size: size, ifexists: true}) 
-                }
-                
-            })
-        })
     })
 
     const rowData2 = saved;
@@ -231,7 +215,7 @@ function Packaging(props){
         updateRecord('januarypackagingmaterials',id,{[map[column]]: new_val})
     }
     return <div>
-        <Center hidden>
+        {/* <Center hidden>
             <div className="ag-theme-quartz" style={{ height: 1700, width:'80%', minWidth:340 }} >
                 <Heading fontSize={30}>Evaluation of existence</Heading>
                 <Button onClick={()=>{console.log(rowData2)}}>Print rowData2</Button>
@@ -242,19 +226,10 @@ function Packaging(props){
                     onCellValueChanged={cellValueChanged}
                     />
             </div>
-        </Center>
+        </Center> */}
         <Center>
             <div className="ag-theme-quartz" style={{ height: 700, width:'80%', minWidth:1010 }} >
                 <Heading fontSize={30}>Packaging inventory</Heading>
-                {/* <Button onClick={()=>{console.log(aggregatedPacks)}}>Print aggregatedPacks</Button>
-                <Button onClick={() => {console.log(productQuantities)}}>Print productQuantities</Button>
-                <Button onClick={() => {console.log(rowData3)}}>Print row data3</Button>
-                <Button onClick={() => {console.log(a)}}>Print a</Button>
-                <Button onClick={() => {console.log(allPackagingMaterials)}}>allPackagingMaterials</Button>
-                <Button onClick={() => {console.log(packageList)}}>Print packageList</Button>
-                <Button onClick={() => {console.log(b)}}>Print b</Button>
-                <Button onClick={() => {console.log(packageMatrix)}}>Print packageMatrix</Button>
-                <Button onClick={()=>{console.log(rowData2)}}>Print rowData2</Button> */}
                 <Center>
                     Buffer stock (days): <NumberInp init={30} access={false} value={buffer} onChange={(e)=>{console.log(`Buffer: ${e}`);SetBuffer(e)}}/>
                     Re-order amount (days): <NumberInp init={reorderqty} access={false} value={reorderqty} onChange={(e)=>{console.log(`Re-order qty: ${e}`);SetReorderqty(e)}}/>

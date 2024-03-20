@@ -228,7 +228,7 @@ function TableDB(props){
             get "Re-order date"(){
                 return orderdate({mhs: buffer, hs: this['Stock holding period'], lt: this['Lead time'], transit: this['In transit (MT)'], consrate: this['Avg daily consumption (MT)'], instock: this['In stock (MT)']})
             },
-            get "Avg daily consumption (MT)"(){return parseFloat((this['Quantity Required (MT)']/26).toFixed(2))}, 
+            get "Avg daily consumption (MT)"(){return parseFloat((this['Quantity Required (MT)']/22).toFixed(2))}, 
             
             get "Stock holding period"(){
                 if(this['Avg daily consumption (MT)'] === 0){
